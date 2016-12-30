@@ -1,0 +1,29 @@
+<div class="col-md-6 col-sm-6 col-xs-12">
+  <div class="x_panel">
+    <div class="x_title">
+      <h2>Locatie</h2>
+      <ul class="nav navbar-right panel_toolbox">
+        <li><a class="close-link"><i class="fa fa-close"></i></a>
+        </li>
+      </ul>
+      <div class="clearfix"></div>
+    </div>
+    <iframe
+    id="locationIframe-{{count}}"
+    width=100%
+    height="450"
+    frameborder="0" style="border:0"
+    src="" allowfullscreen>
+  </iframe>
+</div>
+</div>
+<script type="text/javascript" charset="utf-8">
+$(document).ready(function() {
+  var location=[];
+  {% for k, v in blockArray[count]["map"].iteritems() %}
+  location.push("{{v[0]}}");
+  {% endfor %}
+  refreshMapLocation(location, "locationIframe-{{count}}");
+  setInterval(refreshMapLocation, 60000, location, "locationIframe-{{count}}");
+});
+</script>

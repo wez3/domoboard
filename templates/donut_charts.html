@@ -1,0 +1,30 @@
+<div class="col-md-6 col-sm-6 col-xs-12">
+  <div class="x_panel">
+    <div class="x_title">
+      <h2>Donut charts</h2>
+      <ul class="nav navbar-right panel_toolbox">
+        <li><a class="close-link"><i class="fa fa-close"></i></a>
+        </li>
+      </ul>
+      <div class="clearfix"></div>
+    </div>
+    <div class="x_content2">
+      <div id="morris-donut-chart-{{count}}" style="height: 200px"></div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript" charset="utf-8">
+var donut_chart_block_{{count}} = Morris.Donut({
+  element: 'morris-donut-chart-{{count}}',
+  data: [{label: 'dummy',value:100}]
+});
+
+$(document).ready(function() {
+  var donutChartElements=[];
+  {% for k, v in blockArray[count]["donut_charts"].iteritems() %}
+  donutChartElements.push("{{v[0]}}");
+  {% endfor %}
+  redrawDonutChart(donutChartElements, donut_chart_block_{{count}});
+  setInterval(redrawDonutChart,9000,donutChartElements, donut_chart_block_{{count}});
+});
+</script>

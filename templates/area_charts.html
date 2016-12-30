@@ -1,0 +1,35 @@
+<div class="row">
+  <div class="x_panel">
+    <div id="title_block_{{count}}" class="x_title">
+      <h2>Area chart</h2>
+      <ul class="nav navbar-right panel_toolbox">
+        <li><a class="close-link"><i class="fa fa-close"></i></a>
+        </li>
+      </ul>
+      <div class="clearfix"></div>
+    </div>
+    <div class="x_content2">
+      <div id="morris-area-chart-block-{{count}}" style="height: 200px;"></div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript" charset="utf-8">
+var area_chart_block_{{count}} = Morris.Area({
+  element: 'morris-area-chart-block-{{count}}',
+  data: [],
+  xkey: 'd',
+  ykeys: ['te'],
+  labels: ['te'],
+  smooth: true,
+  resize: true,
+  pointSize: 0
+});
+
+$(document).ready(function() {
+  {% for k, v in blockArray[count]["area_charts"].iteritems() %}
+  redrawAreaChart("{{v[2]}}",{{v[0]}},"{{v[1]}}", area_chart_block_{{count}});
+  $("div#title_block_{{count}} h2").html("{{k}}");
+  setInterval(redrawAreaChart,9000,"{{v[2]}}",{{v[0]}},"{{v[1]}}", area_chart_block_{{count}});
+});
+{% endfor %}
+</script>

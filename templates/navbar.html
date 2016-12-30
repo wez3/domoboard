@@ -1,0 +1,70 @@
+<body class="nav-md">
+
+  <div class="container body">
+
+    <div class="main_container">
+
+      <div class="col-md-3 left_col">
+        <div class="left_col scroll-view">
+
+          <div class="navbar nav_title" style="border: 0;">
+            <a href="/dashboard" class="site_title"><i class="fa fa-home"></i> <span>Domoboard</span></a>
+          </div>
+          <div class="clearfix"></div>
+
+          <br />
+
+          <!-- sidebar menu -->
+          <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+
+            <div class="menu_section">
+              <ul class="nav side-menu">
+                {% for k, v in configValues["navbar"].iteritems() %}
+                <li><a href="{{v}}">{{k}}</a></li>
+                {% endfor %}
+              </ul>
+
+            </div>
+
+          </div>
+          <!-- /sidebar menu -->
+
+          <!-- /menu footer buttons -->
+          <div class="sidebar-footer hidden-small">
+            <a href="/" data-toggle="tooltip" data-placement="top" title="Dashboard">
+              <span class="glyphicon glyphicon glyphicon-dashboard" aria-hidden="true"></span>
+            </a>
+            <a href="/settings" data-toggle="tooltip" data-placement="top" title="Settings">
+              <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+            </a>
+            <a href="/log" data-toggle="tooltip" data-placement="top" title="Log">
+              <span class="glyphicon glyphicon-hdd" aria-hidden="true"></span>
+            </a>
+            <a href="/logout" data-toggle="tooltip" data-placement="top" title="Logout">
+              <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
+            </a>
+          </div>
+          <!-- /menu footer buttons -->
+        </div>
+      </div>
+
+      <!-- top navigation -->
+      <div class="top_nav">
+
+        <div class="nav_menu">
+          <nav class="" role="navigation">
+              <div id="datetimeDiv">
+                <div class="nav toggle navbar-collapse" id="defaultNavbar1">
+                    <a id="menu_toggle"><i class="fa fa-bars"></i></a>
+                </div>
+                <div class="show_date" style="cursor: pointer; margin-left: -70px; min-height: 51px;" id="time-part"></div>
+                <div class="hide_date" style="cursor: pointer; padding-left: 2px;" id="date-part"></div>
+              </div>
+          </nav>
+        </div>
+
+      </div>
+      <!-- /top navigation -->
+
+      <!-- page content -->
+      <div class="right_col" role="main">

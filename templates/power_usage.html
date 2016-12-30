@@ -1,0 +1,47 @@
+<div class="col-md-6 col-sm-6 col-xs-12">
+  <div class="x_panel">
+    <div class="x_title">
+      <h2>Power usage</h2>
+      <ul class="nav navbar-right panel_toolbox">
+        <li><a class="close-link"><i class="fa fa-close"></i></a>
+        </li>
+      </ul>
+      <div class="clearfix"></div>
+    </div>
+    <div class="x_content">
+
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Component</th>
+            <th>Verbruik</th>
+
+          </tr>
+        </thead>
+        <tbody>
+          {% for k, v in blockArray[count]["power_usage"].iteritems() %}
+          <tr>
+            <td>{{k}}</td>
+            <td id="power_usage_{{v[0]}}_{{count}}">{{v[1]}}</td>
+          </tr>
+          {% endfor %}
+          <tr>
+            <td> <b>Total</b></td>
+            <td id="power_usage_total_{{count}}"> <b>{{blockArray[count]["power_usage_calc_total"]}} kWh</b></td>
+          </tr>
+        </tbody>
+      </table>
+
+    </div>
+  </div>
+</div>
+<script type="text/javascript" charset="utf-8">
+$(document).ready(function() {
+  var updatePowerUsage_{{count}}=[];
+  {% for k, v in blockArray[count]["power_usage"].iteritems() %}
+  updatePowerUsage_{{count}}.push("{{v[0]}}");
+  {% endfor %}
+  refreshPowerUsage(updatePowerUsage_{{count}}, "{{count}}");
+  setInterval(refreshPowerUsage, 9000, updatePowerUsage_{{count}}, "{{count}}");
+});
+</script>

@@ -1,0 +1,27 @@
+<script type="text/javascript" src="static/js/FeedEk.js"></script>
+<link href="static/css/FeedEk.css" rel="stylesheet" type="text/css" />
+<div class="col-md-6 col-sm-6 col-xs-12">
+  <div class="x_panel">
+    <div class="x_title">
+      <h2>News</h2>
+      <ul class="nav navbar-right panel_toolbox">
+        <li><a class="close-link"><i class="fa fa-close"></i></a>
+        </li>
+      </ul>
+      <div class="clearfix"></div>
+    </div>
+    <div id="divRss-{{count}}"></div>
+    <script>
+    $('#divRss-{{count}}').FeedEk({
+      FeedUrl:'{{blockArray[count]['news'].get('rssfeed')[0]}}',
+      MaxCount : 5,
+      ShowDesc : true,
+      ShowPubDate:true,
+      DescCharacterLimit:100,
+      TitleLinkTarget:'_self',
+      DateFormat: 'MM/DD/YYYY',
+      DateFormatLang:'en'
+    });
+    </script>
+  </div>
+</div>

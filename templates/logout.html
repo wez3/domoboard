@@ -1,0 +1,12 @@
+{% include 'header_login.html' %}
+<div class="container container-table">
+  <div class="row vertical-center-row">
+    <div class="text-center"><h3>{{loggedout}} logged out.</h3></div>
+  </div>
+</div>
+<script>
+setTimeout(function(){
+  window.location='/';
+}, 3000);
+</script>
+{% include 'footer_login.html' %}

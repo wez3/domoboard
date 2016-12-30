@@ -1,0 +1,42 @@
+<!-- footer content -->
+<div id="custom_notifications" class="custom-notifications dsp_none">
+  <ul class="list-unstyled notifications clearfix" data-tabbed_notifications="notif-group">
+  </ul>
+  <div class="clearfix"></div>
+  <div id="notif-group" class="tabbed_notifications"></div>
+</div>
+<!-- /footer content -->
+<!-- Domoboard -->
+<script src="/static/js/custom.js"></script>
+<!-- bootstrap-slider -->
+<link href="/static/css/bootstrap-slider.css" rel="stylesheet">
+<script type="text/javascript" src="/static/js/bootstrap-slider.js"></script>
+<script type="text/javascript" src="static/js/moment.min.js"></script>
+{% if configValues["domoboard"].get("time") == "True" %}
+<script>
+    $(document).ready(function() {
+    var interval = setInterval(function() {
+        var momentNow = moment();
+        $('#date-part').html(momentNow.format('DD MMMM YYYY'));
+
+        $('#time-part').html(momentNow.format('HH:mm'));
+    }, 100);
+
+    $( "#date-part" ).click(function() {
+        $('#date-part').removeClass('show_date');
+        $('#date-part').addClass('hide_date');
+    });
+    $("#time-part").click(function() {
+       if ($("#date-part").hasClass('hide_date')) {
+           $('#date-part').removeClass('hide_date');
+           $('#date-part').addClass('show_date');
+       } else {
+           $('#date-part').removeClass('show_date');
+           $('#date-part').addClass('hide_date');
+       }
+    });
+    });
+{% endif %}
+</script>
+</body>
+</html>
