@@ -1,0 +1,33 @@
+<div class="col-md-6 col-sm-6 col-xs-12">
+  <div class="x_panel">
+    <div class="x_title">
+      <h2>Weather</h2>
+      <ul class="nav navbar-right panel_toolbox">
+        <li><a class="close-link"><i class="fa fa-close"></i></a>
+        </li>
+      </ul>
+      <div class="clearfix"></div>
+    </div>
+    <div id="weatherdash-{{count}}" style="padding-left:30px;padding-right:30px;padding-top:20px;"></div>
+  </div>
+</div>
+
+<!-- /container -->
+<script type="text/javascript" charset="utf-8">
+$(document).ready(function() {
+  $(function() {
+    $.stayInWebApp('a.stay');
+  });
+  var weatherdash = $("#weatherdash-{{count}}").flatWeatherPlugin({
+    location: "{{blockArray[count]['weather'].get('Location')[0]}}", //city and region *required
+    country: "Netherlands", //country *required
+    api: "yahoo", //default: openweathermap (openweathermap or yahoo)
+    view: "full", //default: full (partial, full, simple, today or forecast)
+    displayCityNameOnly: true, //default: false (true/false) if you want to display only city name
+    forecast: 5, //default: 5 (0 -5) how many days you want forecast
+    render: true, //default: true (true/false) if you want plugin to generate markup
+    loadingAnimation: false, //default: true (true/false) if you want plugin to show loading animation
+    units: "metric", //units : "metric" or "imperial" default: "auto"
+  });
+});
+</script>

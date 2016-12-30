@@ -1,0 +1,12 @@
+{% include 'header.html' %}
+{% include 'navbar.html' %}
+
+{% set count = 0 %}
+{% for block in blockArray %}
+  {% for k, v in block.iteritems() %}
+    {% include k + ".html" ignore missing %}
+  {% endfor %}
+{% set count = count + 1 %}
+{% endfor %}
+
+{% include 'footer.html' %}

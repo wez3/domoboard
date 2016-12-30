@@ -1,0 +1,25 @@
+ <div class="row">
+  <div class="x_panel">
+    <div id="title_block_{{count}}" class="x_title">
+      <h2>Line Graph</h2>
+      <ul class="nav navbar-right panel_toolbox">
+        <li><a class="close-link"><i class="fa fa-close"></i></a>
+        </li>
+      </ul>
+      <div class="clearfix"></div>
+    </div>
+    <div class="x_content2">
+      <div id="domoticz-chart-block-{{count}}" style="height: 200px;"></div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript" charset="utf-8">
+
+$(document).ready(function() {
+  {% for k, v in blockArray[count]["domoticz_percentage_charts"].iteritems() %}
+  ShowPercentageLog("domoticz-chart-block-{{count}}",{{v[0]}},"{{k}}", "{{v[1]}}");
+  $("div#title_block_{{count}} h2").html("{{k}}");
+  setInterval(ShowPercentageLog,60000,"domoticz-chart-block-{{count}}",{{v[0]}},"{{k}}", "{{v[1]}}");
+{% endfor %}
+});
+</script>

@@ -1,0 +1,57 @@
+{% include 'header_login.html' %}
+<style>
+.Absolute-Center {
+  margin: auto;
+  position: absolute;
+  top: 0; left: 0; bottom: 0; right: 0;
+}
+
+.Absolute-Center.is-Responsive {
+  width: 50%;
+  height: 50%;
+  min-width: 400px;
+  max-width: 400px;
+  padding: 40px;
+}
+</style>
+<div class="container">
+  <div class="row">
+    <div class="Absolute-Center is-Responsive">
+      <div id="logo-container"></div>
+      <div class="col-sm-12 col-md-10 col-md-offset-1">
+	<div class="panel panel-default">
+        <div class="panel-heading"> <strong class="">Login</strong>
+        </div>
+        <div class="panel-body">
+          <form class="form-horizontal" role="form" action="/login/" method="post">
+            <div class="form-group">
+          <div class="form-group input-group">
+            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+	<input type="username" name="username" class="form-control" required="yes" placeholder="Username">
+	</div>
+	</div>
+	    <div class="form-group input-group">
+            <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+	   <input type="password" name="password" class="form-control" id="inputPassword3" placeholder="Password" required="">
+           </div>
+            <div class="form-group">
+              <div class="col-sm-offset-3 col-sm-9">
+                <div class="checkbox">
+                  <label class="">
+                    <input type="checkbox" class="">Remember me</label>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group last">
+                <div class="col-sm-offset-3 col-sm-9">
+                  <button type="submit" class="btn btn-success btn-sm">Sign in</button>
+                </div>
+              </div>
+            </form>
+	   </div>
+	</div>
+      </div>
+    </div>
+  </div>
+</div>
+{% include 'footer_login.html' %}

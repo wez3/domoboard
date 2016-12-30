@@ -1,0 +1,161 @@
+<link href="static/css/settings.css" rel="stylesheet" type="text/css"/>
+<ul class="tab">
+                        <li><a href="javascript:void(0)" id="defaultOpen" class="tablinks"
+                               onclick="openCat(event, 'settings')">Settings</a>
+                        </li>
+                        <li><a href="javascript:void(0)" class="tablinks"
+                               onclick="openCat(event, 'plugins')">Plugins</a></li>
+                    </ul>
+
+<div id="plugins" class="tabcontent">
+    <button type="button" id="indexPluginsBtn" class="btn btn-primary">Index Plugins</button>
+    <div id="pluginView">
+
+    </div>
+                </div>
+<div class="tabcontent" id="settings">
+<div class="modal fade tabcontent" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Add domoticz device to a page</h4>
+            </div>
+            <div class="modal-body">
+                    <form onsubmit="modifyConfig()" role="form" name="modifyConfigForm">
+                        <input type="hidden" class="form-control" name="idx" value="">
+                        <input type="hidden" class="form-control" name="custom" value="modify_config"> Name:
+                        <input type="text" class="form-control" name="description">
+                        <div class="dropdown">
+                            <select id="dropDownPage">
+                                {% for k, v in configValues["navbar"].iteritems() %}
+                                    <option>{{ v }}</option>
+                                {% endfor %}
+                            </select>
+                            (Select a page to add the domoticz device to)
+                        </div>
+                        <div class="dropdown">
+                            <select id="dropDownComponent">
+                                <option>top_tiles</option>
+                            </select>
+                            (Select a display component to add the domoticz device to)
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Save changes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div>
+        <i>This page requires further development. Please use the config file for advanced changes to the dashboard.</i>
+        <p id="showdevices"></p>
+    </div>
+</div>
+    <script>
+
+        function openCat(evt, catName) {
+            // Declare all variables
+            var i, tabcontent, tablinks;
+
+            // Get all elements with class="tabcontent" and hide them
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+
+            // Get all elements with class="tablinks" and remove the class "active"
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+
+            // Show the current tab, and add an "active" class to the link that opened the tab
+            document.getElementById(catName).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+        function getIndexedPlugins() {
+            var url = '/api?custom=indexPlugins&action=getPlugins';
+            requestAPI(url, function(d){
+                var result = JSON.parse(d);
+                $('#pluginView').empty();
+                for (i in result) {
+                    var buttons = '';
+                    if (result[i].update == 'yes') {
+                        buttons = buttons + "<button onclick='updatePlugin("+ result[i].id + ")' type='button' class='btn updateBtn'>Update";
+                    }
+                    buttons = buttons + "<button onclick='" + result[i].status + "Plugin(" + result[i].id  + ")' name='"+ result[i].title + "' fol='" + result[i].folder + "' type='button' class='btn " + result[i].status + "Btn'>" + result[i].status + "</button>";
+                    $('#pluginView').append("<div class='pluginItem'><span onclick=getSummary('" + result[i].title + "_summary')>" + result[i].title + " - Author: " + result[i].author + " - version: " + result[i].version + "</span>"+ buttons + "<div id='" + result[i].title + "_summary' class='fullSummary'><span>" + result[i].description + "</span></div></div>");
+                    if (("structure" in result[i]) == true) {
+                        $('#' + result[i].title + "_summary").append('<div>');
+                        $('#' + result[i].title + "_summary").append('<ul>');
+                        for (k in result[i].structure[result[i].folder]) {
+                            for (l in result[i].structure[result[i].folder][k]) {
+                                $('#' + result[i].title + "_summary").append('<li>' + k + '/' + l + '</li>');
+                            }
+                        }
+                        $('#' + result[i].title + "_summary").append('</ul>');
+                        $('#' + result[i].title + "_summary").append('</div>');
+                    }
+                }
+                $('.fullSummary').hide();
+            });
+        }
+        function installPlugin(plugin_id) {
+            var url = "/api?custom=indexPlugins&action=installPlugin&folid=" + plugin_id;
+            requestAPI(url, function(d){
+                getIndexedPlugins();
+            });
+
+
+        }
+        function removePlugin(plugin_id) {
+            var url = "/api?custom=indexPlugins&action=removePlugin&folid=" + plugin_id;
+            requestAPI(url, function(d){
+                getIndexedPlugins();
+            });
+
+        }
+        function updatePlugin(plugin_id) {
+            var url = "/api?custom=indexPlugins&action=removePlugin&folid=" + plugin_id;
+            requestAPI(url, function(d) {
+                var url = "/api?custom=indexPlugins&action=installPlugin&folid=" + plugin_id;
+                requestAPI(url, function(dd) {
+                    getIndexedPlugins();
+                });
+            });
+
+
+        }
+
+        $('#indexPluginsBtn').on('click', function(event) {
+            var url = "/api?custom=indexPlugins";
+            requestAPI(url, function(d){
+                getIndexedPlugins();
+            });
+        });
+
+        function getSummary(div_id) {
+            $('.fullSummary').hide();
+            $('#' + div_id).show();
+        }
+        $('.pluginItem span').on('click', function() {
+            console.log('Clicked on Item');
+            console.log($(this));
+        });
+
+        $(document).ready(function () {
+            // Get the element with id="defaultOpen" and click on it
+            document.getElementById("defaultOpen").click();
+            getIndexedPlugins();
+            $('.fullSummary').hide();
+
+        });
+        setInterval(getIndexedPlugins(), 9000);
+        retrieveAvailableDevices();
+        selected_page_settings();
+        selected_component_settings();
+    </script>

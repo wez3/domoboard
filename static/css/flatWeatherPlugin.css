@@ -1,0 +1,647 @@
+/*************************************************************************************************/
+/* Global - Base																				 */
+/*************************************************************************************************/
+@font-face {
+  font-family: 'weathericons';
+  src: url('../fonts/weathericons-regular-webfont.eot');
+  src: url('../fonts/weathericons-regular-webfont.eot?#iefix') format('embedded-opentype'), url('../fonts/weathericons-regular-webfont.woff') format('woff'), url('../fonts/weathericons-regular-webfont.ttf') format('truetype'), url('../fonts/weathericons-regular-webfont.svg#weathericons-regular-webfontRg') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.wi:before, .wi:after  {
+  display: inline-block;
+  font-family: 'weathericons';
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+
+.flatWeatherPlugin {
+  font-size: inherit;
+  width: 100%;
+}
+
+.flatWeatherPlugin h2{
+}
+
+.flatWeatherPlugin p, .flatWeatherPlugin h3, .flatWeatherPlugin ul,  .flatWeatherPlugin li {
+  padding: 0;
+  margin: 0;
+  color: inherit;
+}
+
+#flatWeatherLoading.loading {
+  font-size: 90px;
+  text-align: center;
+  padding: 10px;
+  overflow: hidden;
+  -webkit-animation:spin 2s linear infinite;
+  -moz-animation:spin 2s linear infinite;
+  animation:spin 2s linear infinite;
+  opacity: 0.2;
+}
+@-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
+@-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
+@keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
+
+.flatWeatherPlugin h2 {
+  margin: 0 0 5px 0;
+}
+
+.flatWeatherPlugin .wiToday {
+  width: 100%;
+  overflow: hidden;
+}
+
+.flatWeatherPlugin .wiToday > .wiIconGroup {
+  float: right;
+  width: 50%;
+  text-align: center;
+}
+
+.flatWeatherPlugin .wiToday > .wiIconGroup p {
+  width: 100%;
+  color: inherit;
+  line-height: 1em;
+  padding: 6px 0 0 0;
+}
+
+
+.flatWeatherPlugin .wiToday .wiIconGroup div.wi {
+  font-size: 400%;
+  line-height: 1.45em;
+  width: 100%;
+}
+
+.flatWeatherPlugin .wiToday .wiIconGroup div.wi:before {
+  vertical-align: text-bottom;
+}
+
+.flatWeatherPlugin .clearfix:after {
+  content: " ";
+  display: table;
+  clear: both;
+}
+
+.flatWeatherPlugin div.wiToday > p.wiTemperature {
+  font-size: 400%;
+  line-height: 1.45em;
+  float: left;
+  width: 50%;
+  text-align: center;
+  color: inherit;
+}
+
+.flatWeatherPlugin sup {
+  opacity: 0.7;
+  font-size: 65%;
+  vertical-align: baseline;
+  top: -0.5em;
+  position: relative;
+}
+
+.flatWeatherPlugin .wiDetail {
+  overflow: hidden;
+  width: 100%;
+  padding-bottom: 5px;
+}
+
+.flatWeatherPlugin.today .wiDetail {
+  padding-top: 10px;
+}
+
+.flatWeatherPlugin .wiDetail  p.wiDay {
+  font-weight: bold;
+  margin: 5px 0 2px 0;
+  text-align: left;
+  color: inherit;
+}
+
+.flatWeatherPlugin.partial .wiToday  p.wiDay {
+  text-align: center;
+  font-weight: bold;
+  padding: 0 0 10px 0;
+  clear: both;
+  width: 100%;
+  color: inherit;
+}
+
+
+.flatWeatherPlugin .wiDetail ul {
+  width: 33%;
+  float: left;
+  list-style: none;
+  font-size: 90%;
+}
+
+.flatWeatherPlugin .wiDetail ul + ul {
+  width: 27%;
+}
+
+.flatWeatherPlugin .wiDetail ul + ul + ul {
+  width: 40%;
+}
+
+.flatWeatherPlugin .wiDetail ul li:before {
+  width:30px;
+
+}
+
+.flatWeatherPlugin ul.wiForecasts{
+  width: 100%;
+  overflow: hidden;
+}
+
+.flatWeatherPlugin ul.wiForecasts li > span {
+  width: 25%;
+  display: inline-block;
+}
+
+.flatWeatherPlugin ul.wiForecasts li {
+  float: left;
+  width: 100%;
+  overflow: hidden;
+  display: inline;
+}
+
+.flatWeatherPlugin ul.wiForecasts ul.wiForecast {
+  font-weight: normal;
+  list-style: none;
+  float: right;
+  width: 75%;
+}
+
+.flatWeatherPlugin.forecast ul.wiForecasts ul.wiForecast li {
+  text-align: center;
+}
+
+.flatWeatherPlugin ul.wiForecasts ul.wiForecast li {
+  width: 33%;
+  float: left;
+  text-align: center;
+}
+
+.flatWeatherPlugin ul.wiForecasts ul.wiForecast li.wi:before {
+  vertical-align: bottom;
+}
+
+.flatWeatherPlugin ul.wiForecasts li.wiDay {
+  font-weight: bold;
+  border-color: inherit;
+  border-top: 1px solid RGBA(255,255,255,0.2);
+  padding: 5px 0;
+}
+
+.flatWeatherPlugin.forecast ul.wiForecasts li.wiDay {
+  border-bottom: 1px solid RGBA(255,255,255,0.2);
+  border-top: none;
+}
+
+.flatWeatherPlugin ul.wiForecasts li.wiDay:last-child {
+  border-bottom: none;
+}
+
+
+/*************************************************************************************************/
+/* Font mappings 																				                                         */
+/*************************************************************************************************/
+
+/***************************
+General
+****************************/
+.wi.sunrise:before {
+  content: "\f051";
+}
+
+.wi.sunset:before {
+  content: "\f052";
+}
+
+.wi.wind:before {
+  content: "\f050";
+}
+
+.wi.humidity:before {
+  content: "\f04e";
+}
+
+.wi.pressure:before {
+  content: "\f040";
+}
+
+.wi.cloudiness:before {
+  content: "\f041";
+}
+
+.wi.temperature.metric:after {
+  content: "\f03c";
+}
+
+.wi.temperature.imperial:after {
+  content: "\f045";
+}
+
+.wi.loading:after {
+  content: "\f04c";
+}
+
+/***************************
+Thunderstorm
+****************************/
+
+/* thunderstorm with light rain */
+.wi.wi200:before {
+  content: "\f01d";
+}
+
+/* thunderstorm with rain */
+.wi.wi201:before {
+  content: "\f01d";
+}
+
+/* thunderstorm with heavy rain */
+.wi.wi202:before {
+  content: "\f01e";
+}
+
+/* light thunderstorm */
+.wi.wi210:before {
+  content: "\f010";
+}
+
+/* thunderstorm */
+.wi.wi211:before {
+  content: "\f01e";
+}
+
+/* heavy thunderstorm */
+.wi.wi212:before {
+  content: "\f01e";
+}
+
+/* ragged thunderstorm */
+.wi.wi221:before {
+  content: "\f016";
+}
+
+/* thunderstorm with light drizzle */
+.wi.wi230:before {
+  content: "\f01d";
+}
+
+/* thunderstorm with drizzle */
+.wi.wi231:before {
+  content: "\f01d";
+}
+
+/* thunderstorm with heavy drizzle */
+.wi.wi232:before {
+  content: "\f01d";
+}
+
+/***************************
+Drizzle
+****************************/
+
+/* light intensity drizzle */
+.wi.wi300:before {
+  content: "\f01c";
+}
+
+/* drizzle */
+.wi.wi301:before {
+  content: "\f01c";
+}
+
+/* heavy intensity drizzle */
+.wi.wi302:before {
+  content: "\f01c";
+}
+
+/* light intensity drizzle rain */
+.wi.wi310:before {
+  content: "\f01c";
+}
+
+/* drizzle rain */
+.wi.wi311:before {
+  content: "\f017";
+}
+
+/* heavy intensity drizzle rain */
+.wi.wi312:before {
+  content: "\f017";
+}
+
+/* shower rain and drizzle */
+.wi.wi313:before {
+  content: "\f01a";
+}
+
+/* heavy shower rain and drizzle */
+.wi.wi314:before {
+  content: "\f01a";
+}
+
+/* shower drizzle */
+.wi.wi321:before {
+  content: "\f01a";
+}
+
+/***************************
+Rain
+****************************/
+
+/* light rain */
+.wi.wi500:before {
+  content: "\f01a";
+}
+
+/* moderate rain */
+.wi.wi501:before {
+  content: "\f017";
+}
+
+/* heavy intensity rain */
+.wi.wi502:before {
+  content: "\f019";
+}
+
+/* very heavy rain */
+.wi.wi503:before {
+  content: "\f019";
+}
+
+/* extreme rain */
+.wi.wi504:before {
+  content: "\f018";
+}
+
+/* freezing rain */
+.wi.wi511:before {
+  content: "\f015";
+}
+
+/* light intensity shower rain */
+.wi.wi520:before {
+  content: "\f01a";
+}
+
+/* shower rain */
+.wi.wi521:before {
+  content: "\f01a";
+}
+
+/* heavy intensity shower rain */
+.wi.wi522:before {
+  content: "\f01a";
+}
+
+/* ragged shower rain */
+.wi.wi531:before {
+  content: "\f01a";
+}
+
+/***************************
+Snow
+****************************/
+
+/* light snow */
+.wi.wi600:before {
+  content: "\f01b";
+}
+
+/* snow */
+.wi.wi601:before {
+  content: "\f01b";
+}
+
+/* heavy snow */
+.wi.wi602:before {
+  content: "\f01b";
+}
+
+/* sleet */
+.wi.wi611:before {
+  content: "\f015";
+}
+
+/* shower sleet */
+.wi.wi612:before {
+  content: "\f015";
+}
+
+/* light rain and snow */
+.wi.wi615:before {
+  content: "\f017";
+}
+
+/* rain and snow */
+.wi.wi616:before {
+  content: "\f017";
+}
+
+/* light shower snow */
+.wi.wi620:before {
+  content: "\f017";
+}
+
+/* shower snow */
+.wi.wi621:before {
+  content: "\f017";
+}
+
+/* heavy shower snow */
+.wi.wi622:before {
+  content: "\f017";
+}
+
+/***************************
+Atmosphere
+****************************/
+
+/* mist */
+.wi.wi701:before {
+  content: "\f014";
+}
+
+/* smoke */
+.wi.wi711:before {
+  content: "\f062";
+}
+
+/* haze */
+.wi.wi721:before {
+  content: "\f014";
+}
+
+/* sand, dust whirls */
+.wi.wi731:before {
+  content: "\f063";
+}
+
+/* fog */
+.wi.wi741:before {
+  content: "\f014";
+}
+
+/* sand */
+.wi.wi751:before {
+  content: "\f063";
+}
+
+/* dust */
+.wi.wi761:before {
+  content: "\f063";
+}
+
+/* volcanic ash */
+.wi.wi762:before {
+  content: "\f063";
+}
+
+/* squalls */
+.wi.wi771:before {
+  content: "\f050";
+}
+
+/* tornado */
+.wi.wi781:before {
+  content: "\f056";
+}
+
+/***************************
+Clouds
+****************************/
+
+/* clear sky */
+.wi.wi800:before {
+  content: "\f00d";
+}
+
+/* few clouds */
+.wi.wi801:before {
+  content: "\f002";
+}
+
+/* scattered clouds */
+.wi.wi802:before {
+  content: "\f002";
+}
+
+/* broken clouds */
+.wi.wi803:before {
+  content: "\f002";
+}
+
+/* overcast clouds */
+.wi.wi804:before {
+  content: "\f00c";
+}
+
+/***************************
+Extreme
+****************************/
+
+/* tornado */
+.wi.wi900:before {
+  content: "\f056";
+}
+
+/* tropical storm */
+.wi.wi901:before {
+  content: "\f073";
+}
+
+/* hurricane */
+.wi.wi902:before {
+  content: "\f073";
+}
+
+/* cold */
+.wi.wi903:before {
+  content: "\f076";
+}
+
+/* hot */
+.wi.wi904:before {
+  content: "\f072";
+}
+
+/* windy */
+.wi.wi905:before {
+  content: "\f050";
+}
+
+/* hail */
+.wi.wi906:before {
+  content: "\f015";
+}
+
+/***************************
+Additional
+****************************/
+
+/* calm */
+.wi.wi951:before {
+  content: "\f00d";
+}
+
+/* light breeze */
+.wi.wi952:before {
+  content: "\f021";
+}
+
+/* gentle breeze */
+.wi.wi953:before {
+  content: "\f021";
+}
+
+/* moderate breeze */
+.wi.wi954:before {
+  content: "\f021";
+}
+
+/* fresh breeze */
+.wi.wi955:before {
+  content: "\f021";
+}
+
+/* strong breeze */
+.wi.wi956:before {
+  content: "\f050";
+}
+
+/* high wind, near gale */
+.wi.wi957:before {
+  content: "\f050";
+}
+
+/* gale */
+.wi.wi958:before {
+  content: "\f050";
+}
+
+/* severe gale */
+.wi.wi959:before {
+  content: "\f073";
+}
+
+/* storm */
+.wi.wi960:before {
+  content: "\f073";
+}
+
+/* violent storm */
+.wi.wi961:before {
+  content: "\f073";
+}
+
+/* hurricane */
+.wi.wi962:before {
+  content: "\f073";
+}

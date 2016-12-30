@@ -1,0 +1,28 @@
+<!-- top tiles -->
+<div class="row tile_count">
+  {% for k, v in blockArray[count]["top_tiles"].iteritems() %}
+  <div class="animated flipInY col-md-2 col-sm-4 col-xs-4 tile_stats_count">
+    <div class="left"></div>
+    <div class="right">
+      <span class="count_top"><i class="fa fa-{{v[1]}}"></i> {{k}}</span>
+      <div class="count{% if v[2] == "On" %} green{% elif v[2] == "Off" %} red{% endif %} loading" id=top_tiles_block_{{count}}_{{v[0]}} style="white-space: nowrap;">{{v[2]}}</div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+<script type="text/javascript" charset="utf-8">
+$(document).ready(function() {
+  var updateDivs_block_{{count}}=[];
+  var tilesPreviousArray_{{count}}=[];
+  {% for k, v in blockArray[count]["top_tiles"].iteritems() %}
+  updateDivs_block_{{count}}.push("{{v[0]}}");
+  {% endfor %}
+  tilesPreviousArray_{{count}} = refreshTopTiles(updateDivs_block_{{count}}, "top_tiles_block_{{count}}_", tilesPreviousArray_{{count}});
+  for (var i in updateDivs_block_{{count}}) {
+    $("#top_tiles_block_{{count}}_" + updateDivs_block_{{count}}[i]).removeClass("loading");
+  }
+  tilesPreviousArray_{{count}} = setInterval(refreshTopTiles, 9000, updateDivs_block_{{count}}, "top_tiles_block_{{count}}_", tilesPreviousArray_{{count}});
+});
+</script>
+
+<!-- /top tiles -->

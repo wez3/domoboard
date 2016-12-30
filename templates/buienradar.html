@@ -1,0 +1,27 @@
+<div class="col-md-6 col-sm-6 col-xs-12" style="width: auto;">
+<div class="x_panel">
+<div class="x_title">
+<h2>Buienradar </h2>
+<ul class="nav navbar-right panel_toolbox">
+<li><a class="close-link"><i class="fa fa-close"></i></a>
+</li>
+</ul>
+
+<div class="clearfix"></div>
+</div>
+<div id="buienradar" style="display: inline-block;">
+<img id="buien-{{count}}" border="0" src="http://api.buienradar.nl/image/1.0/RadarMapNL?w=500&h=512">
+</div>
+
+</div>
+</div>
+
+<script>
+$(document).ready(function() {
+function reloadBuienradar() {
+$("#buien-{{count}}").attr("src", "http://api.buienradar.nl/image/1.0/RadarMapNL?w=500&h=512");
+}
+reloadBuienradar();
+setInterval(reloadBuienradar, 60000);
+});
+</script>
