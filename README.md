@@ -31,6 +31,7 @@ Just one config is used to configure Domoboard. A example can be found the appli
   - dimmer
   - rgb
   - setpoint
+- camera
 - weather
 - news
 - map
