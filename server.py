@@ -159,7 +159,7 @@ if __name__ == '__main__':
     app.secret_key = config["general_settings"]["server"]["secret_key"]
     app.add_url_rule('/', 'index', index)
     for k, v in config["navbar"]["menu"].iteritems():
-        app.add_url_rule('/' + k.lower(), k.lower(), generatePage, methods=['GET'])
+        app.add_url_rule('/' + v.lower(), v.lower(), generatePage, methods=['GET'])
     app.add_url_rule('/settings', 'settings', generatePage, methods=['GET'])
     app.add_url_rule('/log', 'log', generatePage, methods=['GET'])
     app.add_url_rule('/logout/', 'logout', logout_view, methods=['GET'])
