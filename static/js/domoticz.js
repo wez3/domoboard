@@ -75,8 +75,8 @@ function ShowSmartLog(contentdiv, id, name, switchtype, period) {
 	var actYear = d.getYear() + 1900;
 
 if (period == "day") {
-	var DayChart = $('#' + contentdiv);
-	DayChart.highcharts({
+	$.DayChart = $('#' + contentdiv);
+	$.DayChart.highcharts({
 		chart: {
 			type: 'spline',
 			zoomType: 'x',
@@ -92,8 +92,8 @@ if (period == "day") {
 					function (data) {
 						data = JSON.parse(data);
 						if (typeof data.result != 'undefined') {
-							AddDataToUtilityChart(data, DayChart, switchtype);
-							DayChart.highcharts().redraw();
+							AddDataToUtilityChart(data, $.DayChart, switchtype);
+							$.DayChart.highcharts().redraw();
 						}
 					});
 				}
