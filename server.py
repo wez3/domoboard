@@ -42,6 +42,7 @@ def generatePage():
                 if not match:
                     blockValues[component] = retrieveValue(requestedRoute, component)
                 else:
+
                     blockValues[match.group(1)] = retrieveValue(requestedRoute, component)
                 blockArray.append(blockValues)
                 blockValues = {}
@@ -67,6 +68,7 @@ def retrieveValue(page, component):
                 dict[k] = v
         else:
             for sk, sv in config[page][match.group(1)][match.group(2)].iteritems():
+                sv.append(match.group(2))
                 sv = strToList(sv)
                 dict[sk] = sv
     except:
