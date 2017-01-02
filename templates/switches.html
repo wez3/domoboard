@@ -23,13 +23,9 @@
               {% elif "dimmer" in v[1] %}
                 <input id="dimmer_{{v[0]}}_block_{{count}}" data-slider-id='dimmer_{{v[0]}}' type="text" test={{ v[1] }} data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="14" />
               {% elif "pushon" in v[1] %}
-                <div style="padding-left: 50%">
                 <button id="push_{{v[0]}}_block_{{count}}" class="btn  btn-primary btn-circle">On</button>
-              </div>
                 {% elif "pushoff" in v[1] %}
-                <div style="padding-left: 50%">
                   <button id="push_{{v[0]}}_block_{{count}}" class="btn  btn-primary btn-circle">Off</button>
-                </div>
                {% elif "setpoint" in v[1]  %}
                      <div>
                          <div style="float: left; margin-right: 5px"><h1 id="setpoint_{{v[0]}}_block_{{count}}" style="font-size: 16px;"></h1></div>
