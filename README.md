@@ -31,6 +31,8 @@ Just one config is used to configure Domoboard. A example can be found the appli
   - dimmer
   - rgb
   - setpoint
+  - pushon
+  - pushoff
 - camera
 - weather
 - news
@@ -99,10 +101,10 @@ Above screenshots shows the settings page.
 
 # Contributing
 
-Everybody can contribute to the project! For development purposes the "develop" branch is used. The "master" branch contains the stable version of Domoboard. 
+Everybody can contribute to the project! For development purposes the "develop" branch is used. The "master" branch contains the stable version of Domoboard.
 
-Please let us know when you've created a plugin, so we can can add to the plugin Github repository. 
+Please let us know when you've created a plugin, so we can can add to the plugin Github repository.
 
 # Special thanks
 
-Special thanks to https://github.com/squandor for developing and testing on Domoboard before it was made public. 
+Special thanks to https://github.com/squandor for developing and testing on Domoboard before it was made public.
