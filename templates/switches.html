@@ -96,7 +96,8 @@ $(document).ready(function() {
   		});
   		updateSwitches_block_{{count}}.push("{{v[0]}}");
     {% elif (v[1] == "pushon") or (v[1] == "pushoff") %}
-      $('button[id="push_{{v[0]}}_block_{{count}}"]').click(function() {
+      $('button[id="push_{{v[0]}}_block_{{count}}"]').click(function(e) {
+        e.preventDefault();
         changeSwitch(this, {{v[0]}});
       });
     {% elif (v[1] == "setpoint") %}
