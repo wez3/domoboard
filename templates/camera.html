@@ -10,7 +10,6 @@
     </div>
     <div style=";overflow: hidden">
       <br>
-        <script> console.log("{{ blockArray[count] }}");</script>
       {% for k, v in blockArray[count]["camera"].iteritems() %}
         {% if v[1] %}
           <script> $('#s_title_{{ count }}').html("{{ v[1] }}");</script>

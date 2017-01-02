@@ -42,7 +42,6 @@ def generatePage():
                 if not match:
                     blockValues[component] = retrieveValue(requestedRoute, component)
                 else:
-
                     blockValues[match.group(1)] = retrieveValue(requestedRoute, component)
                 blockArray.append(blockValues)
                 blockValues = {}
