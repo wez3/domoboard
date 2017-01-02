@@ -1,4 +1,5 @@
 <link href="/static/css/bootstrap-switch.css" rel="stylesheet" type="text/css" />
+<link href="/static/css/buttons.css" rel="stylesheet" type="text/css" />
 <div class="col-md-6 col-sm-6 col-xs-12">
   <div class="x_panel">
     <div class="x_title">
@@ -20,7 +21,15 @@
               {% if "switch" in v[1]  %}
               <input id="switch_{{v[0]}}_block_{{count}}" type="checkbox" checked data-size="mini">
               {% elif "dimmer" in v[1] %}
-              &nbsp;<input id="dimmer_{{v[0]}}_block_{{count}}" data-slider-id='dimmer_{{v[0]}}' type="text" test={{ v[1] }} data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="14" />
+                <input id="dimmer_{{v[0]}}_block_{{count}}" data-slider-id='dimmer_{{v[0]}}' type="text" test={{ v[1] }} data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="14" />
+              {% elif "pushOn" in v[1] %}
+                <div style="padding-left: 50%">
+                <button id="push_{{v[0]}}_block_{{count}}" class="btn  btn-primary btn-circle">On</button>
+              </div>
+                {% elif "pushOff" in v[1] %}
+                <div style="padding-left: 50%">
+                  <button id="push_{{v[0]}}_block_{{count}}" class="btn  btn-primary btn-circle">Off</button>
+                </div>
                {% elif "setpoint" in v[1]  %}
                      <div>
                          <div style="float: left; margin-right: 5px"><h1 id="setpoint_{{v[0]}}_block_{{count}}" style="font-size: 16px;"></h1></div>
@@ -81,6 +90,7 @@ $(document).ready(function() {
   var updateSetpoints_block_{{count}}=[];
 
   {% for k, v in blockArray[count]["switches"].iteritems() %}
+
       {% if v[2] %}
           $('#s_title_{{ count }}').html("{{ v[2] }}");
       {% endif %}
@@ -89,7 +99,11 @@ $(document).ready(function() {
     			changeSwitch(this, {{v[0]}});
   		});
   		updateSwitches_block_{{count}}.push("{{v[0]}}");
-  	{% elif (v[1] == "setpoint") %}
+    {% elif (v[1] == "pushOn") or (v[1] == "pushOff") %}
+      $('button[id="push_{{v[0]}}_block_{{count}}"]').click(function() {
+        changeSwitch(this, {{v[0]}});
+      });
+    {% elif (v[1] == "setpoint") %}
   		updateSetpoints_block_{{count}}.push("{{v[0]}}");
   	{% elif (v[1] == "dimmer" or v[1] == "rgb") %}
   		updateDimmers_block_{{count}}.push("{{v[0]}}");
