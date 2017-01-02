@@ -38,8 +38,9 @@ def loadPlugins():
             try:
                plugin[name] = imp.load_source(name, plugin_dir + i)
                plugin[name].init()
-            except ImportError:
+            except ImportError as msg:
                print "Error occured during loading imports for the plugin " + name + ". Please check whether all dependecies are installed"
+               print msg
                sys.exit()
     return plugin
 
