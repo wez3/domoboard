@@ -22,11 +22,11 @@
               <input id="switch_{{v[0]}}_block_{{count}}" type="checkbox" checked data-size="mini">
               {% elif "dimmer" in v[1] %}
                 <input id="dimmer_{{v[0]}}_block_{{count}}" data-slider-id='dimmer_{{v[0]}}' type="text" test={{ v[1] }} data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="14" />
-              {% elif "pushOn" in v[1] %}
+              {% elif "pushon" in v[1] %}
                 <div style="padding-left: 50%">
                 <button id="push_{{v[0]}}_block_{{count}}" class="btn  btn-primary btn-circle">On</button>
               </div>
-                {% elif "pushOff" in v[1] %}
+                {% elif "pushoff" in v[1] %}
                 <div style="padding-left: 50%">
                   <button id="push_{{v[0]}}_block_{{count}}" class="btn  btn-primary btn-circle">Off</button>
                 </div>
@@ -99,7 +99,7 @@ $(document).ready(function() {
     			changeSwitch(this, {{v[0]}});
   		});
   		updateSwitches_block_{{count}}.push("{{v[0]}}");
-    {% elif (v[1] == "pushOn") or (v[1] == "pushOff") %}
+    {% elif (v[1] == "pushon") or (v[1] == "pushoff") %}
       $('button[id="push_{{v[0]}}_block_{{count}}"]').click(function() {
         changeSwitch(this, {{v[0]}});
       });
