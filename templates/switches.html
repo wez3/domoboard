@@ -95,10 +95,16 @@ $(document).ready(function() {
     			changeSwitch(this, {{v[0]}});
   		});
   		updateSwitches_block_{{count}}.push("{{v[0]}}");
-    {% elif (v[1] == "pushon") or (v[1] == "pushoff") %}
-      $('button[id="push_{{v[0]}}_block_{{count}}"]').click(function() {
-        changeSwitch(this, {{v[0]}});
-      });
+    {% elif (v[1] == "pushon") %}
+    $('button[id="push_{{v[0]}}_block_{{count}}"]').click(function(e) {
+      e.preventDefault();
+      changePush({{v[0]}}, 'on');
+    });
+    {% elif (v[1] == "pushoff") %}
+    $('button[id="push_{{v[0]}}_block_{{count}}"]').click(function(e) {
+      e.preventDefault();
+      changePush({{v[0]}}, 'off');
+    });
     {% elif (v[1] == "setpoint") %}
   		updateSetpoints_block_{{count}}.push("{{v[0]}}");
   	{% elif (v[1] == "dimmer" or v[1] == "rgb") %}
