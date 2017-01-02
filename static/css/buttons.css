@@ -1,0 +1,40 @@
+.btn-circle, .btn-circle-3d{
+  border-radius: 50% !important;
+  padding: 5px;
+}
+
+.btn-primary.btn-circle{
+  -webkit-box-shadow: 0px 0px 3px 1px #245580;
+  -moz-box-shadow:    0px 0px 3px 1px #245580;
+  box-shadow:         0px 0px 3px 1px #245580;
+}
+
+.btn-info.btn-circle{
+  -webkit-box-shadow: 0px 0px 3px 1px #28a4c9;
+  -moz-box-shadow:    0px 0px 3px 1px #28a4c9;
+  box-shadow:         0px 0px 3px 1px #28a4c9;
+}
+
+.btn-success.btn-circle{
+  -webkit-box-shadow: 0px 0px 3px 1px #3e8f3e;
+  -moz-box-shadow:    0px 0px 3px 1px #3e8f3e;
+  box-shadow:         0px 0px 3px 1px #3e8f3e;
+}
+
+.btn-danger.btn-circle{
+  -webkit-box-shadow: 0px 0px 3px 1px #b92c28;
+  -moz-box-shadow:    0px 0px 3px 1px #b92c28;
+  box-shadow:         0px 0px 3px 1px #b92c28;
+}
+
+.btn-warning.btn-circle{
+  -webkit-box-shadow: 0px 0px 3px 1px #e38d13;
+  -moz-box-shadow:    0px 0px 3px 1px #e38d13;
+  box-shadow:         0px 0px 3px 1px #e38d13;
+}
+
+.btn-default.btn-circle{
+  -webkit-box-shadow: 0px 0px 3px 1px #ccc;
+  -moz-box-shadow:    0px 0px 3px 1px #ccc;
+  box-shadow:         0px 0px 3px 1px #ccc;
+}
