@@ -68,11 +68,8 @@ def retrieveValue(page, component):
                 dict[k] = v
         else:
             for sk, sv in config[page][match.group(1)][match.group(2)].iteritems():
-                if type(sv) is list:
-                    sv.append(match.group(2))
-                else:
-                    sv = [sv, match.group(2)]
                 sv = strToList(sv)
+                sv.append(match.group(2))
                 dict[sk] = sv
     except:
         dict = {}
