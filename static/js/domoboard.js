@@ -22,6 +22,16 @@ function changeSwitch(checkboxElem, idx) {
   }
 }
 
+// Switch functions
+function changePush(idx, action) {
+  if (action == 'on') {
+    requestAPI(flask_server + "/api?type=command&param=switchlight&idx=" + idx + "&switchcmd=On" );
+  } else {
+    requestAPI(flask_server + "/api?type=command&param=switchlight&idx=" + idx + "&switchcmd=Off"  );
+  }
+}
+
+
 function refreshSwitches(updateSwitches, block) {
   $.each(updateSwitches, function (i, switchID) {
     var url = flask_server + "/api?type=devices&rid=" + switchID;
