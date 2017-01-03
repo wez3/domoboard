@@ -31,6 +31,13 @@ function changePush(idx, action) {
   }
 }
 
+function changeScene(idx, action) {
+  if (action == 'on') {
+    requestAPI(flask_server + "/api?type=command&param=switchscene&idx=" + idx + "&switchcmd=On" );
+  } else {
+    requestAPI(flask_server + "/api?type=command&param=switchscene&idx=" + idx + "&switchcmd=Off"  );
+  }
+}
 
 function refreshSwitches(updateSwitches, block) {
   $.each(updateSwitches, function (i, switchID) {

@@ -33,6 +33,8 @@ Just one config is used to configure Domoboard. A example can be found the appli
   - setpoint
   - pushon
   - pushoff
+  - group
+  - scene
 - camera
 - weather
 - news
