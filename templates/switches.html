@@ -23,9 +23,13 @@
               {% elif "dimmer" in v[1] %}
                 <input id="dimmer_{{v[0]}}_block_{{count}}" data-slider-id='dimmer_{{v[0]}}' type="text" test={{ v[1] }} data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="14" />
               {% elif "pushon" in v[1] %}
-                <button id="push_{{v[0]}}_block_{{count}}" class="btn  btn-primary btn-circle">On</button>
+                <button id="push_{{v[0]}}_block_{{count}}" class="btn  btn-primary btn-circle">&nbsp;<li class="fa fa-power-off" aria-hidden="true"></i>&nbsp;</button>
                 {% elif "pushoff" in v[1] %}
-                  <button id="push_{{v[0]}}_block_{{count}}" class="btn  btn-primary btn-circle">Off</button>
+                  <button id="push_{{v[0]}}_block_{{count}}" class="btn  btn-danger btn-circle">&nbsp;<li class="fa fa-power-off" aria-hidden="true"></i>&nbsp;</button>
+                {% elif "group" in v[1] %}
+                  <div><div style="float: left"><button id="groupon_{{v[0]}}_block_{{count}}" class="btn  btn-primary btn-circle">&nbsp;<li class="fa fa-power-off" aria-hidden="true"></i>&nbsp;</button></div><div style="padding-left: 20px; float: left"><button id="groupoff_{{v[0]}}_block_{{count}}" class="btn  btn-primary btn-circle btn-danger">&nbsp;<li class="fa fa-power-off" aria-hidden="true"></i>&nbsp;</button></div></div>
+                {% elif "scene" in v[1] %}
+                  <button id="scene_{{v[0]}}_block_{{count}}" class="btn btn-primary btn-circle">&nbsp;<li class="fa fa-power-off" aria-hidden="true"></i>&nbsp;</button>
                {% elif "setpoint" in v[1]  %}
                      <div>
                          <div style="float: left; margin-right: 5px"><h1 id="setpoint_{{v[0]}}_block_{{count}}" style="font-size: 16px;"></h1></div>
@@ -105,6 +109,21 @@ $(document).ready(function() {
       e.preventDefault();
       changePush({{v[0]}}, 'off');
     });
+    {% elif (v[1] == "group") or (v[1] == "scene") %}
+    $('button[id="groupon_{{v[0]}}_block_{{count}}"]').click(function(e) {
+      e.preventDefault();
+      console.log('group on');
+      changeScene({{v[0]}}, 'on');
+    });
+    $('button[id="groupoff_{{v[0]}}_block_{{count}}"]').click(function(e) {
+        e.preventDefault();
+        console.log('group off');
+        changeScene({{v[0]}}, 'off');
+      });
+    $('button[id="scene_{{v[0]}}_block_{{count}}"]').click(function(e) {
+          e.preventDefault();
+          changeScene({{v[0]}}, 'on');
+      });
     {% elif (v[1] == "setpoint") %}
   		updateSetpoints_block_{{count}}.push("{{v[0]}}");
   	{% elif (v[1] == "dimmer" or v[1] == "rgb") %}
