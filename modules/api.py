@@ -116,26 +116,32 @@ def writeToConfig(idx, page, component, description, extra):
 
 def checkDomoticzStatus(config):
     domoticzDevices = []
+    domoticzScenes = []
     try:
         result = json.loads(queryDomoticz("?type=devices&filter=all"))
+        resultScene = json.loads(queryDomoticz("?type=scenes&filter=all"))
     except:
         print "Domoticz is not reachable."
 	sys.exit()
     for device in result["result"]:
         domoticzDevices.append(device["idx"])
-    configuredDevicesInDomoticz(config, domoticzDevices)
+    for device in resultScene["result"]:
+        domoticzScenes.append(device["idx"])
 
-def configuredDevicesInDomoticz(config, domoticzDevices):
+    configuredDevicesInDomoticz(config, domoticzDevices, domoticzScenes)
+    #configuredDevicesInDomoticz(config, domoticzScenes)
+
+def configuredDevicesInDomoticz(config, domoticzDevices, domoticzScenes):
     for k, v in config.iteritems():
         if isinstance(v, dict):
-            configuredDevicesInDomoticz(v, domoticzDevices)
+            configuredDevicesInDomoticz(v, domoticzDevices, domoticzScenes)
         else:
             if isinstance(v, int):
-                if v not in domoticzDevices:
+                if v not in domoticzDevices and v not in domoticzScenes:
                     print "Device with " + v + " is not available in Domoticz"
                     sys.exit()
             elif isinstance(v, list):
-                if (v[0].isdigit()) and (v[0] not in domoticzDevices):
+                if (v[0].isdigit()) and (v[0] not in domoticzDevices and v[0] not in domoticzScenes):
                     print "Device with " + v[0] + " is not available in Domoticz"
                     sys.exit()
 
