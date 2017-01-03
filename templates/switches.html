@@ -114,12 +114,10 @@ $(document).ready(function() {
     {% elif (v[1] == "group") or (v[1] == "scene") %}
     $('button[id="groupon_{{v[0]}}_block_{{count}}"]').click(function(e) {
       e.preventDefault();
-      console.log('group on');
       changeScene({{v[0]}}, 'on');
     });
     $('button[id="groupoff_{{v[0]}}_block_{{count}}"]').click(function(e) {
         e.preventDefault();
-        console.log('group off');
         changeScene({{v[0]}}, 'off');
       });
     $('button[id="scene_{{v[0]}}_block_{{count}}"]').click(function(e) {

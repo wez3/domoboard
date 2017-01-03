@@ -121,15 +121,12 @@ def checkDomoticzStatus(config):
         result = json.loads(queryDomoticz("?type=devices&filter=all"))
         resultScene = json.loads(queryDomoticz("?type=scenes&filter=all"))
     except:
-        print "Domoticz is not reachable."
-	sys.exit()
+        sys.exit("Domoticz is not reachable.")
     for device in result["result"]:
         domoticzDevices.append(device["idx"])
     for device in resultScene["result"]:
         domoticzScenes.append(device["idx"])
-
     configuredDevicesInDomoticz(config, domoticzDevices, domoticzScenes)
-    #configuredDevicesInDomoticz(config, domoticzScenes)
 
 def configuredDevicesInDomoticz(config, domoticzDevices, domoticzScenes):
     for k, v in config.iteritems():
@@ -138,12 +135,10 @@ def configuredDevicesInDomoticz(config, domoticzDevices, domoticzScenes):
         else:
             if isinstance(v, int):
                 if v not in domoticzDevices and v not in domoticzScenes:
-                    print "Device with " + v + " is not available in Domoticz"
-                    sys.exit()
+                    sys.exit("Device and/or scene with IDX {} is not available in Domoticz".format(v))
             elif isinstance(v, list):
                 if (v[0].isdigit()) and (v[0] not in domoticzDevices and v[0] not in domoticzScenes):
-                    print "Device with " + v[0] + " is not available in Domoticz"
-                    sys.exit()
+                    sys.exit("Device and/or scene with IDX {} is not available in Domoticz".format(v[0]))
 
 def getPluginDict():
     global indexes
