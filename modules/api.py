@@ -124,8 +124,9 @@ def checkDomoticzStatus(config):
         sys.exit("Domoticz is not reachable.")
     for device in result["result"]:
         domoticzDevices.append(device["idx"])
-    for device in resultScene["result"]:
-        domoticzScenes.append(device["idx"])
+    if 'result' in resultScene:
+        for device in resultScene["result"]:
+            domoticzScenes.append(device["idx"])
     configuredDevicesInDomoticz(config, domoticzDevices, domoticzScenes)
 
 def configuredDevicesInDomoticz(config, domoticzDevices, domoticzScenes):
