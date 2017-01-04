@@ -1,18 +1,17 @@
 <link href="static/css/settings.css" rel="stylesheet" type="text/css"/>
 <ul class="tab">
                         <li><a href="javascript:void(0)" id="defaultOpen" class="tablinks"
-                               onclick="openCat(event, 'settings')">Settings</a>
+                               onclick="openCat(event, 'plugins')">Plugins</a>
                         </li>
                         <li><a href="javascript:void(0)" class="tablinks"
-                               onclick="openCat(event, 'plugins')">Plugins</a></li>
+                               onclick="openCat(event, 'settings')">Settings</a>
+                         </li>
                     </ul>
 
 <div id="plugins" class="tabcontent">
-    <button type="button" id="indexPluginsBtn" class="btn btn-primary">Index Plugins</button>
     <div id="pluginView">
-
     </div>
-                </div>
+</div>
 <div class="tabcontent" id="settings">
 <div class="modal fade tabcontent" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
@@ -133,15 +132,30 @@
         function automaticIndex() {
           var url = "/api?custom=indexPlugins";
           requestAPI(url, function(d){
-              getIndexedPlugins();
+            var result = JSON.parse(d);
+            $('#pluginView').empty();
+            for (i in result) {
+                var buttons = '';
+                if (result[i].update == 'yes') {
+                    buttons = buttons + "<button onclick='updatePlugin("+ result[i].id + ")' type='button' class='btn updateBtn'>Update";
+                }
+                buttons = buttons + "<button onclick='" + result[i].status + "Plugin(" + result[i].id  + ")' name='"+ result[i].title + "' fol='" + result[i].folder + "' type='button' class='btn " + result[i].status + "Btn'>" + result[i].status + "</button>";
+                $('#pluginView').append("<div class='pluginItem'><span onclick=getSummary('" + result[i].title + "_summary')>" + result[i].title + " - Author: " + result[i].author + " - version: " + result[i].version + "</span>"+ buttons + "<div id='" + result[i].title + "_summary' class='fullSummary'><span>" + result[i].description + "</span></div></div>");
+                if (("structure" in result[i]) == true) {
+                    $('#' + result[i].title + "_summary").append('<div>');
+                    $('#' + result[i].title + "_summary").append('<ul>');
+                    for (k in result[i].structure[result[i].folder]) {
+                        for (l in result[i].structure[result[i].folder][k]) {
+                            $('#' + result[i].title + "_summary").append('<li>' + k + '/' + l + '</li>');
+                        }
+                    }
+                    $('#' + result[i].title + "_summary").append('</ul>');
+                    $('#' + result[i].title + "_summary").append('</div>');
+                }
+            }
+            $('.fullSummary').hide();
           });
         }
-        $('#indexPluginsBtn').on('click', function(event) {
-            var url = "/api?custom=indexPlugins";
-            requestAPI(url, function(d){
-                getIndexedPlugins();
-            });
-        });
 
         function getSummary(div_id) {
             $('.fullSummary').hide();
@@ -155,11 +169,11 @@
         $(document).ready(function () {
             // Get the element with id="defaultOpen" and click on it
             document.getElementById("defaultOpen").click();
-            automaticIndex();
+            setInterval(automaticIndex(), 9000);
             $('.fullSummary').hide();
 
         });
-        setInterval(automaticIndex(), 9000);
+
         retrieveAvailableDevices();
         selected_page_settings();
         selected_component_settings();
