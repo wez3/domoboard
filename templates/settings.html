@@ -76,32 +76,29 @@
             document.getElementById(catName).style.display = "block";
             evt.currentTarget.className += " active";
         }
-        function getIndexedPlugins() {
-            var url = '/api?custom=indexPlugins&action=getPlugins';
-            requestAPI(url, function(d){
-                var result = JSON.parse(d);
-                $('#pluginView').empty();
-                for (i in result) {
-                    var buttons = '';
-                    if (result[i].update == 'yes') {
-                        buttons = buttons + "<button onclick='updatePlugin("+ result[i].id + ")' type='button' class='btn updateBtn'>Update";
-                    }
-                    buttons = buttons + "<button onclick='" + result[i].status + "Plugin(" + result[i].id  + ")' name='"+ result[i].title + "' fol='" + result[i].folder + "' type='button' class='btn " + result[i].status + "Btn'>" + result[i].status + "</button>";
-                    $('#pluginView').append("<div class='pluginItem'><span onclick=getSummary('" + result[i].title + "_summary')>" + result[i].title + " - Author: " + result[i].author + " - version: " + result[i].version + "</span>"+ buttons + "<div id='" + result[i].title + "_summary' class='fullSummary'><span>" + result[i].description + "</span></div></div>");
-                    if (("structure" in result[i]) == true) {
-                        $('#' + result[i].title + "_summary").append('<div>');
-                        $('#' + result[i].title + "_summary").append('<ul>');
-                        for (k in result[i].structure[result[i].folder]) {
-                            for (l in result[i].structure[result[i].folder][k]) {
-                                $('#' + result[i].title + "_summary").append('<li>' + k + '/' + l + '</li>');
-                            }
-                        }
-                        $('#' + result[i].title + "_summary").append('</ul>');
-                        $('#' + result[i].title + "_summary").append('</div>');
-                    }
+        function getIndexedPlugins(d) {
+            var result = JSON.parse(d);
+            $('#pluginView').empty();
+            for (i in result) {
+                var buttons = '';
+                if (result[i].update == 'yes') {
+                    buttons = buttons + "<button onclick='updatePlugin("+ result[i].id + ")' type='button' class='btn updateBtn'>Update";
                 }
-                $('.fullSummary').hide();
-            });
+                buttons = buttons + "<button onclick='" + result[i].status + "Plugin(" + result[i].id  + ")' name='"+ result[i].title + "' fol='" + result[i].folder + "' type='button' class='btn " + result[i].status + "Btn'>" + result[i].status + "</button>";
+                $('#pluginView').append("<div class='pluginItem'><span onclick=getSummary('" + result[i].title + "_summary')>" + result[i].title + " - Author: " + result[i].author + " - version: " + result[i].version + "</span>"+ buttons + "<div id='" + result[i].title + "_summary' class='fullSummary'><span>" + result[i].description + "</span></div></div>");
+                if (("structure" in result[i]) == true) {
+                    $('#' + result[i].title + "_summary").append('<div>');
+                    $('#' + result[i].title + "_summary").append('<ul>');
+                    for (k in result[i].structure[result[i].folder]) {
+                        for (l in result[i].structure[result[i].folder][k]) {
+                            $('#' + result[i].title + "_summary").append('<li>' + k + '/' + l + '</li>');
+                        }
+                    }
+                    $('#' + result[i].title + "_summary").append('</ul>');
+                    $('#' + result[i].title + "_summary").append('</div>');
+                }
+            }
+            $('.fullSummary').hide();
         }
         function installPlugin(plugin_id) {
             var url = "/api?custom=indexPlugins&action=installPlugin&folid=" + plugin_id;
@@ -132,29 +129,7 @@
         function automaticIndex() {
           var url = "/api?custom=indexPlugins";
           requestAPI(url, function(d){
-            var result = JSON.parse(d);
-            $('#pluginView').empty();
-            for (i in result) {
-                var buttons = '';
-                if (result[i].update == 'yes') {
-                    buttons = buttons + "<button onclick='updatePlugin("+ result[i].id + ")' type='button' class='btn updateBtn'>Update";
-                }
-                buttons = buttons + "<button onclick='" + result[i].status + "Plugin(" + result[i].id  + ")' name='"+ result[i].title + "' fol='" + result[i].folder + "' type='button' class='btn " + result[i].status + "Btn'>" + result[i].status + "</button>";
-                $('#pluginView').append("<div class='pluginItem'><span onclick=getSummary('" + result[i].title + "_summary')>" + result[i].title + " - Author: " + result[i].author + " - version: " + result[i].version + "</span>"+ buttons + "<div id='" + result[i].title + "_summary' class='fullSummary'><span>" + result[i].description + "</span></div></div>");
-                if (("structure" in result[i]) == true) {
-                    $('#' + result[i].title + "_summary").append('<div>');
-                    $('#' + result[i].title + "_summary").append('<ul>');
-                    for (k in result[i].structure[result[i].folder]) {
-                        for (l in result[i].structure[result[i].folder][k]) {
-                            $('#' + result[i].title + "_summary").append('<li>' + k + '/' + l + '</li>');
-                        }
-                    }
-                    $('#' + result[i].title + "_summary").append('</ul>');
-                    $('#' + result[i].title + "_summary").append('</div>');
-                }
-            }
-            $('.fullSummary').hide();
-          });
+            indexPlugins(d);
         }
 
         function getSummary(div_id) {
