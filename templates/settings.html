@@ -126,10 +126,12 @@
 
 
         }
-        function automaticIndex() {
+
+	function automaticIndex() {
           var url = "/api?custom=indexPlugins";
           requestAPI(url, function(d){
-            indexPlugins(d);
+            getIndexedPlugins(d);
+          });
         }
 
         function getSummary(div_id) {
