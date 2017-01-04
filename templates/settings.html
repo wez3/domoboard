@@ -103,7 +103,7 @@
         function installPlugin(plugin_id) {
             var url = "/api?custom=indexPlugins&action=installPlugin&folid=" + plugin_id;
             requestAPI(url, function(d){
-                getIndexedPlugins();
+                automaticIndex();
             });
 
 
@@ -111,7 +111,7 @@
         function removePlugin(plugin_id) {
             var url = "/api?custom=indexPlugins&action=removePlugin&folid=" + plugin_id;
             requestAPI(url, function(d){
-                getIndexedPlugins();
+                automaticIndex();
             });
 
         }
@@ -120,14 +120,14 @@
             requestAPI(url, function(d) {
                 var url = "/api?custom=indexPlugins&action=installPlugin&folid=" + plugin_id;
                 requestAPI(url, function(dd) {
-                    getIndexedPlugins();
+                    automaticIndex();
                 });
             });
 
 
         }
 
-	function automaticIndex() {
+	     function automaticIndex() {
           var url = "/api?custom=indexPlugins";
           requestAPI(url, function(d){
             getIndexedPlugins(d);
