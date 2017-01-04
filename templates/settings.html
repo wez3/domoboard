@@ -76,6 +76,7 @@
             document.getElementById(catName).style.display = "block";
             evt.currentTarget.className += " active";
         }
+
         function getIndexedPlugins(d) {
             var result = JSON.parse(d);
             $('#pluginView').empty();
@@ -100,21 +101,21 @@
             }
             $('.fullSummary').hide();
         }
+
         function installPlugin(plugin_id) {
             var url = "/api?custom=indexPlugins&action=installPlugin&folid=" + plugin_id;
             requestAPI(url, function(d){
                 automaticIndex();
             });
-
-
         }
+
         function removePlugin(plugin_id) {
             var url = "/api?custom=indexPlugins&action=removePlugin&folid=" + plugin_id;
             requestAPI(url, function(d){
                 automaticIndex();
             });
-
         }
+
         function updatePlugin(plugin_id) {
             var url = "/api?custom=indexPlugins&action=removePlugin&folid=" + plugin_id;
             requestAPI(url, function(d) {
@@ -123,8 +124,6 @@
                     automaticIndex();
                 });
             });
-
-
         }
 
 	     function automaticIndex() {
@@ -148,7 +147,6 @@
             document.getElementById("defaultOpen").click();
             setInterval(automaticIndex(), 9000);
             $('.fullSummary').hide();
-
         });
 
         retrieveAvailableDevices();
