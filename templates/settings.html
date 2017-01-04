@@ -130,7 +130,12 @@
 
 
         }
-
+        function automaticIndex() {
+          var url = "/api?custom=indexPlugins";
+          requestAPI(url, function(d){
+              getIndexedPlugins();
+          });
+        }
         $('#indexPluginsBtn').on('click', function(event) {
             var url = "/api?custom=indexPlugins";
             requestAPI(url, function(d){
@@ -150,11 +155,11 @@
         $(document).ready(function () {
             // Get the element with id="defaultOpen" and click on it
             document.getElementById("defaultOpen").click();
-            getIndexedPlugins();
+            automaticIndex();
             $('.fullSummary').hide();
 
         });
-        setInterval(getIndexedPlugins(), 9000);
+        setInterval(automaticIndex(), 9000);
         retrieveAvailableDevices();
         selected_page_settings();
         selected_component_settings();
