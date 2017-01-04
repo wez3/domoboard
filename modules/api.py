@@ -3,7 +3,7 @@
 
 from flask import request
 from flaskext.auth import login_required
-from git import Repo
+import git
 import security
 import requests, json, re
 import os, sys, imp, shutil
@@ -260,10 +260,15 @@ def indexPlugins(params={}):
             os.makedirs(tmpFolder)
         if not os.path.exists(indexFolderPath):
             os.makedirs(indexFolderPath)
+
+        if not os.path.isfile(indexFolderPath + 'README.md'):
+                shutil.rmtree(indexFolderPath)
+                try:
+                    git.Repo.clone_from("https://github.com/wez3/domoboard-plugins.git", indexFolderPath)
+                except:
+                    print 'indexed'
         else:
-            shutil.rmtree(indexFolderPath)
-            os.makedirs(indexFolderPath)
-        Repo.clone_from("https://github.com/wez3/domoboard-plugins.git", indexFolderPath)
+            git.cmd.Git(indexFolderPath).pull("https://github.com/wez3/domoboard-plugins.git")
         folders = filter(lambda x: os.path.isdir(os.path.join(indexFolderPath, x)),
                          os.listdir(indexFolderPath))
         return indexPlugins({'action': 'getPlugins'})
