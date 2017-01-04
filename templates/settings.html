@@ -83,7 +83,7 @@
             for (i in result) {
                 var buttons = '';
                 if (result[i].update == 'yes') {
-                    buttons = buttons + "<button onclick='updatePlugin("+ result[i].id + ")' type='button' class='btn updateBtn'>Update";
+                    buttons = buttons + "<button onclick='updatePlugin("+ result[i].id + ")' type='button' class='btn updateBtn'>update";
                 }
                 buttons = buttons + "<button onclick='" + result[i].status + "Plugin(" + result[i].id  + ")' name='"+ result[i].title + "' fol='" + result[i].folder + "' type='button' class='btn " + result[i].status + "Btn'>" + result[i].status + "</button>";
                 $('#pluginView').append("<div class='pluginItem'><span onclick=getSummary('" + result[i].title + "_summary')>" + result[i].title + " - Author: " + result[i].author + " - version: " + result[i].version + "</span>"+ buttons + "<div id='" + result[i].title + "_summary' class='fullSummary'><span>" + result[i].description + "</span></div></div>");
