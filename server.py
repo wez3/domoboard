@@ -8,9 +8,6 @@ import hashlib, configobj, json, sys, os
 import modules.api as api
 import modules.security as security
 
-# Modify config file name:
-configfile = "example.conf"
-
 app = Flask(__name__)
 
 @app.before_request
@@ -32,7 +29,6 @@ def generatePage():
         blockArray = []
         configValues = {}
         configValues["navbar"] = config["navbar"]["menu"]
-        configValues["navbar_icons"] = config["navbar"]["icons"]
         configValues["server_location"] = config["general_settings"]["server"].get("url")
         configValues["flask_server_location"] = config["general_settings"]["server"].get("flask_url")
         configValues["domoboard"] = config["general_settings"]["domoboard"]
@@ -141,6 +137,8 @@ if __name__ == '__main__':
     args = parser.parse_args()
     if args.configfile:
        configfile = args.configfile
+    else:
+       sys.exit("Please specify a config file with the -c parameter.")
     if os.path.isfile(configfile):
         unsanitizedConfig = configobj.ConfigObj(configfile)
     else:
@@ -161,7 +159,8 @@ if __name__ == '__main__':
     app.secret_key = config["general_settings"]["server"]["secret_key"]
     app.add_url_rule('/', 'index', index)
     for k, v in config["navbar"]["menu"].iteritems():
-        app.add_url_rule('/' + v.lower(), v.lower(), generatePage, methods=['GET'])
+        v = strToList(v)
+        app.add_url_rule('/' + v[0].lower(), v[0].lower(), generatePage, methods=['GET'])
     app.add_url_rule('/settings', 'settings', generatePage, methods=['GET'])
     app.add_url_rule('/log', 'log', generatePage, methods=['GET'])
     app.add_url_rule('/logout/', 'logout', logout_view, methods=['GET'])
