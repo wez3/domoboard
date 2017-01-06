@@ -32,6 +32,7 @@ def generatePage():
         blockArray = []
         configValues = {}
         configValues["navbar"] = config["navbar"]["menu"]
+        configValues["navbar_icons"] = config["navbar"]["icons"]
         configValues["server_location"] = config["general_settings"]["server"].get("url")
         configValues["flask_server_location"] = config["general_settings"]["server"].get("flask_url")
         configValues["domoboard"] = config["general_settings"]["domoboard"]
