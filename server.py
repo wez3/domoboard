@@ -25,9 +25,9 @@ def init():
 def generatePage():
     requestedRoute = str(request.url_rule)[1:]
     if configValueExists(requestedRoute):
-        blockValues = {}
+        blockValues = OrderedDict()
         blockArray = []
-        configValues = {}
+        configValues = OrderedDict()
         configValues["navbar"] = config["navbar"]["menu"]
         configValues["server_location"] = config["general_settings"]["server"].get("url")
         configValues["flask_server_location"] = config["general_settings"]["server"].get("flask_url")
@@ -57,7 +57,7 @@ def index():
 
 @login_required()
 def retrieveValue(page, component):
-    dict = {}
+    dict = OrderedDict()
     try:
         match = re.search("^(.+)\[(.+)\]$", component)
         if not match:
