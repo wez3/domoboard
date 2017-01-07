@@ -1,13 +1,36 @@
 <link href="static/css/settings.css" rel="stylesheet" type="text/css"/>
 <ul class="tab">
                         <li><a href="javascript:void(0)" id="defaultOpen" class="tablinks"
+                               onclick="openCat(event, 'updates')">Updates</a>
+                        </li>
+                        <li><a href="javascript:void(0)" id="defaultOpen" class="tablinks"
                                onclick="openCat(event, 'plugins')">Plugins</a>
                         </li>
                         <li><a href="javascript:void(0)" class="tablinks"
                                onclick="openCat(event, 'settings')">Settings</a>
                          </li>
                     </ul>
-
+<div id="updates" class="tabcontent">
+    <div id="updateView_available" class="hide_update">
+      <h2>A new update is available for Domoboard.</h2><br />
+      The current version is <b><span id="curver_settings"></span></b><br />
+      The new version available is: <b><span id="newver_settings"></span></b><br />
+      <br />
+      {% if debug == True %}
+      <p><b>Install the new version by pressing the "Upgrade" button below.</b></p>
+      {% endif %}
+      {% if debug == False %}
+      <p><b>Upgrading through Domoboard is only possible when running in debug mode (pass "-d" parameter to server.py). Manual upgrade is possible by performing a "git pull" command.</b></p>
+      {% endif %}
+      {% if debug == True %}
+      <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="javascript:performUpgrade()">Upgrade</button>
+      {% endif %}
+    </div>
+    <div id="updateView_not_available" class="hide_update">
+      <h2>Hurray!</h2><br />
+      There is no update available for Domoboard.<br /><br />
+    </div>
+</div>
 <div id="plugins" class="tabcontent">
     <div id="pluginView">
     </div>
@@ -147,8 +170,8 @@
             document.getElementById("defaultOpen").click();
             setInterval(automaticIndex(), 9000);
             $('.fullSummary').hide();
+            checkVersionSettings();
         });
-
         retrieveAvailableDevices();
         selected_page_settings();
         selected_component_settings();

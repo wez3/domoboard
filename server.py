@@ -45,7 +45,9 @@ def generatePage():
         return render_template('index.html',
                                 configValues = configValues,
                                 blockArray = blockArray,
-                                _csrf_token = session['_csrf_token'])
+                                _csrf_token = session['_csrf_token'],
+                                version = getVersion(),
+                                debug = app.debug)
     else:
         abort(404)
 
@@ -128,6 +130,12 @@ def appendDefaultPages(config):
     config['log'] =  {'display_components': {'components': 'serverlog'}}
     return config
 
+def getVersion():
+    f = open('VERSION.md', 'r')
+    version = f.read().rstrip()
+    f.close()
+    return version
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument("-c", "--config", dest="configfile",
@@ -166,6 +174,6 @@ if __name__ == '__main__':
     app.add_url_rule('/logout/', 'logout', logout_view, methods=['GET'])
     app.add_url_rule('/api', 'api', api.gateway, methods=['POST'])
     try:
-        app.run(host=flask_server_location.split(":")[0],port=int(flask_server_location.split(":")[1]),threaded=True, extra_files=watchfiles, debug=args.debug)
+        app.run(host=flask_server_location.split(":")[0],port=int(flask_server_location.split(":")[1]), threaded=True, extra_files=watchfiles, debug=args.debug)
     except socket.error, exc:
-        sys.exit("Error when starting the Flask server: %s" % exc)
+        sys.exit("Error when starting the Flask server: {}".format(exc))

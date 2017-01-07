@@ -6383,16 +6383,27 @@ ul.notifications {
     overflow: visible;
 }
 #time-part {
-        padding-top: 16px;
-        padding-bottom: 16px;
+  padding-top: 16px;
+  padding-bottom: 16px;
 }
 #date-part {
-        padding-top: 16px;
-        padding-bottom: 16px;
+  padding-top: 16px;
+  padding-bottom: 16px;
+}
+#version_div {
+  float: right;
+  margin-top:15px;
+  margin-right:10px;
 }
 .show_date {
     display: inline-block;
 }
 .hide_date {
+    display: None;
+}
+.show_update {
+    display: inline-block;
+}
+.hide_update {
     display: None;
 }

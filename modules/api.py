@@ -79,6 +79,8 @@ def gateway():
         writeToConfig(idx, page, component, description, extra)
     elif custom == 'indexPlugins':
         result = json.dumps(indexPlugins(request.args))
+    elif custom == "performUpgrade":
+        result = json.dumps(performUpgrade())
     elif custom in apiDict:
         module = apiDict.get(custom)[0]
         function = apiDict.get(custom)[1]
@@ -162,6 +164,10 @@ def getPluginVersion(loc):
                 _version += _tmp_v[c]
                 c += 1
     return float(_version)
+
+def performUpgrade():
+    git.cmd.Git('.').pull("https://github.com/wez3/domoboard.git")
+    return "Upgrade completed."
 
 def indexPlugins(params={}):
     tmpFolder = 'static/tmp'

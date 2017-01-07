@@ -63,12 +63,48 @@
                 </div>
                 <div class="show_date" style="cursor: pointer; margin-left: -70px; min-height: 51px;" id="time-part"></div>
                 <div class="hide_date" style="cursor: pointer; padding-left: 2px;" id="date-part"></div>
+                <div id="version_div" class="hide_update">
+                  <button type="button" class="btn btn-success" data-toggle="modal" data-target="#upgradeModal">
+                    Update available
+                  </button>
+                </div>
               </div>
           </nav>
         </div>
 
       </div>
       <!-- /top navigation -->
+
+      <!-- Upgrade Modal -->
+      <div class="modal fade" id="upgradeModal" tabindex="-1" role="dialog" aria-labelledby="upgradeModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="upgradeModalLabel">Update available</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              </button>
+            </div>
+            <div class="modal-body">
+              <h2>A new update is available for Domoboard.</h2><br />
+              The current version is <b><span id="curver"></span></b>.<br />
+              The new version available is: <b><span id="newver"></span></b>.<br />
+              <br />
+              {% if debug == True %}
+              <p><b>Install the new version by pressing the "Upgrade" button below.</b></p>
+              {% endif %}
+              {% if debug == False %}
+              <p><b>Upgrading through Domoboard is only possible when running in debug mode (pass "-d" parameter to server.py). Manual upgrade is possible by performing a "git pull" command.</b></p>
+              {% endif %}
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+              {% if debug == True %}
+              <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="javascript:performUpgrade()">Upgrade</button>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
 
       <!-- page content -->
       <div class="right_col" role="main">

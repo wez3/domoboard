@@ -341,3 +341,53 @@ function changeDown(idx, block) {
         changeSetpoint(idx, newVal);
     }, 400);
 }
+
+// Update functions
+function performUpgrade() {
+  requestAPI('/api?custom=performUpgrade');
+  $( "#version_div" ).removeClass("show_update");
+  $( "#version_div" ).addClass("hide_update");
+  $( "#updateView_available" ).removeClass("show_update");
+  $( "#updateView_available" ).addClass("hide_update");
+  $( "#updateView_not_available" ).removeClass("hide_update");
+  $( "#updateView_not_available" ).addClass("show_update");
+}
+
+function checkVersion() {
+  $.ajax({
+    url: "https://domoboard.nl/version.md",
+    cache: false,
+    success: function( data ) {
+    dataFloat = parseFloat(data);
+    versionFloat = parseFloat(version);
+    if (dataFloat > versionFloat) {
+      document.getElementById('curver').innerHTML = version;
+      document.getElementById('newver').innerHTML = data;
+      $( "#version_div" ).removeClass("hide_update");
+      $( "#version_div" ).addClass("show_update");
+      }
+    },
+    async:true
+    });
+  }
+
+function checkVersionSettings() {
+  $.ajax({
+    url: "https://domoboard.nl/version.md",
+    cache: false,
+    success: function( data ) {
+    dataFloat = parseFloat(data);
+    versionFloat = parseFloat(version);
+      if (dataFloat > versionFloat) {
+        $( "#updateView_available" ).removeClass("hide_update");
+        $( "#updateView_available" ).addClass("show_update");
+        document.getElementById('curver_settings').innerHTML = version;
+        document.getElementById('newver_settings').innerHTML = data;
+      } else {
+        $( "#updateView_not_available" ).removeClass("hide_update");
+        $( "#updateView_not_available" ).addClass("show_update");
+      }
+    },
+    async:true
+    });
+  }
