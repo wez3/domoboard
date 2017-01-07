@@ -57,7 +57,7 @@ function refreshSwitches(updateSwitches, block) {
 }
 
 // Top tiles functions
-function refreshTopTiles(updateDivs, block, tilesPreviousArray) {
+function refreshTopTiles(updateDivs, block, tilesPreviousArray, updateDivsTypeArray) {
   if (tilesPreviousArray.length == 0) {
     for(var i = 0; i < updateDivs.length; i++){
       tilesPreviousArray.push(-1);
@@ -69,7 +69,7 @@ function refreshTopTiles(updateDivs, block, tilesPreviousArray) {
     requestAPI(url, function(d) {
 		var obj = JSON.parse(d);
 		if (obj.result != undefined) {
-			var data = obj.result[0].Data;
+			var data = obj.result[0][updateDivsTypeArray[i]];
 		} else {
 			var data = "-";
 		}
