@@ -22,6 +22,11 @@ Modify the config file to suit your needs. Start Domoboard by executing:
 python server.py -c <config_file>
 ```
 
+It is possible to run Domoboard in "debug" mode by running the command:
+```
+python server.py -c <config_file> -d
+```
+
 # Configuration
 
 Just one config is used to configure Domoboard. A example can be found the applications root ("example.conf"). The following display components are currently supported:
