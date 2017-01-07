@@ -3,7 +3,7 @@
 <div class="col-md-6 col-sm-6 col-xs-12">
   <div class="x_panel">
     <div class="x_title">
-      <h2>News</h2>
+      <h2 id="s_title_{{count}}">News</h2>
       <ul class="nav navbar-right panel_toolbox">
         <li><a class="close-link"><i class="fa fa-close"></i></a>
         </li>
@@ -12,6 +12,13 @@
     </div>
     <div id="divRss-{{count}}"></div>
     <script>
+    $(document).ready(function() {
+      {% for k, v in blockArray[count]["news"].iteritems() %}
+      {% if v[1] %}
+          $('#s_title_{{ count }}').html("{{ v[1] }}");
+      {% endif %}
+      {% endfor %}
+    });
     $('#divRss-{{count}}').FeedEk({
       FeedUrl:'{{blockArray[count]['news'].get('rssfeed')[0]}}',
       MaxCount : 5,
