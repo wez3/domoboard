@@ -111,7 +111,7 @@ def configValueExists(value):
 
 def validateConfigFormat(config):
     requiredSettings = {"general_settings/server": ["url", "flask_url", "user", "password", "secret_key"],
-                        "general_settings/domoboard": ["time"],
+                        "general_settings/domoboard": ["time", "date"],
                         "navbar/menu": [None] }
     for sect, fields in requiredSettings.iteritems():
         section = sect.split('/')

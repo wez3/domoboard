@@ -21,6 +21,10 @@
 
         $('#time-part').html(momentNow.format('HH:mm'));
     }, 100);
+  {% if configValues["domoboard"].get("date") == "True" %}
+    $('#date-part').removeClass('hide_date');
+    $('#date-part').addClass('show_date');
+  {% endif %}
 
     $( "#date-part" ).click(function() {
         $('#date-part').removeClass('show_date');
