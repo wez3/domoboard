@@ -16,13 +16,12 @@ $(document).ready(function() {
   var tilesPreviousArray_{{count}}=[];
   var updateDivsType_block_{{count}} = [];
   {% for k, v in blockArray[count]["top_tiles"].iteritems() %}
-  updateDivs_block_{{count}}.push("{{v[0]}}");
-  {% set data = v[2] %}
-  {% if data is defined %}
-  updateDivsType_block_{{count}}.push("{{v[2]}}");
-  {% else %}
-  updateDivsType_block_{{count}}.push("Data");
-  {% endif %}
+    updateDivs_block_{{count}}.push("{{v[0]}}");
+    {% if v[2]|length > 3 %}
+      updateDivsType_block_{{count}}.push("{{v[2]}}");
+    {% else %}
+      updateDivsType_block_{{count}}.push("Data");
+    {% endif %}
   {% endfor %}
 
   tilesPreviousArray_{{count}} = refreshTopTiles(updateDivs_block_{{count}}, "top_tiles_block_{{count}}_", tilesPreviousArray_{{count}}, updateDivsType_block_{{count}});
