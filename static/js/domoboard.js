@@ -22,6 +22,18 @@ function changeSwitch(checkboxElem, idx) {
   }
 }
 
+// Dimmer functions
+function changeDimmer(checkboxElem, idx) {
+  var chkurl = "/api?type=devices&rid=" + idx;
+  requestAPI(flask_server + chkurl, function(d) {
+    _json = JSON.parse(d);
+    if (_json['result'][0]['Data'] != 'Off') {
+      requestAPI(flask_server + "/api?type=command&param=switchlight&idx=" + idx + "&switchcmd=Off&level=0");
+    } else {
+      requestAPI(flask_server + "/api?type=command&param=switchlight&idx=" + idx + "&switchcmd=On&level=0");
+    }
+  });
+}
 // Switch functions
 function changePush(idx, action) {
   if (action == 'on') {

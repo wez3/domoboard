@@ -16,12 +16,16 @@
         <table class="table" style="width: auto;">
           {% for k, v in blockArray[count]["switches"].iteritems() %}
           <tr>
+            {% if "dimmer" in v[1] or "rgb" in v[1] %}
+                <td style="border-top: none;  vertical-align: middle;"><a id="dim_{{count}}" style="cursor: pointer;"><label style="cursor: pointer;" class=""> &nbsp;{{k}}</label></a></td>
+              {% else %}
             <td style="border-top: none;  vertical-align: middle;"><label class=""> &nbsp;{{k}}</label></td>
+            {% endif %}
             <td style="border-top: none;">
               {% if "switch" in v[1]  %}
               <input id="switch_{{v[0]}}_block_{{count}}" type="checkbox" checked data-size="mini">
               {% elif "dimmer" in v[1] %}
-                <input id="dimmer_{{v[0]}}_block_{{count}}" data-slider-id='dimmer_{{v[0]}}' type="text" test={{ v[1] }} data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="14" />
+            <input id="dimmer_{{v[0]}}_block_{{count}}" data-slider-id='dimmer_{{v[0]}}' type="text" test={{ v[1] }} data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="14" />
               {% elif "pushon" in v[1] %}
                 <button id="push_{{v[0]}}_block_{{count}}" class="btn  btn-primary btn-circle">&nbsp;<li class="fa fa-power-off" aria-hidden="true"></i>&nbsp;</button>
                 {% elif "pushoff" in v[1] %}
@@ -127,6 +131,10 @@ $(document).ready(function() {
     {% elif (v[1] == "setpoint") %}
   		updateSetpoints_block_{{count}}.push("{{v[0]}}");
   	{% elif (v[1] == "dimmer" or v[1] == "rgb") %}
+    $('#dim_{{count}}').click(function(e) {
+      e.preventDefault();
+      changeDimmer(this, {{v[0]}});
+    });
   		updateDimmers_block_{{count}}.push("{{v[0]}}");
   	{% endif %}
   {% endfor %}
