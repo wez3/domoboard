@@ -39,7 +39,7 @@ body.nav-sm .main_container .top_nav {
 }
 
 body.nav-sm .nav.side-menu li a {
-    text-align: left !important;
+    text-align: center !important;
     font-weight: 400;
     font-size: 13px;
     padding: 10px 5px;
