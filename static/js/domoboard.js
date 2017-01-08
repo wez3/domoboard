@@ -200,10 +200,15 @@ function redrawLineChart(sensor, idx, range, block) {
   });
 }
 
-function redrawBarChart(idxs, block) {
+function redrawBarChart(idxs, block, barChartElementsNames) {
   var url = "/api?custom=bar_chart&idxs=" + idxs.join();
+  var i = 0;
   requestAPI(url, function(d){
 	  var data = JSON.parse(d);
+    for (var key in data) {
+      data[key]["l"] = barChartElementsNames[i];
+      i++;
+    }
   block.setData(data);
   });
 }
