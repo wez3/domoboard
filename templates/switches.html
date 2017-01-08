@@ -1,4 +1,5 @@
 <link href="/static/css/bootstrap-switch.css" rel="stylesheet" type="text/css" />
+<link href="/static/css/bootstrap-slider.css" rel="stylesheet">
 <link href="/static/css/buttons.css" rel="stylesheet" type="text/css" />
 <div class="col-md-6 col-sm-6 col-xs-12">
   <div class="x_panel">
@@ -25,7 +26,7 @@
               {% if "switch" in v[1]  %}
               <input id="switch_{{v[0]}}_block_{{count}}" type="checkbox" checked data-size="mini">
               {% elif "dimmer" in v[1] %}
-            <input id="dimmer_{{v[0]}}_block_{{count}}" data-slider-id='dimmer_{{v[0]}}' type="text" test={{ v[1] }} data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="14" />
+            <input id="dimmer_{{v[0]}}_block_{{count}}" data-slider-id='dim_{{v[0]}}_block_{{count}}' type="text" test={{ v[1] }} state="on" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="14" />
               {% elif "pushon" in v[1] %}
                 <button id="push_{{v[0]}}_block_{{count}}" class="btn  btn-primary btn-circle">&nbsp;<li class="fa fa-power-off" aria-hidden="true"></i>&nbsp;</button>
                 {% elif "pushoff" in v[1] %}
@@ -43,7 +44,7 @@
                          </div>
                      </div>
               {% elif "rgb" in v[1] %}
-              &nbsp;<input id="dimmer_{{v[0]}}_block_{{count}}" data-slider-id='dimmer_{{v[0]}}' type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="14" />
+              &nbsp;<input id="dimmer_{{v[0]}}_block_{{count}}" data-slider-id='dim_{{v[0]}}_block_{{count}}' type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="14" />
               <br><br>
               <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#myModal-{{v[0]}}-block-{{count}}">RGB colors</button>
               <!-- Modal -->
@@ -131,10 +132,10 @@ $(document).ready(function() {
     {% elif (v[1] == "setpoint") %}
   		updateSetpoints_block_{{count}}.push("{{v[0]}}");
   	{% elif (v[1] == "dimmer" or v[1] == "rgb") %}
-    $('#dim_{{count}}').click(function(e) {
-      e.preventDefault();
-      changeDimmer(this, {{v[0]}});
-    });
+      $('#dim_{{count}}').click(function(e) {
+        e.preventDefault();
+        changeDimmer('dim_{{v[0]}}_block_{{count}}_track', {{v[0]}});
+      });
   		updateDimmers_block_{{count}}.push("{{v[0]}}");
   	{% endif %}
   {% endfor %}
@@ -144,5 +145,7 @@ $(document).ready(function() {
   setInterval(refreshSwitches, 9000, updateSwitches_block_{{count}}, {{count}});
   setInterval(dimmerSlider, 9000, updateDimmers_block_{{count}}, {{count}});
   setInterval(refreshSetpoints, 9000, updateSetpoints_block_{{count}}, {{count}});
+
 });
+
 </script>

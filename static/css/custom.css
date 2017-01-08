@@ -6407,3 +6407,14 @@ ul.notifications {
 .hide_update {
     display: None;
 }
+
+.slider_on {
+  background-image: -webkit-linear-gradient(top, #f9f9f9 0%, green 100%);
+  background-image: -o-linear-gradient(top, #f9f9f9 0%, green 100%);
+  background-image: linear-gradient(to bottom, #f9f9f9 0%, green 100%);
+}
+.slider_off {
+  background-image: -webkit-linear-gradient(top, #f9f9f9 0%, #f5f5f5 100%);
+  background-image: -o-linear-gradient(top, #f9f9f9 0%, #f5f5f5 100%);
+  background-image: linear-gradient(to bottom, #f9f9f9 0%, #f5f5f5 100%);
+}

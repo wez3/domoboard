@@ -21,7 +21,6 @@ function changeSwitch(checkboxElem, idx) {
     requestAPI(flask_server + "/api?type=command&param=switchlight&idx=" + idx + "&switchcmd=Off"  );
   }
 }
-
 // Dimmer functions
 function changeDimmer(checkboxElem, idx) {
   var chkurl = "/api?type=devices&rid=" + idx;
@@ -32,8 +31,22 @@ function changeDimmer(checkboxElem, idx) {
     } else {
       requestAPI(flask_server + "/api?type=command&param=switchlight&idx=" + idx + "&switchcmd=On&level=0");
     }
+    setDimmerState(checkboxElem, idx);
   });
 }
+
+function setDimmerState(id, idx) {
+  var url = "/api?type=devices&rid=" + idx;
+  requestAPI(flask_server + url, function(d) {
+    _json = JSON.parse(d);
+    if (_json['result'][0]['Data'] != 'Off') {
+      $('#' + id).css({'background-image': '-webkit-linear-gradient(top, #f9f9f9 0%, green 100%)', 'background-image': '-o-linear-gradient(top, #f9f9f9 0%, green 100%)', 'background-image': 'linear-gradient(to bottom, #f9f9f9 0%, green 100%)'});
+    } else {
+      $('#' + id).css({'background-image': '-webkit-linear-gradient(top, #f9f9f9 0%, #f5f5f5 100%)', 'background-image': '-o-linear-gradient(top, #f9f9f9 0%, #f5f5f5 100%)', 'background-image': 'linear-gradient(to bottom, #f9f9f9 0%, #f5f5f5 100%)'});
+    }
+  });
+}
+
 // Switch functions
 function changePush(idx, action) {
   if (action == 'on') {
@@ -149,9 +162,15 @@ function dimmerSlider(updateDimmers, block) {
     url = "/api?type=devices&rid=" + dimmerID;
     requestAPI(url, function(d) {
   		var percentage = JSON.parse(d).result[0].Level;
-  		$('#dimmer_' + dimmerID + "_block_" + block).slider({min:0, max:100, value: percentage}).on('slideStop', function(ev) { changeDimmerSlider($(this).attr('id'), ev.value) } ).data('slider');
-  		$('#dimmer_' + dimmerID + "_block_" + block).slider().on('slideStop', function(ev) { changeDimmerSlider($(this).attr('id'), ev.value) } ).data('slider');
-	   });
+  		$('#dimmer_' + dimmerID + "_block_" + block).slider({min:0, max:100, value: percentage}).on('slideStop', function(ev) {
+        setDimmerState('dim_' + dimmerID + "_block_" + block + "_track", dimmerID);
+        changeDimmerSlider($(this).attr('id'), ev.value) } ).data('slider');
+  		$('#dimmer_' + dimmerID + "_block_" + block).slider().on('slideStop', function(ev) {
+        setDimmerState('dim_' + dimmerID + "_block_" + block + "_track", dimmerID);
+        changeDimmerSlider($(this).attr('id'), ev.value)
+      } ).data('slider');
+      setDimmerState('dim_' + dimmerID + "_block_" + block + "_track", dimmerID);
+     });
   });
 }
 
