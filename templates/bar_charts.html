@@ -25,7 +25,6 @@ $(document).ready(function() {
   barChartElements.push("{{v[0]}}");
   barChartElementsNames.push("{{k}}");
   {% endfor %}
-  console.log(barChartElementsNames);
   var bar_chart_block_{{count}} = Morris.Bar({
     element: 'morris-bar-chart-{{count}}',
     data: [],
