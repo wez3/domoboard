@@ -20,10 +20,10 @@
             <div class="menu_section">
               <ul class="nav side-menu">
                 {% for k, v in configValues["navbar"].iteritems() %}
-                  {% if v is not string %}
+                  {% if v|length > 1 %}
                   <li><a href="{{v[0]}}"> <i class="fa fa-{{v[1]}} fa-fw" aria-hidden="true"></i> {{k}}</a></li>
                   {% else %}
-                  <li><a href="{{v}}">{{k}}</a></li>
+                  <li><a href="{{v[0]}}">{{k}}</a></li>
                   {% endif %}
                 {% endfor %}
               </ul>

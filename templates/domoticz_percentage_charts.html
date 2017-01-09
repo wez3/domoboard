@@ -17,9 +17,9 @@
 
 $(document).ready(function() {
   {% for k, v in blockArray[count]["domoticz_percentage_charts"].iteritems() %}
-  ShowPercentageLog("domoticz-chart-block-{{count}}",{{v[0]}},"{{k}}", "{{v[1]}}");
+  ShowPercentageLog("domoticz-chart-block-{{count}}",{{v[1]}},"{{k}}", "{{v[2]}}");
   $("div#title_block_{{count}} h2").html("{{k}}");
-  setInterval(ShowPercentageLog,60000,"domoticz-chart-block-{{count}}",{{v[0]}},"{{k}}", "{{v[1]}}");
+  setInterval(ShowPercentageLog,60000,"domoticz-chart-block-{{count}}",{{v[1]}},"{{k}}", "{{v[2]}}");
 {% endfor %}
 });
 </script>

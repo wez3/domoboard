@@ -5,7 +5,7 @@
     <div class="left"></div>
     <div class="right">
       <span class="count_top"><i class="fa fa-{{v[1]}}"></i> {{k}}</span>
-      <div class="count{% if v[2] == "On" %} green{% elif v[2] == "Off" %} red{% endif %} loading" id="top_tiles_block_{{count}}_{{v[0]}}" style="white-space: nowrap;"></div>
+      <div class="count{% if v[2] == "On" %} green{% elif v[2] == "Off" %} red{% endif %} loading" id="top_tiles_block_{{count}}_{{v[1]}}" style="white-space: nowrap;"></div>
     </div>
   </div>
   {% endfor %}
@@ -16,9 +16,9 @@ $(document).ready(function() {
   var tilesPreviousArray_{{count}}=[];
   var updateDivsType_block_{{count}} = [];
   {% for k, v in blockArray[count]["top_tiles"].iteritems() %}
-    updateDivs_block_{{count}}.push("{{v[0]}}");
-    {% if v[2]|length > 3 %}
-      updateDivsType_block_{{count}}.push("{{v[2]}}");
+    updateDivs_block_{{count}}.push("{{v[1]}}");
+    {% if v[3]|length > 3 %}
+      updateDivsType_block_{{count}}.push("{{v[3]}}");
     {% else %}
       updateDivsType_block_{{count}}.push("Data");
     {% endif %}

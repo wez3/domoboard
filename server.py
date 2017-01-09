@@ -62,13 +62,14 @@ def retrieveValue(page, component):
         match = re.search("^(.+)\[(.+)\]$", component)
         if not match:
             for k, v in config[page][component].iteritems():
-                v = strToList(v)
-                dict[k] = v
+                l = [None]
+                l.extend(strToList(v))
+                dict[k] = l
         else:
             for sk, sv in config[page][match.group(1)][match.group(2)].iteritems():
-                sv = strToList(sv)
-                sv.append(match.group(2))
-                dict[sk] = sv
+                l = [match.group(2)]
+                l.extend(strToList(sv))
+                dict[sk] = l
     except:
         dict = {}
     return dict

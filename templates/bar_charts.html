@@ -22,7 +22,7 @@ $(document).ready(function() {
   var barChartElementsNames=[];
 
   {% for k, v in blockArray[count]["bar_charts"].iteritems() %}
-  barChartElements.push("{{v[0]}}");
+  barChartElements.push("{{v[1]}}");
   barChartElementsNames.push("{{k}}");
   {% endfor %}
   var bar_chart_block_{{count}} = Morris.Bar({

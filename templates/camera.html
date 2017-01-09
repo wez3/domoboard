@@ -12,7 +12,7 @@
       <br>
       {% for k, v in blockArray[count]["camera"].iteritems() %}
         {% if v[1] %}
-          <script> $('#s_title_{{ count }}').html("{{ v[1] }}");</script>
+          <script> $('#s_title_{{ count }}').html("{{ v[0] }}");</script>
         {% endif %}
       <form class="form-horizontal form-label-left" style="width: 80%; height: 80%; ">
         <div class="form-group" style="">
