@@ -164,9 +164,6 @@ function dimmerSlider(updateDimmers, block) {
   		var percentage = JSON.parse(d).result[0].Level;
   		$('#dimmer_' + dimmerID + "_block_" + block).slider({min:0, max:100, value: percentage}).on('slideStop', function(ev) {
         setDimmerState('dim_' + dimmerID + "_block_" + block + "_track", dimmerID);
-        changeDimmerSlider($(this).attr('id'), ev.value) } ).data('slider');
-  		$('#dimmer_' + dimmerID + "_block_" + block).slider().on('slideStop', function(ev) {
-        setDimmerState('dim_' + dimmerID + "_block_" + block + "_track", dimmerID);
         changeDimmerSlider($(this).attr('id'), ev.value)
       } ).data('slider');
       setDimmerState('dim_' + dimmerID + "_block_" + block + "_track", dimmerID);
