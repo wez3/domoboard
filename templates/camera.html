@@ -11,12 +11,12 @@
     <div style=";overflow: hidden">
       <br>
       {% for k, v in blockArray[count]["camera"].iteritems() %}
-        {% if v[1] %}
+        {% if v[0] %}
           <script> $('#s_title_{{ count }}').html("{{ v[0] }}");</script>
         {% endif %}
       <form class="form-horizontal form-label-left" style="width: 80%; height: 80%; ">
         <div class="form-group" style="">
-	       <img id="cam_{{ count }}" style="-webkit-user-select: none; width: 100%; height: 100%; " src="{{v[0]|replace('&amp;', '&')}}" >
+	       <img id="cam_{{ count }}" style="-webkit-user-select: none; width: 100%; height: 100%; " src="{{v[1]|replace('&amp;', '&')}}" >
         </div>
       </form>
       {% endfor %}
