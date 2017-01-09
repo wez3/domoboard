@@ -20,7 +20,7 @@
       {% endfor %}
     });
     $('#divRss-{{count}}').FeedEk({
-      FeedUrl:'{{blockArray[count]['news'].get('rssfeed')[0]}}',
+      FeedUrl:"{{blockArray[count]['news'].get('rssfeed')[1]}}",
       MaxCount : 5,
       ShowDesc : true,
       ShowPubDate:true,
