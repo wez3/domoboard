@@ -107,7 +107,7 @@ def queryDomoticz(url):
         r = requests.get('http://' + config["general_settings"]["server"]["url"] + '/json.htm' + url,
         auth=(config["general_settings"]["server"].get("user"), config["general_settings"]["server"].get("password")), timeout=5.00)
     except:
-        return
+        return {}
     return r.text
 
 def writeToConfig(idx, page, component, description, extra):
