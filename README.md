@@ -78,31 +78,31 @@ Check out the page https://github.com/wez3/domoboard-plugins for all plugins.
 
 Here are some screenshots from Domoboard:
 
-![alt tag](https://forsec.nl/wp-content/uploads/domoboard_images/domoboard_1_1.png)
+![alt tag](https://domoboard.nl/domoboard_images/domoboard_1_1.png)
 
 Above screenshot shows the components top_tiles, line_charts, switches and weather.
 
-![alt tag](https://forsec.nl/wp-content/uploads/domoboard_images/domoboard_2_2_2_2.png)
+![alt tag](https://domoboard.nl/domoboard_images/domoboard_2_2_2_2.png)
 
 Above screenshot shows the mobile view of the Dashboard.
 
-![alt tag](https://forsec.nl/wp-content/uploads/domoboard_images/domoboard_6_6_6_6.png)
+![alt tag](https://domoboard.nl/domoboard_images/domoboard_6_6_6_6.png)
 
 Above screenshot shows the Raspberry Pi 7" Touch screen view of the Dashboard.
 
-![alt tag](https://forsec.nl/wp-content/uploads/domoboard_images/screen_domoticz.png)
+![alt tag](https://domoboard.nl/domoboard_images/screen_domoticz.png)
 
 Above the components domoticz_smart_charts, domoticz_counter_charts and domoticz_temp_charts.
 
-![alt tag](https://forsec.nl/wp-content/uploads/domoboard_images/domoboard_3_3.png)
+![alt tag](https://domoboard.nl/domoboard_images/domoboard_3_3.png)
 
 Above screenshot shows the components bar_charts, donut_charts, switches and power_usage components.
 
-![alt tag](https://forsec.nl/wp-content/uploads/domoboard_images/domoboard_4_4.png)
+![alt tag](https://domoboard.nl/domoboard_images/domoboard_4_4.png)
 
 Above screenshots shows the server log component
 
-![alt tag](https://forsec.nl/wp-content/uploads/domoboard_images/domoboard_5_5.png)
+![alt tag](https://domoboard.nl/domoboard_images/domoboard_5_5.png)
 
 Above screenshots shows the settings page.
 
