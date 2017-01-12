@@ -1,4 +1,5 @@
 <link href="/static/css/bootstrap-switch.css" rel="stylesheet" type="text/css" />
+<link href="/static/css/bootstrap-slider.css" rel="stylesheet">
 <link href="/static/css/buttons.css" rel="stylesheet" type="text/css" />
 <div class="col-md-6 col-sm-6 col-xs-12">
   <div class="x_panel">
@@ -16,34 +17,38 @@
         <table class="table" style="width: auto;">
           {% for k, v in blockArray[count]["switches"].iteritems() %}
           <tr>
+            {% if "dimmer" in v[2] or "rgb" in v[2] %}
+                <td style="border-top: none;  vertical-align: middle;"><a id="dim_{{count}}" style="cursor: pointer;"><label style="cursor: pointer;" class=""> &nbsp;{{k}}</label></a></td>
+              {% else %}
             <td style="border-top: none;  vertical-align: middle;"><label class=""> &nbsp;{{k}}</label></td>
+            {% endif %}
             <td style="border-top: none;">
-              {% if "switch" in v[1]  %}
-              <input id="switch_{{v[0]}}_block_{{count}}" type="checkbox" checked data-size="mini">
-              {% elif "dimmer" in v[1] %}
-                <input id="dimmer_{{v[0]}}_block_{{count}}" data-slider-id='dimmer_{{v[0]}}' type="text" test={{ v[1] }} data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="14" />
-              {% elif "pushon" in v[1] %}
-                <button id="push_{{v[0]}}_block_{{count}}" class="btn  btn-primary btn-circle">&nbsp;<li class="fa fa-power-off" aria-hidden="true"></i>&nbsp;</button>
-                {% elif "pushoff" in v[1] %}
-                  <button id="push_{{v[0]}}_block_{{count}}" class="btn  btn-danger btn-circle">&nbsp;<li class="fa fa-power-off" aria-hidden="true"></i>&nbsp;</button>
-                {% elif "group" in v[1] %}
-                  <div><div style="float: left"><button id="groupon_{{v[0]}}_block_{{count}}" class="btn  btn-primary btn-circle">&nbsp;<li class="fa fa-power-off" aria-hidden="true"></i>&nbsp;</button></div><div style="padding-left: 20px; float: left"><button id="groupoff_{{v[0]}}_block_{{count}}" class="btn  btn-primary btn-circle btn-danger">&nbsp;<li class="fa fa-power-off" aria-hidden="true"></i>&nbsp;</button></div></div>
-                {% elif "scene" in v[1] %}
-                  <button id="scene_{{v[0]}}_block_{{count}}" class="btn btn-primary btn-circle">&nbsp;<li class="fa fa-power-off" aria-hidden="true"></i>&nbsp;</button>
-               {% elif "setpoint" in v[1]  %}
+              {% if "switch" in v[2]  %}
+              <input id="switch_{{v[1]}}_block_{{count}}" type="checkbox" checked data-size="mini">
+              {% elif "dimmer" in v[2] %}
+            <input id="dimmer_{{v[1]}}_block_{{count}}" data-slider-id='dim_{{v[1]}}_block_{{count}}' type="text" test={{ v[2] }} state="on" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="14" />
+              {% elif "pushon" in v[2] %}
+                <button id="push_{{v[1]}}_block_{{count}}" class="btn  btn-primary btn-circle">&nbsp;<li class="fa fa-power-off" aria-hidden="true"></i>&nbsp;</button>
+                {% elif "pushoff" in v[2] %}
+                  <button id="push_{{v[1]}}_block_{{count}}" class="btn  btn-danger btn-circle">&nbsp;<li class="fa fa-power-off" aria-hidden="true"></i>&nbsp;</button>
+                {% elif "group" in v[2] %}
+                  <div><div style="float: left"><button id="groupon_{{v[1]}}_block_{{count}}" class="btn  btn-primary btn-circle">&nbsp;<li class="fa fa-power-off" aria-hidden="true"></i>&nbsp;</button></div><div style="padding-left: 20px; float: left"><button id="groupoff_{{v[1]}}_block_{{count}}" class="btn  btn-primary btn-circle btn-danger">&nbsp;<li class="fa fa-power-off" aria-hidden="true"></i>&nbsp;</button></div></div>
+                {% elif "scene" in v[2] %}
+                  <button id="scene_{{v[1]}}_block_{{count}}" class="btn btn-primary btn-circle">&nbsp;<li class="fa fa-power-off" aria-hidden="true"></i>&nbsp;</button>
+               {% elif "setpoint" in v[2]  %}
                      <div>
-                         <div style="float: left; margin-right: 5px"><h1 id="setpoint_{{v[0]}}_block_{{count}}" style="font-size: 16px;"></h1></div>
+                         <div style="float: left; margin-right: 5px"><h1 id="setpoint_{{v[1]}}_block_{{count}}" style="font-size: 16px;"></h1></div>
                          <div style="float: left">
-                           <div style=""><i onclick="changeUp({{ v[0] }}, {{count}})" class="fa fa-arrow-up" style="font-size: 13px; cursor: pointer;" aria-hidden="true"></i></div>
-                           <div style=""><i onclick="changeDown({{ v[0] }}, {{count}})" class="fa fa-arrow-down" style="font-size: 13px; cursor: pointer;" aria-hidden="true"></i></div>
+                           <div style=""><i onclick="changeUp({{ v[1] }}, {{count}})" class="fa fa-arrow-up" style="font-size: 13px; cursor: pointer;" aria-hidden="true"></i></div>
+                           <div style=""><i onclick="changeDown({{ v[1] }}, {{count}})" class="fa fa-arrow-down" style="font-size: 13px; cursor: pointer;" aria-hidden="true"></i></div>
                          </div>
                      </div>
-              {% elif "rgb" in v[1] %}
-              &nbsp;<input id="dimmer_{{v[0]}}_block_{{count}}" data-slider-id='dimmer_{{v[0]}}' type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="14" />
+              {% elif "rgb" in v[2] %}
+              &nbsp;<input id="dimmer_{{v[1]}}_block_{{count}}" data-slider-id='dim_{{v[1]}}_block_{{count}}' type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="14" />
               <br><br>
-              <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#myModal-{{v[0]}}-block-{{count}}">RGB colors</button>
+              <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#myModal-{{v[1]}}-block-{{count}}">RGB colors</button>
               <!-- Modal -->
-	      <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" id="myModal-{{v[0]}}-block-{{count}}">
+	      <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" id="myModal-{{v[1]}}-block-{{count}}">
                 <div class="modal-dialog modal-sm">
 
                   <!-- Modal content-->
@@ -53,7 +58,7 @@
                       <h4 class="modal-title">RGB Selector</h4>
                     </div>
                     <div class="modal-body">
-                      <div id="rgb_{{v[0]}}_block_{{count}}" class="inl-bl"></div>
+                      <div id="rgb_{{v[1]}}_block_{{count}}" class="inl-bl"></div>
                       <style>
                       .inl-bl {
                         display: inline-block;
@@ -61,7 +66,7 @@
                       </style>
                       <script>
                       $(function() {
-                        $('#rgb_{{v[0]}}_block_{{count}}').colorpicker({
+                        $('#rgb_{{v[1]}}_block_{{count}}').colorpicker({
                           color: '#ffaa00',
                           container: true,
                           inline: true
@@ -70,7 +75,7 @@
                       </script>
                     </div>
                     <div class="modal-footer">
-                      <button type="button" class="btn btn-default" data-dismiss="modal" onclick="changeRgbColor('rgb_{{v[0]}}_block_{{count}}')">Save</button>
+                      <button type="button" class="btn btn-default" data-dismiss="modal" onclick="changeRgbColor('rgb_{{v[1]}}_block_{{count}}')">Save</button>
                       <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                     </div>
                   </div>
@@ -93,41 +98,45 @@ $(document).ready(function() {
 
   {% for k, v in blockArray[count]["switches"].iteritems() %}
 
-      {% if v[2] %}
-          $('#s_title_{{ count }}').html("{{ v[2] }}");
+      {% if v[0] %}
+          $('#s_title_{{ count }}').html("{{ v[0] }}");
       {% endif %}
-  	{% if v[1] == "switch" %}
-  		$('input[id="switch_{{v[0]}}_block_{{count}}"]').on('switchChange.bootstrapSwitch', function(event, state) {
-    			changeSwitch(this, {{v[0]}});
+  	{% if v[2] == "switch" %}
+  		$('input[id="switch_{{v[1]}}_block_{{count}}"]').on('switchChange.bootstrapSwitch', function(event, state) {
+    			changeSwitch(this, {{v[1]}});
   		});
-  		updateSwitches_block_{{count}}.push("{{v[0]}}");
-    {% elif (v[1] == "pushon") %}
-    $('button[id="push_{{v[0]}}_block_{{count}}"]').click(function(e) {
+  		updateSwitches_block_{{count}}.push("{{v[1]}}");
+    {% elif (v[2] == "pushon") %}
+    $('button[id="push_{{v[1]}}_block_{{count}}"]').click(function(e) {
       e.preventDefault();
-      changePush({{v[0]}}, 'on');
+      changePush({{v[1]}}, 'on');
     });
-    {% elif (v[1] == "pushoff") %}
-    $('button[id="push_{{v[0]}}_block_{{count}}"]').click(function(e) {
+    {% elif (v[2] == "pushoff") %}
+    $('button[id="push_{{v[1]}}_block_{{count}}"]').click(function(e) {
       e.preventDefault();
-      changePush({{v[0]}}, 'off');
+      changePush({{v[1]}}, 'off');
     });
-    {% elif (v[1] == "group") or (v[1] == "scene") %}
-    $('button[id="groupon_{{v[0]}}_block_{{count}}"]').click(function(e) {
+    {% elif (v[2] == "group") or (v[2] == "scene") %}
+    $('button[id="groupon_{{v[1]}}_block_{{count}}"]').click(function(e) {
       e.preventDefault();
-      changeScene({{v[0]}}, 'on');
+      changeScene({{v[1]}}, 'on');
     });
-    $('button[id="groupoff_{{v[0]}}_block_{{count}}"]').click(function(e) {
+    $('button[id="groupoff_{{v[1]}}_block_{{count}}"]').click(function(e) {
         e.preventDefault();
-        changeScene({{v[0]}}, 'off');
+        changeScene({{v[1]}}, 'off');
       });
-    $('button[id="scene_{{v[0]}}_block_{{count}}"]').click(function(e) {
+    $('button[id="scene_{{v[1]}}_block_{{count}}"]').click(function(e) {
           e.preventDefault();
-          changeScene({{v[0]}}, 'on');
+          changeScene({{v[1]}}, 'on');
       });
-    {% elif (v[1] == "setpoint") %}
-  		updateSetpoints_block_{{count}}.push("{{v[0]}}");
-  	{% elif (v[1] == "dimmer" or v[1] == "rgb") %}
-  		updateDimmers_block_{{count}}.push("{{v[0]}}");
+    {% elif (v[2] == "setpoint") %}
+  		updateSetpoints_block_{{count}}.push("{{v[1]}}");
+  	{% elif (v[2] == "dimmer" or v[2] == "rgb") %}
+      $('#dim_{{count}}').click(function(e) {
+        e.preventDefault();
+        changeDimmer('dim_{{v[1]}}_block_{{count}}_track', {{v[1]}});
+      });
+  		updateDimmers_block_{{count}}.push("{{v[1]}}");
   	{% endif %}
   {% endfor %}
   refreshSwitches(updateSwitches_block_{{count}}, {{count}});
@@ -136,5 +145,7 @@ $(document).ready(function() {
   setInterval(refreshSwitches, 9000, updateSwitches_block_{{count}}, {{count}});
   setInterval(dimmerSlider, 9000, updateDimmers_block_{{count}}, {{count}});
   setInterval(refreshSetpoints, 9000, updateSetpoints_block_{{count}}, {{count}});
+
 });
+
 </script>

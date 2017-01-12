@@ -602,7 +602,6 @@ if (period == "day") {
 							var minValue = 10000000;
 
 							$.each(data.result, function (i, item) {
-								console.log(item)
 								datatable1.push([GetDateFromString(item.d), parseFloat(item.v_max)]);
 								datatable2.push([GetDateFromString(item.d), parseFloat(item.v_min)]);
 								if (typeof item.v_avg != 'undefined') {

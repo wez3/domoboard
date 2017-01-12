@@ -9,7 +9,6 @@
 <!-- Domoboard -->
 <script src="/static/js/custom.js"></script>
 <!-- bootstrap-slider -->
-<link href="/static/css/bootstrap-slider.css" rel="stylesheet">
 <script type="text/javascript" src="/static/js/bootstrap-slider.js"></script>
 <script type="text/javascript" src="static/js/moment.min.js"></script>
 {% if configValues["domoboard"].get("time") == "True" %}
@@ -21,6 +20,10 @@
 
         $('#time-part').html(momentNow.format('HH:mm'));
     }, 100);
+  {% if configValues["domoboard"].get("date") == "True" %}
+    $('#date-part').removeClass('hide_date');
+    $('#date-part').addClass('show_date');
+  {% endif %}
 
     $( "#date-part" ).click(function() {
         $('#date-part').removeClass('show_date');
@@ -36,7 +39,12 @@
        }
     });
     });
+</script>
 {% endif %}
+<script>
+$(document).ready(function() {
+  setInterval(checkVersion, 43200000);
+});
 </script>
 </body>
 </html>

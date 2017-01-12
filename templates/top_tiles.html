@@ -5,7 +5,7 @@
     <div class="left"></div>
     <div class="right">
       <span class="count_top"><i class="fa fa-{{v[1]}}"></i> {{k}}</span>
-      <div class="count{% if v[2] == "On" %} green{% elif v[2] == "Off" %} red{% endif %} loading" id=top_tiles_block_{{count}}_{{v[0]}} style="white-space: nowrap;">{{v[2]}}</div>
+      <div class="count{% if v[2] == "On" %} green{% elif v[2] == "Off" %} red{% endif %} loading" id="top_tiles_block_{{count}}_{{v[1]}}" style="white-space: nowrap;"></div>
     </div>
   </div>
   {% endfor %}
@@ -14,15 +14,21 @@
 $(document).ready(function() {
   var updateDivs_block_{{count}}=[];
   var tilesPreviousArray_{{count}}=[];
+  var updateDivsType_block_{{count}} = [];
   {% for k, v in blockArray[count]["top_tiles"].iteritems() %}
-  updateDivs_block_{{count}}.push("{{v[0]}}");
+    updateDivs_block_{{count}}.push("{{v[1]}}");
+    {% if v[3]|length > 3 %}
+      updateDivsType_block_{{count}}.push("{{v[3]}}");
+    {% else %}
+      updateDivsType_block_{{count}}.push("Data");
+    {% endif %}
   {% endfor %}
-  tilesPreviousArray_{{count}} = refreshTopTiles(updateDivs_block_{{count}}, "top_tiles_block_{{count}}_", tilesPreviousArray_{{count}});
+
+  tilesPreviousArray_{{count}} = refreshTopTiles(updateDivs_block_{{count}}, "top_tiles_block_{{count}}_", tilesPreviousArray_{{count}}, updateDivsType_block_{{count}});
+  tilesPreviousArray_{{count}} = setInterval(refreshTopTiles, 9000, updateDivs_block_{{count}}, "top_tiles_block_{{count}}_", tilesPreviousArray_{{count}}, updateDivsType_block_{{count}});
   for (var i in updateDivs_block_{{count}}) {
     $("#top_tiles_block_{{count}}_" + updateDivs_block_{{count}}[i]).removeClass("loading");
   }
-  tilesPreviousArray_{{count}} = setInterval(refreshTopTiles, 9000, updateDivs_block_{{count}}, "top_tiles_block_{{count}}_", tilesPreviousArray_{{count}});
 });
 </script>
-
 <!-- /top tiles -->

@@ -22,7 +22,7 @@
           {% for k, v in blockArray[count]["power_usage"].iteritems() %}
           <tr>
             <td>{{k}}</td>
-            <td id="power_usage_{{v[0]}}_{{count}}">{{v[1]}}</td>
+            <td id="power_usage_{{v[1]}}_{{count}}">{{v[2]}}</td>
           </tr>
           {% endfor %}
           <tr>
@@ -39,7 +39,7 @@
 $(document).ready(function() {
   var updatePowerUsage_{{count}}=[];
   {% for k, v in blockArray[count]["power_usage"].iteritems() %}
-  updatePowerUsage_{{count}}.push("{{v[0]}}");
+  updatePowerUsage_{{count}}.push("{{v[1]}}");
   {% endfor %}
   refreshPowerUsage(updatePowerUsage_{{count}}, "{{count}}");
   setInterval(refreshPowerUsage, 9000, updatePowerUsage_{{count}}, "{{count}}");

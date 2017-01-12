@@ -21,6 +21,31 @@ function changeSwitch(checkboxElem, idx) {
     requestAPI(flask_server + "/api?type=command&param=switchlight&idx=" + idx + "&switchcmd=Off"  );
   }
 }
+// Dimmer functions
+function changeDimmer(checkboxElem, idx) {
+  var chkurl = "/api?type=devices&rid=" + idx;
+  requestAPI(flask_server + chkurl, function(d) {
+    _json = JSON.parse(d);
+    if (_json['result'][0]['Data'] != 'Off') {
+      requestAPI(flask_server + "/api?type=command&param=switchlight&idx=" + idx + "&switchcmd=Off&level=0");
+    } else {
+      requestAPI(flask_server + "/api?type=command&param=switchlight&idx=" + idx + "&switchcmd=On&level=0");
+    }
+    setDimmerState(checkboxElem, idx);
+  });
+}
+
+function setDimmerState(id, idx) {
+  var url = "/api?type=devices&rid=" + idx;
+  requestAPI(flask_server + url, function(d) {
+    _json = JSON.parse(d);
+    if (_json['result'][0]['Data'] != 'Off') {
+      $('#' + id).css({'background-image': '-webkit-linear-gradient(top, #f9f9f9 0%, green 100%)', 'background-image': '-o-linear-gradient(top, #f9f9f9 0%, green 100%)', 'background-image': 'linear-gradient(to bottom, #f9f9f9 0%, green 100%)'});
+    } else {
+      $('#' + id).css({'background-image': '-webkit-linear-gradient(top, #f9f9f9 0%, #f5f5f5 100%)', 'background-image': '-o-linear-gradient(top, #f9f9f9 0%, #f5f5f5 100%)', 'background-image': 'linear-gradient(to bottom, #f9f9f9 0%, #f5f5f5 100%)'});
+    }
+  });
+}
 
 // Switch functions
 function changePush(idx, action) {
@@ -57,7 +82,7 @@ function refreshSwitches(updateSwitches, block) {
 }
 
 // Top tiles functions
-function refreshTopTiles(updateDivs, block, tilesPreviousArray) {
+function refreshTopTiles(updateDivs, block, tilesPreviousArray, updateDivsTypeArray) {
   if (tilesPreviousArray.length == 0) {
     for(var i = 0; i < updateDivs.length; i++){
       tilesPreviousArray.push(-1);
@@ -69,7 +94,7 @@ function refreshTopTiles(updateDivs, block, tilesPreviousArray) {
     requestAPI(url, function(d) {
 		var obj = JSON.parse(d);
 		if (obj.result != undefined) {
-			var data = obj.result[0].Data;
+			var data = obj.result[0][updateDivsTypeArray[i]];
 		} else {
 			var data = "-";
 		}
@@ -137,9 +162,12 @@ function dimmerSlider(updateDimmers, block) {
     url = "/api?type=devices&rid=" + dimmerID;
     requestAPI(url, function(d) {
   		var percentage = JSON.parse(d).result[0].Level;
-  		$('#dimmer_' + dimmerID + "_block_" + block).slider({min:0, max:100, value: percentage}).on('slideStop', function(ev) { changeDimmerSlider($(this).attr('id'), ev.value) } ).data('slider');
-  		$('#dimmer_' + dimmerID + "_block_" + block).slider().on('slideStop', function(ev) { changeDimmerSlider($(this).attr('id'), ev.value) } ).data('slider');
-	   });
+  		$('#dimmer_' + dimmerID + "_block_" + block).slider({min:0, max:100, value: percentage}).on('slideStop', function(ev) {
+        setDimmerState('dim_' + dimmerID + "_block_" + block + "_track", dimmerID);
+        changeDimmerSlider($(this).attr('id'), ev.value)
+      } ).data('slider');
+      setDimmerState('dim_' + dimmerID + "_block_" + block + "_track", dimmerID);
+     });
   });
 }
 
@@ -169,10 +197,15 @@ function redrawLineChart(sensor, idx, range, block) {
   });
 }
 
-function redrawBarChart(idxs, block) {
+function redrawBarChart(idxs, block, barChartElementsNames) {
   var url = "/api?custom=bar_chart&idxs=" + idxs.join();
+  var i = 0;
   requestAPI(url, function(d){
 	  var data = JSON.parse(d);
+    for (var key in data) {
+      data[key]["l"] = barChartElementsNames[i];
+      i++;
+    }
   block.setData(data);
   });
 }
@@ -341,3 +374,53 @@ function changeDown(idx, block) {
         changeSetpoint(idx, newVal);
     }, 400);
 }
+
+// Update functions
+function performUpgrade() {
+  requestAPI('/api?custom=performUpgrade');
+  $( "#version_div" ).removeClass("show_update");
+  $( "#version_div" ).addClass("hide_update");
+  $( "#updateView_available" ).removeClass("show_update");
+  $( "#updateView_available" ).addClass("hide_update");
+  $( "#updateView_not_available" ).removeClass("hide_update");
+  $( "#updateView_not_available" ).addClass("show_update");
+}
+
+function checkVersion() {
+  $.ajax({
+    url: "https://domoboard.nl/version.md",
+    cache: false,
+    success: function( data ) {
+    dataFloat = parseFloat(data);
+    versionFloat = parseFloat(version);
+    if (dataFloat > versionFloat) {
+      document.getElementById('curver').innerHTML = version;
+      document.getElementById('newver').innerHTML = data;
+      $( "#version_div" ).removeClass("hide_update");
+      $( "#version_div" ).addClass("show_update");
+      }
+    },
+    async:true
+    });
+  }
+
+function checkVersionSettings() {
+  $.ajax({
+    url: "https://domoboard.nl/version.md",
+    cache: false,
+    success: function( data ) {
+    dataFloat = parseFloat(data);
+    versionFloat = parseFloat(version);
+      if (dataFloat > versionFloat) {
+        $( "#updateView_available" ).removeClass("hide_update");
+        $( "#updateView_available" ).addClass("show_update");
+        document.getElementById('curver_settings').innerHTML = version;
+        document.getElementById('newver_settings').innerHTML = data;
+      } else {
+        $( "#updateView_not_available" ).removeClass("hide_update");
+        $( "#updateView_not_available" ).addClass("show_update");
+      }
+    },
+    async:true
+    });
+  }

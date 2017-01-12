@@ -25,9 +25,9 @@ def init():
 def generatePage():
     requestedRoute = str(request.url_rule)[1:]
     if configValueExists(requestedRoute):
-        blockValues = {}
+        blockValues = OrderedDict()
         blockArray = []
-        configValues = {}
+        configValues = OrderedDict()
         configValues["navbar"] = config["navbar"]["menu"]
         configValues["server_location"] = config["general_settings"]["server"].get("url")
         configValues["flask_server_location"] = config["general_settings"]["server"].get("flask_url")
@@ -45,7 +45,9 @@ def generatePage():
         return render_template('index.html',
                                 configValues = configValues,
                                 blockArray = blockArray,
-                                _csrf_token = session['_csrf_token'])
+                                _csrf_token = session['_csrf_token'],
+                                version = getVersion(),
+                                debug = app.debug)
     else:
         abort(404)
 
@@ -55,18 +57,19 @@ def index():
 
 @login_required()
 def retrieveValue(page, component):
-    dict = {}
+    dict = OrderedDict()
     try:
         match = re.search("^(.+)\[(.+)\]$", component)
         if not match:
             for k, v in config[page][component].iteritems():
-                v = strToList(v)
-                dict[k] = v
+                l = [None]
+                l.extend(strToList(v))
+                dict[k] = l
         else:
             for sk, sv in config[page][match.group(1)][match.group(2)].iteritems():
-                sv = strToList(sv)
-                sv.append(match.group(2))
-                dict[sk] = sv
+                l = [match.group(2)]
+                l.extend(strToList(sv))
+                dict[sk] = l
     except:
         dict = {}
     return dict
@@ -109,7 +112,7 @@ def configValueExists(value):
 
 def validateConfigFormat(config):
     requiredSettings = {"general_settings/server": ["url", "flask_url", "user", "password", "secret_key"],
-                        "general_settings/domoboard": ["time"],
+                        "general_settings/domoboard": ["time", "date"],
                         "navbar/menu": [None] }
     for sect, fields in requiredSettings.iteritems():
         section = sect.split('/')
@@ -127,6 +130,12 @@ def appendDefaultPages(config):
     config['settings'] = {'display_components': {'components': 'settings'}}
     config['log'] =  {'display_components': {'components': 'serverlog'}}
     return config
+
+def getVersion():
+    f = open('VERSION.md', 'r')
+    version = f.read().rstrip()
+    f.close()
+    return version
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
@@ -166,6 +175,6 @@ if __name__ == '__main__':
     app.add_url_rule('/logout/', 'logout', logout_view, methods=['GET'])
     app.add_url_rule('/api', 'api', api.gateway, methods=['POST'])
     try:
-        app.run(host=flask_server_location.split(":")[0],port=int(flask_server_location.split(":")[1]),threaded=True, extra_files=watchfiles, debug=args.debug)
+        app.run(host=flask_server_location.split(":")[0],port=int(flask_server_location.split(":")[1]), threaded=True, extra_files=watchfiles, debug=args.debug)
     except socket.error, exc:
-        sys.exit("Error when starting the Flask server: %s" % exc)
+        sys.exit("Error when starting the Flask server: {}".format(exc))

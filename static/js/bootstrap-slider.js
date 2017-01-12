@@ -410,8 +410,9 @@
 				sliderTrackLow.className = "slider-track-low";
 
 				sliderTrackSelection = document.createElement("div");
-				sliderTrackSelection.className = "slider-selection";
-
+				//sliderTrackSelection.className = "slider-selection";
+				sliderTrackSelection.id = this.options.id + "_track";
+				sliderTrackSelection.className = "slider-selection slider_" + this.options.state
 				sliderTrackHigh = document.createElement("div");
 				sliderTrackHigh.className = "slider-track-high";
 
@@ -766,7 +767,8 @@
 				scale: 'linear',
 				focus: false,
 				tooltip_position: null,
-				labelledby: null
+				labelledby: null,
+				state: 'off'
 			},
 
 			getElement: function() {
