@@ -5,7 +5,7 @@
     <div class="left"></div>
     <div class="right">
       <span class="count_top"><i class="fa fa-{{v[2]}}"></i> {{k}}</span>
-      <div class="count{% if v[2] == "On" %} green{% elif v[2] == "Off" %} red{% endif %} loading" id="top_tiles_block_{{count}}_{{v[1]}}" style="white-space: nowrap;"></div>
+      <div class="count{% if v[2] == "On" %} green{% elif v[2] == "Off" %} red{% endif %} loading" id="top_tiles_block_{{count}}_{{v[1]}}_{% if v[3] %}{{v[3]}}{% else %}Data{% endif %}" style="white-space: nowrap;"></div>
     </div>
   </div>
   {% endfor %}
@@ -26,8 +26,10 @@ $(document).ready(function() {
 
   tilesPreviousArray_{{count}} = refreshTopTiles(updateDivs_block_{{count}}, "top_tiles_block_{{count}}_", tilesPreviousArray_{{count}}, updateDivsType_block_{{count}});
   tilesPreviousArray_{{count}} = setInterval(refreshTopTiles, 9000, updateDivs_block_{{count}}, "top_tiles_block_{{count}}_", tilesPreviousArray_{{count}}, updateDivsType_block_{{count}});
+  var counter = 0;
   for (var i in updateDivs_block_{{count}}) {
-    $("#top_tiles_block_{{count}}_" + updateDivs_block_{{count}}[i]).removeClass("loading");
+    $("#top_tiles_block_{{count}}_" + updateDivs_block_{{count}}[i] + "_" + updateDivsType_block_{{count}}[counter]).removeClass("loading");
+    counter += 1;
   }
 });
 </script>

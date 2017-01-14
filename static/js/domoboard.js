@@ -102,24 +102,24 @@ function refreshTopTiles(updateDivs, block, tilesPreviousArray, updateDivsTypeAr
 		tilesArray = re.exec(data);
 		if (tilesArray != null) {
 			if (tilesArray[1] < tilesPreviousArray[i]) {
-				$("#" + block + divID).html(tilesArray[1] + "<font size='3'>" + tilesArray[2] + " <i class='fa fa-caret-down fa-lg' style='color:red'></font>");
+				$("#" + block + divID + "_" + updateDivsTypeArray[i]).html(tilesArray[1] + "<font size='3'>" + tilesArray[2] + " <i class='fa fa-caret-down fa-lg' style='color:red'></font>");
 				tilesPreviousArray[i] = tilesArray[1];
 			} else if (tilesArray[1] > tilesPreviousArray[i]) {
-				$("#" + block + divID).html(tilesArray[1] + "<font size='3'>" + tilesArray[2] + " <i class='fa fa-caret-up fa-lg' style='color:green'></font>");
+				$("#" + block + divID  + "_" + updateDivsTypeArray[i]).html(tilesArray[1] + "<font size='3'>" + tilesArray[2] + " <i class='fa fa-caret-up fa-lg' style='color:green'></font>");
 				tilesPreviousArray[i] = tilesArray[1];
 			}
 		} else {
-			$("#" + block + divID).html(data);
+			$("#" + block + divID + "_" + updateDivsTypeArray[i]).html(data);
 		}
 		if(data == "On") {
-			$("#" + block + divID).removeClass("red");
-			$("#" + block + divID).addClass("green");
+			$("#" + block + divID + "_" + updateDivsTypeArray[i]).removeClass("red");
+			$("#" + block + divID + "_" + updateDivsTypeArray[i]).addClass("green");
 		} else if(data == "Off") {
-			$("#" + block + divID).removeClass("green");
-			$("#" + block + divID).addClass("red");
+			$("#" + block + divID + "_" + updateDivsTypeArray[i]).removeClass("green");
+			$("#" + block + divID + "_" + updateDivsTypeArray[i]).addClass("red");
 		} else {
-			$("#" + block + divID).removeClass("green");
-			$("#" + block + divID).removeClass("red");
+			$("#" + block + divID + "_" + updateDivsTypeArray[i]).removeClass("green");
+			$("#" + block + divID + "_" + updateDivsTypeArray[i]).removeClass("red");
 		}
 	});
     i = i++;
