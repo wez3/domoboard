@@ -89,7 +89,7 @@ def login_form():
             if g.users[username].authenticate(request.form['password']):
                 security.generateCsrfToken()
                 return redirect(url_for('dashboard'))
-            return render_template('login.html')
+        return render_template('login.html', failed = "Login failed")
     return render_template('login.html')
 
 @app.errorhandler(404)
