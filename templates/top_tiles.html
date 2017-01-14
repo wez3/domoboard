@@ -15,6 +15,7 @@ $(document).ready(function() {
   var updateDivs_block_{{count}}=[];
   var tilesPreviousArray_{{count}}=[];
   var updateDivsType_block_{{count}} = [];
+  var updateDivsUnits_block_{{count}} = [];
   {% for k, v in blockArray[count]["top_tiles"].iteritems() %}
     updateDivs_block_{{count}}.push("{{v[1]}}");
     {% if v[3]|length > 3 %}
@@ -22,10 +23,15 @@ $(document).ready(function() {
     {% else %}
       updateDivsType_block_{{count}}.push("Data");
     {% endif %}
+    {% if v[4] %}
+      updateDivsUnits_block_{{count}}.push("{{v[4]}}");
+    {% else %}
+      updateDivsUnits_block_{{count}}.push(undefined);
+    {% endif %}
   {% endfor %}
 
-  tilesPreviousArray_{{count}} = refreshTopTiles(updateDivs_block_{{count}}, "top_tiles_block_{{count}}_", tilesPreviousArray_{{count}}, updateDivsType_block_{{count}});
-  tilesPreviousArray_{{count}} = setInterval(refreshTopTiles, 9000, updateDivs_block_{{count}}, "top_tiles_block_{{count}}_", tilesPreviousArray_{{count}}, updateDivsType_block_{{count}});
+  tilesPreviousArray_{{count}} = refreshTopTiles(updateDivs_block_{{count}}, "top_tiles_block_{{count}}_", tilesPreviousArray_{{count}}, updateDivsType_block_{{count}}, updateDivsUnits_block_{{count}});
+  tilesPreviousArray_{{count}} = setInterval(refreshTopTiles, 9000, updateDivs_block_{{count}}, "top_tiles_block_{{count}}_", tilesPreviousArray_{{count}}, updateDivsType_block_{{count}}, updateDivsUnits_block_{{count}});
   var counter = 0;
   for (var i in updateDivs_block_{{count}}) {
     $("#top_tiles_block_{{count}}_" + updateDivs_block_{{count}}[i] + "_" + updateDivsType_block_{{count}}[counter]).removeClass("loading");

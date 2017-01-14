@@ -82,7 +82,7 @@ function refreshSwitches(updateSwitches, block) {
 }
 
 // Top tiles functions
-function refreshTopTiles(updateDivs, block, tilesPreviousArray, updateDivsTypeArray) {
+function refreshTopTiles(updateDivs, block, tilesPreviousArray, updateDivsTypeArray, updateDivsUnitsArray) {
   if (tilesPreviousArray.length == 0) {
     for(var i = 0; i < updateDivs.length; i++){
       tilesPreviousArray.push(-1);
@@ -101,6 +101,9 @@ function refreshTopTiles(updateDivs, block, tilesPreviousArray, updateDivsTypeAr
 		var re = /(-?\d+\.?\d*) (.+)/;
 		tilesArray = re.exec(data);
 		if (tilesArray != null) {
+      if (updateDivsUnitsArray[i]) {
+        tilesArray[2] = updateDivsUnitsArray[i];
+      }
 			if (tilesArray[1] < tilesPreviousArray[i]) {
 				$("#" + block + divID + "_" + updateDivsTypeArray[i]).html(tilesArray[1] + "<font size='3'>" + tilesArray[2] + " <i class='fa fa-caret-down fa-lg' style='color:red'></font>");
 				tilesPreviousArray[i] = tilesArray[1];
