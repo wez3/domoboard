@@ -171,6 +171,19 @@ function dimmerSlider(updateDimmers, block) {
   });
 }
 
+function setpointSlider(updateSetpoints, block) {
+  $.each(updateSetpoints, function(i, setpoint) {
+    url = "/api?type=devices&rid=" + setpoint[0];
+    requestAPI(url, function(d) {
+  		var percentage = parseInt(JSON.parse(d).result[0].Data);
+  		$('#setpoint_slider' + setpoint[0] + "_block_" + block).slider({min:parseInt(setpoint[1]), max:parseInt(setpoint[2]), value: percentage}).on('slideStop', function(ev) {
+        changeSetpoint(setpoint[0], ev.value);
+      } ).data('slider');
+      $('#stpnt_' + setpoint[0] + "_block_" + block + '_track').css({'background-image': '-webkit-linear-gradient(top, #f9f9f9 0%, red 100%)', 'background-image': '-o-linear-gradient(top, #f9f9f9 0%, red 100%)', 'background-image': 'linear-gradient(to bottom, #f9f9f9 0%, red 100%)'});
+     });
+  });
+}
+
 function changeDimmerSlider(idx, value) {
   var re = /dimmer_(\d+)_block_\d+/;
   match = re.exec(idx);
@@ -311,9 +324,6 @@ function modifyConfigButtonClicked(id) {
 
 // Setpoint functions
 function changeSetpoint(idx, val) {
-  if (val.split('.')[1] == '0'){
-    val = val.split('.')[0];
-  }
   requestAPI(flask_server + "/api?type=command&param=setsetpoint&idx=" + idx + "&setpoint=" + val);
 }
 

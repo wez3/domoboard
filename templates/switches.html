@@ -35,7 +35,7 @@
                   <div><div style="float: left"><button id="groupon_{{v[1]}}_block_{{count}}" class="btn  btn-primary btn-circle">&nbsp;<li class="fa fa-power-off" aria-hidden="true"></i>&nbsp;</button></div><div style="padding-left: 20px; float: left"><button id="groupoff_{{v[1]}}_block_{{count}}" class="btn  btn-primary btn-circle btn-danger">&nbsp;<li class="fa fa-power-off" aria-hidden="true"></i>&nbsp;</button></div></div>
                 {% elif "scene" in v[2] %}
                   <button id="scene_{{v[1]}}_block_{{count}}" class="btn btn-primary btn-circle">&nbsp;<li class="fa fa-power-off" aria-hidden="true"></i>&nbsp;</button>
-               {% elif "setpoint" in v[2]  %}
+               {% elif v[2] == "setpoint" %}
                      <div>
                          <div style="float: left; margin-right: 5px"><h1 id="setpoint_{{v[1]}}_block_{{count}}" style="font-size: 16px;"></h1></div>
                          <div style="float: left">
@@ -43,6 +43,8 @@
                            <div style=""><i onclick="changeDown({{ v[1] }}, {{count}})" class="fa fa-arrow-down" style="font-size: 13px; cursor: pointer;" aria-hidden="true"></i></div>
                          </div>
                      </div>
+                {% elif "setpoint_slider" in v[2] %}
+                <input id="setpoint_slider{{v[1]}}_block_{{count}}" data-slider-id='stpnt_{{v[1]}}_block_{{count}}' type="text" state="on" data-slider-min="{{v[3]}}" data-slider-max="{{v[4]}}" data-slider-step="1" data-slider-value="" />
               {% elif "rgb" in v[2] %}
               &nbsp;<input id="dimmer_{{v[1]}}_block_{{count}}" data-slider-id='dim_{{v[1]}}_block_{{count}}' type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="14" />
               <br><br>
@@ -95,6 +97,7 @@ $(document).ready(function() {
   var updateSwitches_block_{{count}}=[];
   var updateDimmers_block_{{count}}=[];
   var updateSetpoints_block_{{count}}=[];
+  var updateSetpoint_sliders_block_{{count}}=[];
 
   {% for k, v in blockArray[count]["switches"].iteritems() %}
 
@@ -130,7 +133,9 @@ $(document).ready(function() {
           changeScene({{v[1]}}, 'on');
       });
     {% elif (v[2] == "setpoint") %}
-  		updateSetpoints_block_{{count}}.push("{{v[1]}}");
+      updateSetpoints_block_{{count}}.push("{{v[1]}}");
+    {% elif (v[2] == "setpoint_slider") %}
+      updateSetpoint_sliders_block_{{count}}.push(["{{v[1]}}", "{{v[3]}}", "{{v[4]}}"]);
   	{% elif (v[2] == "dimmer" or v[2] == "rgb") %}
       $('#dim_{{count}}').click(function(e) {
         e.preventDefault();
@@ -142,8 +147,11 @@ $(document).ready(function() {
   refreshSwitches(updateSwitches_block_{{count}}, {{count}});
   refreshSetpoints(updateSetpoints_block_{{count}}, {{count}});
   dimmerSlider(updateDimmers_block_{{count}}, {{count}});
+  setpointSlider(updateSetpoint_sliders_block_{{count}}, {{count}});
+
   setInterval(refreshSwitches, 9000, updateSwitches_block_{{count}}, {{count}});
   setInterval(dimmerSlider, 9000, updateDimmers_block_{{count}}, {{count}});
+  setInterval(setpointSlider, 9000, updateSetpoint_sliders_block_{{count}}, {{count}});
   setInterval(refreshSetpoints, 9000, updateSetpoints_block_{{count}}, {{count}});
 
 });
