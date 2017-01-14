@@ -46,5 +46,16 @@ $(document).ready(function() {
   setInterval(checkVersion, 43200000);
 });
 </script>
+<script>
+var a=document.querySelectorAll("a[href^='/']");
+for(var i=0;i<a.length;i++)
+{
+    a[i].onclick=function()
+    {
+        window.location=this.getAttribute("href");
+        return false
+    }
+}
+</script>
 </body>
 </html>
