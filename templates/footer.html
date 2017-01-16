@@ -10,15 +10,17 @@
 <script src="/static/js/custom.js"></script>
 <!-- bootstrap-slider -->
 <script type="text/javascript" src="/static/js/bootstrap-slider.js"></script>
-<script type="text/javascript" src="static/js/moment.min.js"></script>
+<script type="text/javascript" src="static/js/moment-with-locales.js"></script>
 {% if configValues["domoboard"].get("time") == "True" %}
 <script>
     $(document).ready(function() {
     var interval = setInterval(function() {
         var momentNow = moment();
-        $('#date-part').html(momentNow.format('DD MMMM YYYY'));
-
-        $('#time-part').html(momentNow.format('HH:mm'));
+			
+		$('#date-part').html(momentNow.locale(local_language).format('dddd D MMMM YYYY'));
+				
+		$('#time-part').html(momentNow.format('HH:mm')); 
+	                      
     }, 100);
   {% if configValues["domoboard"].get("date") == "True" %}
     $('#date-part').removeClass('hide_date');
@@ -45,6 +47,17 @@
 $(document).ready(function() {
   setInterval(checkVersion, 43200000);
 });
+</script>
+<script>
+var a=document.querySelectorAll("a[href^='/']");
+for(var i=0;i<a.length;i++)
+{
+    a[i].onclick=function()
+    {
+        window.location=this.getAttribute("href");
+        return false
+    }
+}
 </script>
 </body>
 </html>

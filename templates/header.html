@@ -62,6 +62,7 @@
   var flask_server = "{{ request.url_root[:-1] }}";
   var csrf_token = "{{ _csrf_token }}";
   var googleMapEmbedKey = "{{ configValues["domoboard"].get("google_maps_api_key") }}"
+  var local_language = "{{ configValues["domoboard"].get("language") }}"
   var version = "{{ version }}";
   </script>
   <script type="text/javascript" src="/static/js/domoboard.js"></script>
