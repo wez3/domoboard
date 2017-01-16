@@ -178,9 +178,9 @@ function setpointSlider(updateSetpoints, block) {
   $.each(updateSetpoints, function(i, setpoint) {
     url = "/api?type=devices&rid=" + setpoint[0];
     requestAPI(url, function(d) {
-  		var percentage = parseInt(JSON.parse(d).result[0].Data);
-  		$('#setpoint_slider' + setpoint[0] + "_block_" + block).slider({min:parseInt(setpoint[1]), max:parseInt(setpoint[2]), value: percentage}).on('slideStop', function(ev) {
-        changeSetpoint(setpoint[0], ev.value);
+  		var percentage = parseFloat(JSON.parse(d).result[0].Data);
+  		$('#setpoint_slider' + setpoint[0] + "_block_" + block).slider({min:parseInt(setpoint[1]), max:parseInt(setpoint[2]), value: parseFloat(percentage)}).on('slideStop', function(ev) {
+        changeSetpoint(setpoint[0], parseFloat(ev.value));
       } ).data('slider');
       $('#stpnt_' + setpoint[0] + "_block_" + block + '_track').css({'background-image': '-webkit-linear-gradient(top, #f9f9f9 0%, red 100%)', 'background-image': '-o-linear-gradient(top, #f9f9f9 0%, red 100%)', 'background-image': 'linear-gradient(to bottom, #f9f9f9 0%, red 100%)'});
      });

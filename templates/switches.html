@@ -44,7 +44,7 @@
                          </div>
                      </div>
                 {% elif "setpoint_slider" in v[2] %}
-                <input id="setpoint_slider{{v[1]}}_block_{{count}}" data-slider-id='stpnt_{{v[1]}}_block_{{count}}' type="text" state="on" data-slider-min="{{v[3]}}" data-slider-max="{{v[4]}}" data-slider-step="1" data-slider-value="" />
+                <input id="setpoint_slider{{v[1]}}_block_{{count}}" data-slider-id='stpnt_{{v[1]}}_block_{{count}}' type="text" state="on" data-slider-min="{{v[3]}}" data-slider-max="{{v[4]}}" data-slider-step="0.5" data-slider-value="" />
               {% elif "rgb" in v[2] %}
               &nbsp;<input id="dimmer_{{v[1]}}_block_{{count}}" data-slider-id='dim_{{v[1]}}_block_{{count}}' type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="14" />
               <br><br>
