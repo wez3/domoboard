@@ -94,23 +94,28 @@ function refreshTopTiles(updateDivs, block, tilesPreviousArray, updateDivsTypeAr
     requestAPI(url, function(d) {
 		var obj = JSON.parse(d);
 		if (obj.result != undefined) {
-			var data = obj.result[0][updateDivsTypeArray[i]];
+			var data = obj.result[0][updateDivsTypeArray[i]].toString();
 		} else {
 			var data = "-";
 		}
-		var re = /(-?\d+\.?\d*) (.+)/;
+		//var re = /(-?\d+\.?\d*) (.+)/;  -- old regex didn't found an temp value
+    var re = /(-?\d+[\.*]?\d*)(\s*.*)/;
 		tilesArray = re.exec(data);
+
 		if (tilesArray != null) {
       if (updateDivsUnitsArray[i]) {
         tilesArray[2] = updateDivsUnitsArray[i];
       }
 			if (tilesArray[1] < tilesPreviousArray[i]) {
+
 				$("#" + block + divID + "_" + updateDivsTypeArray[i]).html(tilesArray[1] + "<font size='3'>" + tilesArray[2] + " <i class='fa fa-caret-down fa-lg' style='color:red'></font>");
 				tilesPreviousArray[i] = tilesArray[1];
 			} else if (tilesArray[1] > tilesPreviousArray[i]) {
 				$("#" + block + divID  + "_" + updateDivsTypeArray[i]).html(tilesArray[1] + "<font size='3'>" + tilesArray[2] + " <i class='fa fa-caret-up fa-lg' style='color:green'></font>");
 				tilesPreviousArray[i] = tilesArray[1];
-			}
+			} else {
+        $("#" + block + divID + "_" + updateDivsTypeArray[i]).html(tilesArray[1] + "<font size='3'>" + tilesArray[2] + " <i class='fa fa-caret-up fa-lg' style='color:green'></font>");
+      }
 		} else {
 			$("#" + block + divID + "_" + updateDivsTypeArray[i]).html(data);
 		}
@@ -332,6 +337,7 @@ function changeSetpoint(idx, val) {
 
 function refreshSetpoints(updateSetpoints, block) {
   $.each(updateSetpoints, function(i, setpointID) {
+    console.log(setpointID);
     var url = flask_server + "/api?type=devices&rid="+ setpointID;
     var setpointVal = document.getElementById("setpoint_" + setpointID + "_block_" + block);
     requestAPI(url, function(d) {
