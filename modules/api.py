@@ -197,10 +197,10 @@ def indexPlugins(params={}):
                     fol['id'] = len(indexes)
                     fol['folder'] = i
                     fol['status'] = 'install'
-                    for filename in os.listdir('plugins/'):
+                    for filename in os.listdir('templates/'):
                         installedPlugins.append(filename)
 
-                    for filename in os.listdir(indexFolderPath + i + '/plugins'):
+                    for filename in os.listdir(indexFolderPath + i + '/templates'):
                         if filename in installedPlugins:
                             installed_version = getPluginVersion(docsFolderPath + i + '_readme.md')
                             indexed_version = getPluginVersion(indexFolderPath + i + '/' + docsFolderPath + 'readme.md')
