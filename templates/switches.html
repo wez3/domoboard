@@ -18,7 +18,7 @@
           {% for k, v in blockArray[count]["switches"].iteritems() %}
           <tr>
             {% if "dimmer" in v[2] or "rgb" in v[2] %}
-                <td style="border-top: none;  vertical-align: middle;"><a id="dim_{{count}}" style="cursor: pointer;"><label style="cursor: pointer;" class=""> &nbsp;{{k}}</label></a></td>
+                <td style="border-top: none;  vertical-align: middle;"><a id="Adim_{{v[1]}}_block_{{count}}" style="cursor: pointer;"><label style="cursor: pointer;" class=""> &nbsp;{{k}}</label></a></td>
               {% else %}
             <td style="border-top: none;  vertical-align: middle;"><label class=""> &nbsp;{{k}}</label></td>
             {% endif %}
@@ -44,7 +44,7 @@
                          </div>
                      </div>
                 {% elif "setpoint_slider" in v[2] %}
-                <input id="setpoint_slider{{v[1]}}_block_{{count}}" data-slider-id='stpnt_{{v[1]}}_block_{{count}}' type="text" state="on" data-slider-min="{{v[3]}}" data-slider-max="{{v[4]}}" data-slider-step="0.5" data-slider-value="" />
+                <input id="setpoint_slider{{v[1]}}_block_{{count}}" data-slider-id='stpnt_{{v[1]}}_block_{{count}}' type="text" state="on" data-slider-min="{{v[3]}}" data-slider-max="{{v[4]}}" data-slider-step="0.5" />
               {% elif "rgb" in v[2] %}
               &nbsp;<input id="dimmer_{{v[1]}}_block_{{count}}" data-slider-id='dim_{{v[1]}}_block_{{count}}' type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="14" />
               <br><br>
@@ -137,7 +137,7 @@ $(document).ready(function() {
     {% elif (v[2] == "setpoint_slider") %}
       updateSetpoint_sliders_block_{{count}}.push(["{{v[1]}}", "{{v[3]}}", "{{v[4]}}"]);
   	{% elif (v[2] == "dimmer" or v[2] == "rgb") %}
-      $('#dim_{{count}}').click(function(e) {
+      $('#Adim_{{v[1]}}_block_{{count}}').click(function(e) {
         e.preventDefault();
         changeDimmer('dim_{{v[1]}}_block_{{count}}_track', {{v[1]}});
       });

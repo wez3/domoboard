@@ -39,6 +39,7 @@ function setDimmerState(id, idx) {
   var url = "/api?type=devices&rid=" + idx;
   requestAPI(flask_server + url, function(d) {
     _json = JSON.parse(d);
+    console.log(id);
     if (_json['result'][0]['Data'] != 'Off') {
       $('#' + id).css({'background-image': '-webkit-linear-gradient(top, #f9f9f9 0%, green 100%)', 'background-image': '-o-linear-gradient(top, #f9f9f9 0%, green 100%)', 'background-image': 'linear-gradient(to bottom, #f9f9f9 0%, green 100%)'});
     } else {
