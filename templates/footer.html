@@ -16,11 +16,11 @@
     $(document).ready(function() {
     var interval = setInterval(function() {
         var momentNow = moment();
-			
+
 		$('#date-part').html(momentNow.locale(local_language).format('dddd D MMMM YYYY'));
-				
-		$('#time-part').html(momentNow.format('HH:mm')); 
-	                      
+
+		$('#time-part').html(momentNow.format('HH:mm'));
+
     }, 100);
   {% if configValues["domoboard"].get("date") == "True" %}
     $('#date-part').removeClass('hide_date');
@@ -45,7 +45,7 @@
 {% endif %}
 <script>
 $(document).ready(function() {
-  setInterval(checkVersion, 43200000);
+  setInterval(checkVersion, 43200000, branch);
 });
 </script>
 <script>

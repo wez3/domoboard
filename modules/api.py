@@ -165,9 +165,20 @@ def getPluginVersion(loc):
                 c += 1
     return float(_version)
 
+def getVersion():
+    f = open('VERSION.md', 'r')
+    version = f.read().rstrip()
+    f.close()
+    return version
+
 def performUpgrade():
     git.cmd.Git('.').pull("https://github.com/wez3/domoboard.git")
     return "Upgrade completed."
+
+def getCurrentBranch():
+    repo = git.Repo('.')
+    branch = repo.active_branch
+    return branch.name
 
 def indexPlugins(params={}):
     tmpFolder = 'static/tmp'

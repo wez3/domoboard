@@ -46,7 +46,8 @@ def generatePage():
                                 configValues = configValues,
                                 blockArray = blockArray,
                                 _csrf_token = session['_csrf_token'],
-                                version = getVersion(),
+                                version = api.getVersion(),
+                                branch = api.getCurrentBranch(),
                                 debug = app.debug)
     else:
         abort(404)
@@ -130,12 +131,6 @@ def appendDefaultPages(config):
     config['settings'] = {'display_components': {'components': 'settings'}}
     config['log'] =  {'display_components': {'components': 'serverlog'}}
     return config
-
-def getVersion():
-    f = open('VERSION.md', 'r')
-    version = f.read().rstrip()
-    f.close()
-    return version
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
