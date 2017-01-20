@@ -170,7 +170,7 @@
             document.getElementById("defaultOpen").click();
             setInterval(automaticIndex(), 9000);
             $('.fullSummary').hide();
-            checkVersionSettings();
+            checkVersionSettings(branch);
         });
         retrieveAvailableDevices();
         selected_page_settings();
