@@ -417,14 +417,13 @@ function checkVersion(branch) {
     cache: false,
     success: function( data ) {
       if (branch == "master") {
-        dataFloat = parseFloat(data.split(","[0]));
+        dataFloat = data.split(",")[0];
       } else {
-        dataFloat = parseFloat(data.split(","[1]));
+        dataFloat = data.split(",")[1];
       }
-    versionFloat = parseFloat(version);
-    if (dataFloat > versionFloat) {
+    if (Number(dataFloat) > Number(version)) {
       document.getElementById('curver').innerHTML = version;
-      document.getElementById('newver').innerHTML = data;
+      document.getElementById('newver').innerHTML = dataFloat;
       $( "#version_div" ).removeClass("hide_update");
       $( "#version_div" ).addClass("show_update");
       }
@@ -439,15 +438,15 @@ function checkVersionSettings(branch) {
     cache: false,
     success: function( data ) {
       if (branch == "master") {
-        dataFloat = parseFloat(data.split(","[0]));
+        dataFloat = data.split(",")[0];
       } else {
-        dataFloat = parseFloat(data.split(","[1]));
-      }    versionFloat = parseFloat(version);
-      if (dataFloat > versionFloat) {
+        dataFloat = data.split(",")[1];
+      }
+      if (Number(dataFloat) > Number(version)) {
         $( "#updateView_available" ).removeClass("hide_update");
         $( "#updateView_available" ).addClass("show_update");
         document.getElementById('curver_settings').innerHTML = version;
-        document.getElementById('newver_settings').innerHTML = data;
+        document.getElementById('newver_settings').innerHTML = dataFloat;
       } else {
         $( "#updateView_not_available" ).removeClass("hide_update");
         $( "#updateView_not_available" ).addClass("show_update");
