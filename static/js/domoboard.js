@@ -39,7 +39,6 @@ function setDimmerState(id, idx) {
   var url = "/api?type=devices&rid=" + idx;
   requestAPI(flask_server + url, function(d) {
     _json = JSON.parse(d);
-    console.log(id);
     if (_json['result'][0]['Data'] != 'Off') {
       $('#' + id).css({'background-image': '-webkit-linear-gradient(top, #f9f9f9 0%, green 100%)', 'background-image': '-o-linear-gradient(top, #f9f9f9 0%, green 100%)', 'background-image': 'linear-gradient(to bottom, #f9f9f9 0%, green 100%)'});
     } else {
@@ -107,15 +106,22 @@ function refreshTopTiles(updateDivs, block, tilesPreviousArray, updateDivsTypeAr
       if (updateDivsUnitsArray[i]) {
         tilesArray[2] = updateDivsUnitsArray[i];
       }
-			if (tilesArray[1] < tilesPreviousArray[i]) {
-
-				$("#" + block + divID + "_" + updateDivsTypeArray[i]).html(tilesArray[1] + "<font size='3'>" + tilesArray[2] + " <i class='fa fa-caret-down fa-lg' style='color:red'></font>");
+			if (parseFloat(tilesArray[1]) < parseFloat(tilesPreviousArray[i])) {
+				$("#" + block + divID + "_" + updateDivsTypeArray[i]).html(tilesArray[1] + "<font size=2vw>" + tilesArray[2] + "</font>");
+        $("#" + block + divID + "_" + updateDivsTypeArray[i] + "_arrow").removeClass("green");
+        $("#" + block + divID + "_" + updateDivsTypeArray[i] + "_arrow").addClass("red");
+        $("#" + block + divID + "_" + updateDivsTypeArray[i] + "_arrow").removeClass("fa-caret-up");
+        $("#" + block + divID + "_" + updateDivsTypeArray[i] + "_arrow").addClass("fa-caret-down");
 				tilesPreviousArray[i] = tilesArray[1];
-			} else if (tilesArray[1] > tilesPreviousArray[i]) {
-				$("#" + block + divID  + "_" + updateDivsTypeArray[i]).html(tilesArray[1] + "<font size='3'>" + tilesArray[2] + " <i class='fa fa-caret-up fa-lg' style='color:green'></font>");
+			} else if (parseFloat(tilesArray[1]) > parseFloat(tilesPreviousArray[i])) {
+				$("#" + block + divID  + "_" + updateDivsTypeArray[i]).html(tilesArray[1] + "<font size=2vw>" + tilesArray[2] + "</font>");
+        $("#" + block + divID + "_" + updateDivsTypeArray[i] + "_arrow").removeClass("red");
+        $("#" + block + divID + "_" + updateDivsTypeArray[i] + "_arrow").addClass("green");
+        $("#" + block + divID + "_" + updateDivsTypeArray[i] + "_arrow").removeClass("fa-caret-down");
+        $("#" + block + divID + "_" + updateDivsTypeArray[i] + "_arrow").addClass("fa-caret-up");
 				tilesPreviousArray[i] = tilesArray[1];
 			} else {
-        $("#" + block + divID + "_" + updateDivsTypeArray[i]).html(tilesArray[1] + "<font size='3'>" + tilesArray[2] + " <i class='fa fa-caret-up fa-lg' style='color:green'></font>");
+        $("#" + block + divID + "_" + updateDivsTypeArray[i]).html(tilesArray[1] + "<font size=2vw>" + tilesArray[2] + "</font>");
       }
 		} else {
 			$("#" + block + divID + "_" + updateDivsTypeArray[i]).html(data);
@@ -338,7 +344,6 @@ function changeSetpoint(idx, val) {
 
 function refreshSetpoints(updateSetpoints, block) {
   $.each(updateSetpoints, function(i, setpointID) {
-    console.log(setpointID);
     var url = flask_server + "/api?type=devices&rid="+ setpointID;
     var setpointVal = document.getElementById("setpoint_" + setpointID + "_block_" + block);
     requestAPI(url, function(d) {

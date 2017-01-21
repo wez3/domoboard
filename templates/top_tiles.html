@@ -4,8 +4,8 @@
   <div class="animated flipInY col-md-2 col-sm-4 col-xs-4 tile_stats_count">
     <div class="left"></div>
     <div class="right">
-      <span class="count_top"><i class="fa fa-{{v[2]}}"></i> {{k}}</span>
-      <div class="count{% if v[2] == "On" %} green{% elif v[2] == "Off" %} red{% endif %} loading" id="top_tiles_block_{{count}}_{{v[1]}}_{% if v[3] %}{{v[3]}}{% else %}Data{% endif %}" style="white-space: nowrap;"></div>
+      <span class="count_top"><i class="fa fa-{{v[2]}}"></i> {{k}} <i id="top_tiles_block_{{count}}_{{v[1]}}_{% if v[3] %}{{v[3]}}{% else %}Data{% endif %}_arrow" class='fa fa-lg'></i></span>
+      <div class="count loading" id="top_tiles_block_{{count}}_{{v[1]}}_{% if v[3] %}{{v[3]}}{% else %}Data{% endif %}" style="white-space: nowrap"></div>
     </div>
   </div>
   {% endfor %}

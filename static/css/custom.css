@@ -467,7 +467,7 @@ table.no-margin .progress {
 
 @media(max-width:768px) {
     .tile_stats_count .count {
-        font-size: 30px !important;
+        font-size: 5.5vw !important;
     }
     .tile_stats_count .right span {
         font-size: 12px;
@@ -1961,7 +1961,7 @@ span.right {
 }
 
 .tile_stats_count .count {
-    font-size: 40px;
+    font-size: 2.5vw;
     line-height: 47px;
     font-weight: 600;
 }
