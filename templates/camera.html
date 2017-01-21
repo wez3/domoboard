@@ -15,11 +15,19 @@
           <script> $('#s_title_{{ count }}').html("{{ v[0] }}");</script>
         {% endif %}
       <form class="form-horizontal form-label-left" style="width: 80%; height: 80%; ">
-        <div class="form-group" style="">
-	       <img id="cam_{{ count }}" style="-webkit-user-select: none; width: 100%; height: 100%; " src="{{v[1]|replace('&amp;', '&')}}" >
+        <div id="cam_body_{{ count }}" class="form-group" style="">
         </div>
       </form>
       {% endfor %}
     </div>
   </div>
 </div>
+<script>
+{% for k, v in blockArray[count]["camera"].iteritems() %}
+  if ("{{v[1]}}".split(':')[0] == 'rtsp')  {
+    $('#cam_body_{{ count }}').append('<object classid="clsid:9BE31822-FDAD-461B-AD51-BE1D1C159921" codebase="http://download.videolan.org/pub/videolan/vlc/last/win32/axvlc.cab" id="vlc" name="vlc" class="vlcPlayer" events="True">  <param name="Src" value="{{v[1]}}" /> <!-- ie -->  <param name="ShowDisplay" value="True" />  <param name="AutoLoop" value="True" />  <param name="AutoPlay" value="True" />  <!-- win chrome and firefox-->  <embed id="vlcEmb"  type="application/x-google-vlc-plugin" version="VideoLAN.VLCPlugin.2" autoplay="yes" loop="no" width="640" height="480" target="{{v[1]}}" ></embed></object>');
+  } else {
+   $('#cam_body_{{ count}}').append('<img id="cam_{{ count }}" style="-webkit-user-select: none; width: 100%; height: 100%; " src="{{v[1]|replace('&amp;', '&')}}" >');
+  }
+{% endfor %}
+</script>
