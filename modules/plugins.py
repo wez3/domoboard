@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # This file contains the functions regarding the plugin manager.
 
-import git, shutil, os, imp
+import git, shutil, os, imp, sys
 import security, api
 import re
 
@@ -17,7 +17,8 @@ def loadPlugins():
                plugin[name] = imp.load_source(name, plugin_dir + i)
                plugin[name].init()
             except ImportError as msg:
-               sys.exit("Error occured during loading imports for the plugin {}: {}. Install it with 'easy_install {}' or 'pip install {}'".format(name, msg, msg , msg))
+               moduleName = str(msg).split(' ')[len(str(msg).split(' ')) -1]
+               sys.exit("Error occured during loading imports for the plugin {}: {}. Install it with 'easy_install {}' or 'pip install {}'".format(name, msg, moduleName , moduleName))
     return plugin
 
 def getPluginDict():
