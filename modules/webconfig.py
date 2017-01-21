@@ -19,7 +19,7 @@ def getVersion():
     return version
 
 def performUpgrade():
-    git.cmd.Git('.').pull("https://github.com/wez3/domoboard.git")
+    git.cmd.Git('.').pull()
     return "Upgrade completed."
 
 def getCurrentBranch():
