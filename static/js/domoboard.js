@@ -439,7 +439,8 @@ function checkVersion(branch) {
       } else {
         dataFloat = data.split(",")[1];
       }
-    if (dataFloat > version) {
+    var compare = versionCompare(dataFloat, version);
+    if (comare == 1) {
       document.getElementById('curver').innerHTML = version;
       document.getElementById('newver').innerHTML = dataFloat;
       $( "#version_div" ).removeClass("hide_update");
@@ -460,7 +461,8 @@ function checkVersionSettings(branch) {
       } else {
         dataFloat = data.split(",")[1];
       }
-      if (dataFloat > version) {
+      var compare = versionCompare(dataFloat, version);
+      if (compare == 1) {
         $( "#updateView_available" ).removeClass("hide_update");
         $( "#updateView_available" ).addClass("show_update");
         document.getElementById('curver_settings').innerHTML = version;
@@ -473,3 +475,27 @@ function checkVersionSettings(branch) {
     async:true
     });
   }
+
+  function versionCompare(a, b) {
+    if (a === b) {
+       return 0;
+    }
+    var a_components = a.split(".");
+    var b_components = b.split(".");
+    var len = Math.min(a_components.length, b_components.length);
+    for (var i = 0; i < len; i++) {
+        if (parseInt(a_components[i]) > parseInt(b_components[i])) {
+            return 1;
+        }
+        if (parseInt(a_components[i]) < parseInt(b_components[i])) {
+            return -1;
+        }
+    }
+    if (a_components.length > b_components.length) {
+        return 1;
+    }
+    if (a_components.length < b_components.length) {
+        return -1;
+    }
+    return 0;
+}
