@@ -22,7 +22,7 @@ var donut_chart_block_{{count}} = Morris.Donut({
 $(document).ready(function() {
   var donutChartElements=[];
   {% for k, v in blockArray[count]["donut_charts"].iteritems() %}
-  donutChartElements.push("{{v[0]}}");
+  donutChartElements.push("{{v[1]}}");
   {% endfor %}
   redrawDonutChart(donutChartElements, donut_chart_block_{{count}});
   setInterval(redrawDonutChart,9000,donutChartElements, donut_chart_block_{{count}});

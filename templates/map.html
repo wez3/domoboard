@@ -21,10 +21,10 @@
 $(document).ready(function() {
   var location=[];
   {% for k, v in blockArray[count]["map"].iteritems() %}
-      {% if v[1] %}
-          $('#s_title_{{ count }}').html("{{ v[1] }}");
+      {% if v[0] %}
+          $('#s_title_{{ count }}').html("{{ v[0] }}");
       {% endif %}
-  location.push("{{v[0]}}");
+  location.push("{{v[1]}}");
   {% endfor %}
   refreshMapLocation(location, "locationIframe-{{count}}");
   setInterval(refreshMapLocation, 60000, location, "locationIframe-{{count}}");

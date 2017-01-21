@@ -15,22 +15,27 @@
 </div>
 <script type="text/javascript" charset="utf-8">
 
-var bar_chart_block_{{count}} = Morris.Bar({
-  element: 'morris-bar-chart-{{count}}',
-  data: [],
-  xkey: 'y',
-  ykeys: ['a'],
-  labels: ['y'],
-  smooth: true,
-  resize: true
-});
+
 
 $(document).ready(function() {
   var barChartElements=[];
+  var barChartElementsNames=[];
+
   {% for k, v in blockArray[count]["bar_charts"].iteritems() %}
-  barChartElements.push("{{v[0]}}");
+  barChartElements.push("{{v[1]}}");
+  barChartElementsNames.push("{{k}}");
   {% endfor %}
-  redrawBarChart(barChartElements, bar_chart_block_{{count}});
-  setInterval(redrawBarChart,9000,barChartElements,bar_chart_block_{{count}});
+  var bar_chart_block_{{count}} = Morris.Bar({
+    element: 'morris-bar-chart-{{count}}',
+    data: [],
+    xkey: 'l',
+    ykeys: ['a'],
+    labels: ['y'],
+    smooth: true,
+    resize: true
+  });
+
+  redrawBarChart(barChartElements, bar_chart_block_{{count}}, barChartElementsNames);
+  setInterval(redrawBarChart,9000,barChartElements,bar_chart_block_{{count}}, barChartElementsNames);
 });
 </script>

@@ -17,9 +17,9 @@
 
 $(document).ready(function() {
   {% for k, v in blockArray[count]["domoticz_smart_charts"].iteritems() %}
-  ShowSmartLog("domoticz-chart-block-{{count}}",{{v[0]}},"{{k}}", "{{v[2]}}", "{{v[1]}}");
+  ShowSmartLog("domoticz-chart-block-{{count}}",{{v[1]}},"{{k}}", "{{v[3]}}", "{{v[2]}}");
   $("div#title_block_{{count}} h2").html("{{k}}");
-  setInterval(ShowSmartLog,60000,"domoticz-chart-block-{{count}}",{{v[0]}},"{{k}}", "{{v[2]}}", "{{v[1]}}");
+  setInterval(ShowSmartLog,60000,"domoticz-chart-block-{{count}}",{{v[1]}},"{{k}}", "{{v[3]}}", "{{v[2]}}");
 {% endfor %}
 });
 </script>

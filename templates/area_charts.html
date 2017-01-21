@@ -27,9 +27,9 @@ var area_chart_block_{{count}} = Morris.Area({
 
 $(document).ready(function() {
   {% for k, v in blockArray[count]["area_charts"].iteritems() %}
-  redrawAreaChart("{{v[2]}}",{{v[0]}},"{{v[1]}}", area_chart_block_{{count}});
+  redrawAreaChart("{{v[3]}}",{{v[1]}},"{{v[2]}}", area_chart_block_{{count}});
   $("div#title_block_{{count}} h2").html("{{k}}");
-  setInterval(redrawAreaChart,9000,"{{v[2]}}",{{v[0]}},"{{v[1]}}", area_chart_block_{{count}});
+  setInterval(redrawAreaChart,9000,"{{v[3]}}",{{v[1]}},"{{v[2]}}", area_chart_block_{{count}});
 });
 {% endfor %}
 </script>

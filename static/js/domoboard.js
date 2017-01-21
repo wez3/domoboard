@@ -22,6 +22,47 @@ function changeSwitch(checkboxElem, idx) {
   }
 }
 
+// switchSelector
+function switchSelector(idx, lvl, bid) {
+  var old_bid = bid.replace(new RegExp(lvl + '$'), '');
+  url = '/api?type=devices&rid=' + idx;
+  requestAPI(flask_server + url, function(d) {
+    r = JSON.parse(d);
+    last_active = r['result'][0]['Level'];
+    if (last_active != 0) {
+      last_active = last_active + 0;
+    }
+    $('#' + old_bid + last_active).removeClass('btn-primary');
+    $('#' + bid).addClass('btn-primary');
+    requestAPI(flask_server + '/api?type=command&param=switchlight&idx=' + idx + '&switchcmd=Set%20Level&level=' + lvl + '&passcode=');
+  });
+}
+// Dimmer functions
+function changeDimmer(checkboxElem, idx) {
+  var chkurl = "/api?type=devices&rid=" + idx;
+  requestAPI(flask_server + chkurl, function(d) {
+    _json = JSON.parse(d);
+    if (_json['result'][0]['Data'] != 'Off') {
+      requestAPI(flask_server + "/api?type=command&param=switchlight&idx=" + idx + "&switchcmd=Off&level=0");
+    } else {
+      requestAPI(flask_server + "/api?type=command&param=switchlight&idx=" + idx + "&switchcmd=On&level=0");
+    }
+    setDimmerState(checkboxElem, idx);
+  });
+}
+
+function setDimmerState(id, idx) {
+  var url = "/api?type=devices&rid=" + idx;
+  requestAPI(flask_server + url, function(d) {
+    _json = JSON.parse(d);
+    if (_json['result'][0]['Data'] != 'Off') {
+      $('#' + id).css({'background-image': '-webkit-linear-gradient(top, #f9f9f9 0%, green 100%)', 'background-image': '-o-linear-gradient(top, #f9f9f9 0%, green 100%)', 'background-image': 'linear-gradient(to bottom, #f9f9f9 0%, green 100%)'});
+    } else {
+      $('#' + id).css({'background-image': '-webkit-linear-gradient(top, #f9f9f9 0%, #f5f5f5 100%)', 'background-image': '-o-linear-gradient(top, #f9f9f9 0%, #f5f5f5 100%)', 'background-image': 'linear-gradient(to bottom, #f9f9f9 0%, #f5f5f5 100%)'});
+    }
+  });
+}
+
 // Switch functions
 function changePush(idx, action) {
   if (action == 'on') {
@@ -57,7 +98,7 @@ function refreshSwitches(updateSwitches, block) {
 }
 
 // Top tiles functions
-function refreshTopTiles(updateDivs, block, tilesPreviousArray) {
+function refreshTopTiles(updateDivs, block, tilesPreviousArray, updateDivsTypeArray, updateDivsUnitsArray) {
   if (tilesPreviousArray.length == 0) {
     for(var i = 0; i < updateDivs.length; i++){
       tilesPreviousArray.push(-1);
@@ -69,32 +110,47 @@ function refreshTopTiles(updateDivs, block, tilesPreviousArray) {
     requestAPI(url, function(d) {
 		var obj = JSON.parse(d);
 		if (obj.result != undefined) {
-			var data = obj.result[0].Data;
+			var data = obj.result[0][updateDivsTypeArray[i]].toString();
 		} else {
 			var data = "-";
 		}
-		var re = /(-?\d+\.?\d*) (.+)/;
+		//var re = /(-?\d+\.?\d*) (.+)/;  -- old regex didn't found an temp value
+    var re = /(-?\d+[\.*]?\d*)(\s*.*)/;
 		tilesArray = re.exec(data);
+
 		if (tilesArray != null) {
-			if (tilesArray[1] < tilesPreviousArray[i]) {
-				$("#" + block + divID).html(tilesArray[1] + "<font size='3'>" + tilesArray[2] + " <i class='fa fa-caret-down fa-lg' style='color:red'></font>");
+      if (updateDivsUnitsArray[i]) {
+        tilesArray[2] = updateDivsUnitsArray[i];
+      }
+			if (parseFloat(tilesArray[1]) < parseFloat(tilesPreviousArray[i])) {
+				$("#" + block + divID + "_" + updateDivsTypeArray[i]).html(tilesArray[1] + "<font size=2vw>" + tilesArray[2] + "</font>");
+        $("#" + block + divID + "_" + updateDivsTypeArray[i] + "_arrow").removeClass("green");
+        $("#" + block + divID + "_" + updateDivsTypeArray[i] + "_arrow").addClass("red");
+        $("#" + block + divID + "_" + updateDivsTypeArray[i] + "_arrow").removeClass("fa-caret-up");
+        $("#" + block + divID + "_" + updateDivsTypeArray[i] + "_arrow").addClass("fa-caret-down");
 				tilesPreviousArray[i] = tilesArray[1];
-			} else if (tilesArray[1] > tilesPreviousArray[i]) {
-				$("#" + block + divID).html(tilesArray[1] + "<font size='3'>" + tilesArray[2] + " <i class='fa fa-caret-up fa-lg' style='color:green'></font>");
+			} else if (parseFloat(tilesArray[1]) > parseFloat(tilesPreviousArray[i])) {
+				$("#" + block + divID  + "_" + updateDivsTypeArray[i]).html(tilesArray[1] + "<font size=2vw>" + tilesArray[2] + "</font>");
+        $("#" + block + divID + "_" + updateDivsTypeArray[i] + "_arrow").removeClass("red");
+        $("#" + block + divID + "_" + updateDivsTypeArray[i] + "_arrow").addClass("green");
+        $("#" + block + divID + "_" + updateDivsTypeArray[i] + "_arrow").removeClass("fa-caret-down");
+        $("#" + block + divID + "_" + updateDivsTypeArray[i] + "_arrow").addClass("fa-caret-up");
 				tilesPreviousArray[i] = tilesArray[1];
-			}
+			} else {
+        $("#" + block + divID + "_" + updateDivsTypeArray[i]).html(tilesArray[1] + "<font size=2vw>" + tilesArray[2] + "</font>");
+      }
 		} else {
-			$("#" + block + divID).html(data);
+			$("#" + block + divID + "_" + updateDivsTypeArray[i]).html(data);
 		}
 		if(data == "On") {
-			$("#" + block + divID).removeClass("red");
-			$("#" + block + divID).addClass("green");
+			$("#" + block + divID + "_" + updateDivsTypeArray[i]).removeClass("red");
+			$("#" + block + divID + "_" + updateDivsTypeArray[i]).addClass("green");
 		} else if(data == "Off") {
-			$("#" + block + divID).removeClass("green");
-			$("#" + block + divID).addClass("red");
+			$("#" + block + divID + "_" + updateDivsTypeArray[i]).removeClass("green");
+			$("#" + block + divID + "_" + updateDivsTypeArray[i]).addClass("red");
 		} else {
-			$("#" + block + divID).removeClass("green");
-			$("#" + block + divID).removeClass("red");
+			$("#" + block + divID + "_" + updateDivsTypeArray[i]).removeClass("green");
+			$("#" + block + divID + "_" + updateDivsTypeArray[i]).removeClass("red");
 		}
 	});
     i = i++;
@@ -137,9 +193,25 @@ function dimmerSlider(updateDimmers, block) {
     url = "/api?type=devices&rid=" + dimmerID;
     requestAPI(url, function(d) {
   		var percentage = JSON.parse(d).result[0].Level;
-  		$('#dimmer_' + dimmerID + "_block_" + block).slider({min:0, max:100, value: percentage}).on('slideStop', function(ev) { changeDimmerSlider($(this).attr('id'), ev.value) } ).data('slider');
-  		$('#dimmer_' + dimmerID + "_block_" + block).slider().on('slideStop', function(ev) { changeDimmerSlider($(this).attr('id'), ev.value) } ).data('slider');
-	   });
+  		$('#dimmer_' + dimmerID + "_block_" + block).slider({min:0, max:100, value: percentage}).on('slideStop', function(ev) {
+        setDimmerState('dim_' + dimmerID + "_block_" + block + "_track", dimmerID);
+        changeDimmerSlider($(this).attr('id'), ev.value)
+      } ).data('slider');
+      setDimmerState('dim_' + dimmerID + "_block_" + block + "_track", dimmerID);
+     });
+  });
+}
+
+function setpointSlider(updateSetpoints, block) {
+  $.each(updateSetpoints, function(i, setpoint) {
+    url = "/api?type=devices&rid=" + setpoint[0];
+    requestAPI(url, function(d) {
+  		var percentage = parseFloat(JSON.parse(d).result[0].Data);
+  		$('#setpoint_slider' + setpoint[0] + "_block_" + block).slider({min:parseInt(setpoint[1]), max:parseInt(setpoint[2]), value: parseFloat(percentage)}).on('slideStop', function(ev) {
+        changeSetpoint(setpoint[0], parseFloat(ev.value));
+      } ).data('slider');
+      $('#stpnt_' + setpoint[0] + "_block_" + block + '_track').css({'background-image': '-webkit-linear-gradient(top, #f9f9f9 0%, red 100%)', 'background-image': '-o-linear-gradient(top, #f9f9f9 0%, red 100%)', 'background-image': 'linear-gradient(to bottom, #f9f9f9 0%, red 100%)'});
+     });
   });
 }
 
@@ -169,10 +241,15 @@ function redrawLineChart(sensor, idx, range, block) {
   });
 }
 
-function redrawBarChart(idxs, block) {
+function redrawBarChart(idxs, block, barChartElementsNames) {
   var url = "/api?custom=bar_chart&idxs=" + idxs.join();
+  var i = 0;
   requestAPI(url, function(d){
 	  var data = JSON.parse(d);
+    for (var key in data) {
+      data[key]["l"] = barChartElementsNames[i];
+      i++;
+    }
   block.setData(data);
   });
 }
@@ -278,9 +355,6 @@ function modifyConfigButtonClicked(id) {
 
 // Setpoint functions
 function changeSetpoint(idx, val) {
-  if (val.split('.')[1] == '0'){
-    val = val.split('.')[0];
-  }
   requestAPI(flask_server + "/api?type=command&param=setsetpoint&idx=" + idx + "&setpoint=" + val);
 }
 
@@ -340,4 +414,86 @@ function changeDown(idx, block) {
     changeTimer = setTimeout(function () {
         changeSetpoint(idx, newVal);
     }, 400);
+}
+
+// Update functions
+function performUpgrade() {
+  requestAPI('/api?custom=performUpgrade');
+  $( "#version_div" ).removeClass("show_update");
+  $( "#version_div" ).addClass("hide_update");
+  $( "#updateView_available" ).removeClass("show_update");
+  $( "#updateView_available" ).addClass("hide_update");
+  $( "#updateView_not_available" ).removeClass("hide_update");
+  $( "#updateView_not_available" ).addClass("show_update");
+}
+
+function checkVersion(branch) {
+  $.ajax({
+    url: "https://domoboard.nl/version.md",
+    cache: false,
+    success: function( data ) {
+      if (branch == "master") {
+        dataFloat = data.split(",")[0];
+      } else {
+        dataFloat = data.split(",")[1];
+      }
+    var compare = versionCompare(dataFloat, version);
+    if (compare == 1) {
+      document.getElementById('curver').innerHTML = version;
+      document.getElementById('newver').innerHTML = dataFloat;
+      $( "#version_div" ).removeClass("hide_update");
+      $( "#version_div" ).addClass("show_update");
+      }
+    },
+    async:true
+    });
+  }
+
+function checkVersionSettings(branch) {
+  $.ajax({
+    url: "https://domoboard.nl/version.md",
+    cache: false,
+    success: function( data ) {
+      if (branch == "master") {
+        dataFloat = data.split(",")[0];
+      } else {
+        dataFloat = data.split(",")[1];
+      }
+      var compare = versionCompare(dataFloat, version);
+      if (compare == 1) {
+        $( "#updateView_available" ).removeClass("hide_update");
+        $( "#updateView_available" ).addClass("show_update");
+        document.getElementById('curver_settings').innerHTML = version;
+        document.getElementById('newver_settings').innerHTML = dataFloat;
+      } else {
+        $( "#updateView_not_available" ).removeClass("hide_update");
+        $( "#updateView_not_available" ).addClass("show_update");
+      }
+    },
+    async:true
+    });
+  }
+
+  function versionCompare(a, b) {
+    if (a === b) {
+       return 0;
+    }
+    var a_components = a.split(".");
+    var b_components = b.split(".");
+    var len = Math.min(a_components.length, b_components.length);
+    for (var i = 0; i < len; i++) {
+        if (parseInt(a_components[i]) > parseInt(b_components[i])) {
+            return 1;
+        }
+        if (parseInt(a_components[i]) < parseInt(b_components[i])) {
+            return -1;
+        }
+    }
+    if (a_components.length > b_components.length) {
+        return 1;
+    }
+    if (a_components.length < b_components.length) {
+        return -1;
+    }
+    return 0;
 }

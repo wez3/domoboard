@@ -27,9 +27,9 @@ var line_chart_block_{{count}} = Morris.Line({
 
 $(document).ready(function() {
   {% for k, v in blockArray[count]["line_charts"].iteritems() %}
-  redrawLineChart("{{v[2]}}",{{v[0]}},"{{v[1]}}", line_chart_block_{{count}});
+  redrawLineChart("{{v[3]}}",{{v[1]}},"{{v[2]}}", line_chart_block_{{count}});
   $("div#title_block_{{count}} h2").html("{{k}}");
-  setInterval(redrawLineChart,9000,"{{v[2]}}",{{v[0]}},"{{v[1]}}",line_chart_block_{{count}});
+  setInterval(redrawLineChart,9000,"{{v[3]}}",{{v[1]}},"{{v[2]}}",line_chart_block_{{count}});
 });
 {% endfor %}
 </script>
