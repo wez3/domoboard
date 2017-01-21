@@ -152,11 +152,10 @@ $(document).ready(function() {
             btnClass = 'btn btn-responsive';
           }
           bid = 'selector_{{v[1]}}_block_{{count}}_index_';
-          b = '<button id="' + bid + i + '" class="' + btnClass + '">' + lvlname + '</button>';
+          b = '<button id="' + bid + i + '" onclick="switchSelector({{v[1]}}, ' + i + ', this.id)" class="' + btnClass + '">' + lvlname + '</button>';
           $('#selector_body_{{v[1]}}_block_{{count}}').append(b);
-          $('#' + bid + i).click(function(e) {
+          $('#' + 'selector_{{v[1]}}_block_{{count}}_index_' + i).click(function(e) {
             e.preventDefault();
-            switchSelector({{v[1]}}, i, bid);
           });
         });
     });
@@ -183,5 +182,4 @@ $(document).ready(function() {
   setInterval(refreshSetpoints, 9000, updateSetpoints_block_{{count}}, {{count}});
 
 });
-
 </script>

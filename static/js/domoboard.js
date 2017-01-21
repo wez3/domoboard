@@ -24,6 +24,9 @@ function changeSwitch(checkboxElem, idx) {
 
 // switchSelector
 function switchSelector(idx, lvl, bid) {
+
+  var old_bid = bid.replace(new RegExp(lvl + '$'), '');
+  //var old_index = bid.replace(lvl, '');
   url = '/api?type=devices&rid=' + idx;
   requestAPI(flask_server + url, function(d) {
     r = JSON.parse(d);
@@ -31,8 +34,8 @@ function switchSelector(idx, lvl, bid) {
     if (last_active != 0) {
       last_active = last_active + 0;
     }
-    $('#' + bid + last_active).removeClass('btn-primary');
-    $('#' + bid + lvl).addClass('btn-primary');
+    $('#' + old_bid + last_active).removeClass('btn-primary');
+    $('#' + bid).addClass('btn-primary');
     requestAPI(flask_server + '/api?type=command&param=switchlight&idx=' + idx + '&switchcmd=Set%20Level&level=' + lvl + '&passcode=');
   });
 }
