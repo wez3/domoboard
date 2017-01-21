@@ -141,6 +141,9 @@ $(document).ready(function() {
       requestAPI(flask_server + url, function(d) {
         r = JSON.parse(d);
         btns = r['result'][0]['LevelNames'].split('|');
+        if (r['result'][0]['LevelOffHidden'] == true) {
+          btns.shift();
+        }
         $.each(btns, function (i, lvlname) {
           activebtn = r['result'][0]['Level']
           if (i != '0') {
