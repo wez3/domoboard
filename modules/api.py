@@ -56,6 +56,10 @@ def setConfig(cfg, orig_cfg):
     config = cfg
     originalCfg = orig_cfg
 
+def setModules(modulesList):
+    global modules
+    modules = modulesList
+
 def getConfig():
     return config
 

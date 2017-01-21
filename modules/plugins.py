@@ -2,7 +2,7 @@
 # This file contains the functions regarding the plugin manager.
 
 import git, shutil, os, imp
-import security
+import security, api
 import re
 
 indexes = {}
@@ -92,7 +92,7 @@ def indexPlugins(params={}):
                             if _check == 'summary' or _check == 'description':
                                 _text = re.sub('\n', '<br>', _text)
                             fol[_check] = _text
-                            
+
                     if not i in (f['folder'] for f in indexes.itervalues()):
                         indexes[len(indexes)] = fol
                     else:
@@ -119,6 +119,7 @@ def indexPlugins(params={}):
                     indexes[int(params['folid'])]['status'] = 'remove'
                     global modules
                     modules = loadPlugins()
+                    api.setModules(modules)
                     return indexes[int(params['folid'])]['folder'] + ' installed.'
                 else:
                     return "This plugin is already installed."
