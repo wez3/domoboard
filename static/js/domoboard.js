@@ -21,6 +21,21 @@ function changeSwitch(checkboxElem, idx) {
     requestAPI(flask_server + "/api?type=command&param=switchlight&idx=" + idx + "&switchcmd=Off"  );
   }
 }
+
+// switchSelector
+function switchSelector(idx, lvl, bid) {
+  url = '/api?type=devices&rid=' + idx;
+  requestAPI(flask_server + url, function(d) {
+    r = JSON.parse(d);
+    last_active = r['result'][0]['Level'];
+    if (last_active != 0) {
+      last_active = last_active + 0;
+    }
+    $('#' + bid + last_active).removeClass('btn-primary');
+    $('#' + bid + lvl).addClass('btn-primary');
+    requestAPI(flask_server + '/api?type=command&param=switchlight&idx=' + idx + '&switchcmd=Set%20Level&level=' + lvl + '&passcode=');
+  });
+}
 // Dimmer functions
 function changeDimmer(checkboxElem, idx) {
   var chkurl = "/api?type=devices&rid=" + idx;
