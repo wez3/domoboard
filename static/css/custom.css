@@ -2292,6 +2292,9 @@ button,
     margin-bottom: 5px;
     margin-right: 5px;
 }
+.modal-footer .btn+.btn {
+  margin-bottom: 5px;
+}
 
 .btn-group-vertical .btn,
 .btn-group .btn {

@@ -52,7 +52,7 @@
                         <div class="dropdown">
                             <select id="dropDownPage">
                                 {% for k, v in configValues["navbar"].iteritems() %}
-                                    <option>{{ v }}</option>
+                                    <option>{{ v[0] }}</option>
                                 {% endfor %}
                             </select>
                             (Select a page to add the domoticz device to)
@@ -76,6 +76,27 @@
         <i>This page requires further development. Please use the config file for advanced changes to the dashboard.</i>
         <p id="showdevices"></p>
     </div>
+</div>
+
+<!-- Install Plugin Modal -->
+<div style="min-height: 100px;" class="modal fade" id="pluginModal" tabindex="-1" role="dialog" aria-labelledby="pluginModalLabel" aria-hidden="true">
+<div class="modal-dialog" role="document">
+<div class="modal-content">
+<div class="modal-header">
+  <h2 class="modal-title" id="pluginModalLabel">Install Plugin</h2>
+  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+  </button>
+</div>
+<div id="plugin_body" class="modal-body">
+  <p id='plug_desc'></p>
+
+  <p id='plug_sum'></p>
+<p id="plug_info"></p>
+</div>
+<div id="plugModalFooter" class="modal-footer">
+</div>
+</div>
+</div>
 </div>
     <script>
 
@@ -109,42 +130,36 @@
                     buttons = buttons + "<button onclick='updatePlugin("+ result[i].id + ")' type='button' class='btn updateBtn'>update";
                 }
                 buttons = buttons + "<button onclick='" + result[i].status + "Plugin(" + result[i].id  + ")' name='"+ result[i].title + "' fol='" + result[i].folder + "' type='button' class='btn " + result[i].status + "Btn'>" + result[i].status + "</button>";
-                $('#pluginView').append("<div class='pluginItem'><span onclick=getSummary('" + result[i].title + "_summary')>" + result[i].title + " - Author: " + result[i].author + " - version: " + result[i].version + "</span>"+ buttons + "<div id='" + result[i].title + "_summary' class='fullSummary'><span>" + result[i].description + "</span></div></div>");
-                if (("structure" in result[i]) == true) {
-                    $('#' + result[i].title + "_summary").append('<div>');
-                    $('#' + result[i].title + "_summary").append('<ul>');
-                    for (k in result[i].structure[result[i].folder]) {
-                        for (l in result[i].structure[result[i].folder][k]) {
-                            $('#' + result[i].title + "_summary").append('<li>' + k + '/' + l + '</li>');
-                        }
-                    }
-                    $('#' + result[i].title + "_summary").append('</ul>');
-                    $('#' + result[i].title + "_summary").append('</div>');
-                }
+                $('#pluginView').append("<div class='pluginItem'><span id='" + result[i].title +"_summary' onclick=setPluginInfo('" + result[i].id + "') >v" + result[i].version + " - " + result[i].title + " </span>"+ buttons + "</div>");
             }
-            $('.fullSummary').hide();
         }
 
         function installPlugin(plugin_id) {
+          $('#plugin_body').addClass("loading");
             var url = "/api?custom=indexPlugins&action=installPlugin&folid=" + plugin_id;
             requestAPI(url, function(d){
                 automaticIndex();
+                $('#pluginModal').modal('hide');
             });
         }
 
         function removePlugin(plugin_id) {
+          $('#plugin_body').addClass("loading");
             var url = "/api?custom=indexPlugins&action=removePlugin&folid=" + plugin_id;
             requestAPI(url, function(d){
                 automaticIndex();
+                $('#pluginModal').modal('hide');
             });
         }
 
-        function updatePlugin(plugin_id) {
+        function updatePlugin(plugin_id, ob) {
+          $('#plugin_body').addClass("loading");
             var url = "/api?custom=indexPlugins&action=removePlugin&folid=" + plugin_id;
             requestAPI(url, function(d) {
                 var url = "/api?custom=indexPlugins&action=installPlugin&folid=" + plugin_id;
                 requestAPI(url, function(dd) {
                     automaticIndex();
+                    $('#pluginModal').modal('hide');
                 });
             });
         }
@@ -156,20 +171,37 @@
           });
         }
 
-        function getSummary(div_id) {
-            $('.fullSummary').hide();
-            $('#' + div_id).show();
+        function clearModal() {
+          $('#plug_info').empty();
+          $('#pluginModalLabel').empty();
+          $('#plug_desc').empty();
+          $('#plug_sum').empty();
+          $('#plugModalFooter').empty();
+          $('#plugModalFooter').append('<button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>');
         }
-        $('.pluginItem span').on('click', function() {
-            console.log('Clicked on Item');
-            console.log($(this));
-        });
+        function setPluginInfo(id) {
+          var url = "/api?custom=indexPlugins";
+          $('#plugin_body').addClass("loading");
+          $('#pluginModal').modal('show');
+          clearModal();
+          requestAPI(url, function(d){
+            var res = JSON.parse(d);
+            $('#pluginModalLabel').html('<b>' + res[id].title + '</b> <span style="float: right;">v' + res[id].version + '</b>');
+            $('#plug_info').html('<b>Author: ' + res[id].author + '</b>');
+            $('#plug_desc').html('<h4><b>Description</b></h4>' + res[id].description);
+            $('#plug_sum').html('<h4><b>Summary</b></h4>' + res[id].summary);
+            if (res[id].update == 'yes') {
+                $('#plugModalFooter').append("<button onclick='updatePlugin("+ res[id].id + ")' type='button' class='btn updateBtn'>update");
+            }
+            $('#plugModalFooter').append("<button onclick='" + res[id].status + "Plugin(" + res[id].id  + ", this)' name='"+ res[id].title + "' fol='" + res[id].folder + "' type='button' class='btn " + res[id].status + "Btn'>" + res[id].status + "</button>");
+            $('#plugin_body').removeClass("loading");
+          });
+        }
 
         $(document).ready(function () {
             // Get the element with id="defaultOpen" and click on it
             document.getElementById("defaultOpen").click();
             setInterval(automaticIndex(), 9000);
-            $('.fullSummary').hide();
             checkVersionSettings(branch);
         });
         retrieveAvailableDevices();
