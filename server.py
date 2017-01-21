@@ -6,7 +6,9 @@ from collections import OrderedDict
 import argparse, socket, re
 import hashlib, configobj, json, sys, os
 import modules.api as api
+import modules.domoticz as domoticz
 import modules.security as security
+import modules.webconfig as webconfig
 
 app = Flask(__name__)
 
@@ -46,8 +48,8 @@ def generatePage():
                                 configValues = configValues,
                                 blockArray = blockArray,
                                 _csrf_token = session['_csrf_token'],
-                                version = api.getVersion(),
-                                branch = api.getCurrentBranch(),
+                                version = webconfig.getVersion(),
+                                branch = webconfig.getCurrentBranch(),
                                 debug = app.debug)
     else:
         abort(404)
@@ -154,7 +156,7 @@ if __name__ == '__main__':
     api.setConfig(config, unsanitizedConfig)
     api.init()
     validateConfigFormat(config)
-    api.checkDomoticzStatus(config)
+    domoticz.checkDomoticzStatus(config)
     server_location = config["general_settings"]["server"]["url"]
     flask_server_location = config["general_settings"]["server"]["flask_url"]
     auth = Auth(app, login_url_name='login_form')
