@@ -440,7 +440,7 @@ function checkVersion(branch) {
         dataFloat = data.split(",")[1];
       }
     var compare = versionCompare(dataFloat, version);
-    if (comare == 1) {
+    if (compare == 1) {
       document.getElementById('curver').innerHTML = version;
       document.getElementById('newver').innerHTML = dataFloat;
       $( "#version_div" ).removeClass("hide_update");
