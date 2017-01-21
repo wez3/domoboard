@@ -436,7 +436,7 @@ function checkVersion(branch) {
       } else {
         dataFloat = data.split(",")[1];
       }
-    if (Number(dataFloat) > Number(version)) {
+    if (dataFloat > version) {
       document.getElementById('curver').innerHTML = version;
       document.getElementById('newver').innerHTML = dataFloat;
       $( "#version_div" ).removeClass("hide_update");
@@ -457,7 +457,7 @@ function checkVersionSettings(branch) {
       } else {
         dataFloat = data.split(",")[1];
       }
-      if (Number(dataFloat) > Number(version)) {
+      if (dataFloat > version) {
         $( "#updateView_available" ).removeClass("hide_update");
         $( "#updateView_available" ).addClass("show_update");
         document.getElementById('curver_settings').innerHTML = version;
