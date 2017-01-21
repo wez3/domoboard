@@ -42,8 +42,8 @@ def getPluginVersion(loc):
     return float(_version)
 
 def indexPlugins(params={}):
-    tmpFolder = 'static/tmp'
-    indexFolderPath = 'static/tmp/pluginsIndex/'
+    tmpFolder = 'plugins/index'
+    indexFolderPath = 'plugins/index/'
     docsFolderPath = 'static/docs/'
     installedPlugins = []
     staticFolder = ['css/', 'images/', 'fonts/', 'js/']
