@@ -3,6 +3,7 @@
 
 import git, shutil, os, imp
 import security
+import re
 
 indexes = {}
 
@@ -28,11 +29,11 @@ def setPluginDict(d):
     indexes = d
 
 def getPluginVersion(loc):
-    f = open(loc, 'r').read().split('\n')
+    f = open(loc, 'r').read().split('@')
     v = None
     for l in f:
         t = l.split('=')
-        if t[0] == '@version':
+        if t[0].lower() == 'version':
             _tmp_v = t[1].split('.')
             c = 1
             _version = _tmp_v[0] + '.'
@@ -81,12 +82,17 @@ def indexPlugins(params={}):
                             else:
                                 fol['update'] = 'no'
                             fol['status'] = 'remove'
-                    readme = open(indexFolderPath + i + '/' + docsFolderPath + 'readme.md', 'r').read().split('\n')
+                    readme = re.split('@', open(indexFolderPath + i + '/' + docsFolderPath + 'readme.md', 'r').read())#.split('@')
+
                     sumList = {}
                     for s in readme:
-                        t = s.split('=')
-                        if len(t) > 1:
-                            fol[t[0].replace('@', '')] = t[1]
+                        if re.search('\w+=', str(s)):
+                            _check = re.search('\w+=', str(s)).group().replace('=', '')
+                            _text = re.sub('\w+=', '', s)
+                            if _check == 'summary' or _check == 'description':
+                                _text = re.sub('\n', '<br>', _text)
+                            fol[_check] = _text
+                            
                     if not i in (f['folder'] for f in indexes.itervalues()):
                         indexes[len(indexes)] = fol
                     else:
