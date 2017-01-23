@@ -141,9 +141,7 @@ $(document).ready(function() {
       requestAPI(flask_server + url, function(d) {
         r = JSON.parse(d);
         btns = r['result'][0]['LevelNames'].split('|');
-        if (r['result'][0]['LevelOffHidden'] == true) {
-          btns.shift();
-        }
+
         $.each(btns, function (i, lvlname) {
           activebtn = r['result'][0]['Level']
           if (i != '0') {
@@ -154,8 +152,13 @@ $(document).ready(function() {
           } else {
             btnClass = 'btn btn-responsive';
           }
+          if (r['result'][0]['LevelOffHidden'] == true && lvlname == 'Off') {
+            style = 'style="display: none;"';
+          } else {
+            style = '';
+          }
           bid = 'selector_{{v[1]}}_block_{{count}}_index_';
-          b = '<button id="' + bid + i + '" onclick="switchSelector({{v[1]}}, ' + i + ', this.id)" class="' + btnClass + '">' + lvlname + '</button>';
+          b = '<button id="' + bid + i + '" onclick="switchSelector({{v[1]}}, ' + i + ', this.id)" class="' + btnClass + '"' + style + '>' + lvlname + '</button>';
           $('#selector_body_{{v[1]}}_block_{{count}}').append(b);
           $('#' + 'selector_{{v[1]}}_block_{{count}}_index_' + i).click(function(e) {
             e.preventDefault();
