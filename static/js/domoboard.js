@@ -434,8 +434,10 @@ function checkVersion(branch) {
     success: function( data ) {
       if (branch == "master") {
         dataFloat = data.split(",")[0];
-      } else {
+      } else if (branch == "develop") {
         dataFloat = data.split(",")[1];
+      } else {
+        return 0;
       }
     var compare = versionCompare(dataFloat, version);
     if (compare == 1) {
@@ -456,8 +458,12 @@ function checkVersionSettings(branch) {
     success: function( data ) {
       if (branch == "master") {
         dataFloat = data.split(",")[0];
-      } else {
+      } else if (branch == "develop") {
         dataFloat = data.split(",")[1];
+      } else {
+        $( "#updateView_no_git" ).removeClass("hide_update");
+        $( "#updateView_no_git" ).addClass("show_update");
+        return 0;
       }
       var compare = versionCompare(dataFloat, version);
       if (compare == 1) {
