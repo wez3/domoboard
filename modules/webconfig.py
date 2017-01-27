@@ -30,6 +30,9 @@ def performUpgrade():
     return "Upgrade completed."
 
 def getCurrentBranch():
-    repo = git.Repo('.')
-    branch = repo.active_branch
-    return branch.name
+    try:
+        repo = git.Repo('.')
+        branch = repo.active_branch
+        return branch.name
+    except:
+        return "None"
