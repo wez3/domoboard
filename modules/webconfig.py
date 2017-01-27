@@ -5,12 +5,19 @@ import git
 import api
 from flask import request
 
+
 def writeToConfig(idx, page, component, description, extra):
     originalCfg = api.getOriginalConfig()
     section = dict(originalCfg[page][component])
     section[description] = idx
     originalCfg[page][component] = section
     originalCfg.write()
+
+def indexWebConfig(params={}):
+    if 'page' in params:
+        return api.getConfig()[params['page']]
+    else:
+        return api.getConfig()
 
 def getVersion():
     f = open('VERSION.md', 'r')
