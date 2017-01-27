@@ -9,6 +9,8 @@
                         <li><a href="javascript:void(0)" class="tablinks"
                                onclick="openCat(event, 'settings')">Settings</a>
                          </li>
+                         <li><a href="javascript:void(0)" class="tablinks"
+                            onclick="openCat(event, 'config')">Config</a></li>
                     </ul>
 <div id="updates" class="tabcontent">
     <div id="updateView_available" class="hide_update">
@@ -38,6 +40,23 @@
 <div id="plugins" class="tabcontent">
     <div id="pluginView">
     </div>
+</div>
+<div id="config" class="tabcontent">
+  <div id="configView">
+    <div class="dropdown">
+      <select id="dropdownMenuChoice" onChange="javascript:chgAction()">
+          {% for k, v in configValues["navbar"].iteritems() %}
+              <option>{{ v[0] }}</option>
+          {% endfor %}
+      </select>
+      (Select a page to add the domoticz device to)
+    </div>
+    {% for k, v in configValues["navbar"].iteritems() %}
+    <div id="page_{{v[0]}}" class="page_info page_info_hidden" style="display: none">
+      <ul id="dropDown_page_{{v[0]}}_dc" class="nav nav-tabs"></ul>
+    </div>
+    {% endfor %}
+  </div>
 </div>
 <div class="tabcontent" id="settings">
 <div class="modal fade tabcontent" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
