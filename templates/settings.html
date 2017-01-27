@@ -220,7 +220,24 @@
             $('#plugin_body').removeClass("loading");
           });
         }
+        function chgAction() {
+                  var e = document.getElementById("dropdownMenuChoice");
+                  var strUser = e.options[e.selectedIndex].value;
+                  var url = '/api?custom=indexWebConfig&page=' + strUser;
+                  requestAPI(url, function(d) {
+                    console.log(d);
+                    var res = JSON.parse(d);
 
+                    $.each( res['display_components'], function( i, obj ) {
+                        $.each(obj, function(p, ddc) {
+                              var newOption = $('<li><a href="#">'+ddc+'</a></li>');
+                              $('#dropDown_page_' + strUser + '_dc').append(newOption);
+                            });
+                    });
+                    $('.page_info').hide();
+                    $('#page_' + strUser).show();
+                  });
+                }
         $(document).ready(function () {
             // Get the element with id="defaultOpen" and click on it
             document.getElementById("defaultOpen").click();
