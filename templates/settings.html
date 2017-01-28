@@ -61,7 +61,6 @@
       <div id="page_{{v}}" class="page_info page_info_hidden" style="display: none">
         <ul id="dropDown_page_{{v}}_dc" class="nav nav-tabs"></ul>
         <div id="page_{{v}}_configuration_options">
-
         </div>
       </div>
 
@@ -132,7 +131,17 @@
 </div>
 </div>
     <script>
+    var sort_by = function(field, reverse, primer){
+      var key = primer ?
+      function(x) {return primer(x[field])} :
+      function(x) {return x[field]};
 
+      reverse = !reverse ? 1 : -1;
+
+      return function (a, b) {
+      return a = key(a), b = key(b), reverse * ((a > b) - (b > a));
+    }
+  }
         function openCat(evt, catName) {
             // Declare all variables
             var i, tabcontent, tablinks;
@@ -233,32 +242,57 @@
         function chgAction() {
                   var e = document.getElementById("dropdownMenuChoice");
                   var strUser = e.options[e.selectedIndex].value;
+
                   var url = '/api?custom=indexWebConfig&page=' + strUser;
+                  if ($('#dropDown_page_' + strUser + '_dc >*').length < 1) {
                   requestAPI(url, function(d) {
                     var res = JSON.parse(d);
+
                     $.each( res['display_components'], function( i, obj ) {
                       var _ob = '';
+
                       if (typeof(obj) == 'string') {
-                        _ob = obj;
-                        var newOption = $('<li><a child-of="' + strUser + '" value="' + obj + '" onclick="javascript:showDiv(this)">'+obj+'</a></li>');
+                        _val = String(obj).replace('\]', '_').replace('\[', '_')
+
+                        var newOption = $('<li><a child-of="' + strUser + '" value="' + _val + '" onclick="javascript:showDiv(this)">'+obj+'</a></li>');
                         $('#dropDown_page_' + strUser + '_dc').append(newOption);
-                        $('#page_' + strUser + '_configuration_options').append('<div class="page_configuration_info" id="page_' + strUser + '_configuration_options_' + obj + '"></div>');
+                        $('#page_' + strUser + '_configuration_options').append('<div class="page_configuration_info" id="page_' + strUser + '_configuration_options_' + _val + '"></div>');
                       } else {
                         $.each(obj, function(p, ddc) {
-                          _ob = ddc;
-                              var newOption = $('<li><a child-of="' + strUser + '" value="' + ddc + '" onclick="javascript:showDiv(this)">'+ddc+'</a></li>');
+
+                            _val = String(ddc).replace('\]', '_').replace('\[', '_');
+                              var newOption = $('<li><a child-of="' + strUser + '" value="' + _val + '" onclick="javascript:showDiv(this)">'+ddc+'</a></li>');
                               $('#dropDown_page_' + strUser + '_dc').append(newOption);
-                              $('#page_' + strUser + '_configuration_options').append('<div class="page_configuration_info" id="page_' + strUser + '_configuration_options_' + ddc + '"></div>');
+                              $('#page_' + strUser + '_configuration_options').append('<div class="page_configuration_info" id="page_' + strUser + '_configuration_options_' + _val + '"></div>');
                             });
                           }
                     });
                     $.each(res, function(i, obj) {
                       if (i != 'display_components') {
                         $.each(obj, function(ind, _ob) {
-                          newEl = '<input type="text" name="' + ind + '" value="' + ind + '">';
-                          newEl = newEl + '<input type="text" name="' + _ob + '" value="' + _ob + '">';
+                          if (_ob.length != undefined) {
+                          _obsplitted = String(_ob).split(',');
+                          newEl = '<div style="display: block;"><input type="text" name="' + ind + '" value="' + ind + '">';
+                          $.each(_obsplitted, function(v, vv) {
+                            newEl = newEl +  createDropdownOptions(vv);
+                          });
+                          newEl = newEl + '</div>';
                           $('#page_' + strUser + '_configuration_options_' + i).append(newEl);
+                        } else {
+                          $.each(_ob, function(indSub, _obSub) {
+                          //  console.log(_obSub);
+                            _obsplittedSub = String(_obSub).split(',');
+                            newEl = '<div style="display: block;"><input type="text" name="' + indSub + '" value="' + indSub + '">';
+                            $.each(_obsplittedSub, function(v, vv) {
+                              newEl = newEl +  createDropdownOptions(vv);
+                            });
+                            newEl = newEl + '</div>';
+                            $('#page_' + strUser + '_configuration_options_' + i + '_' + ind + '_').append(newEl);
+
+                          });
+                        }
                         });
+
                       }
                     });
                     $('.page_info').hide();
@@ -266,16 +300,62 @@
                     $('#page_' + strUser).show();
                   });
                 }
+                $('.page_info').hide();
+                $('.page_configuration_info').hide();
+                $('#page_' + strUser).show();
+                }
+
                 function showDiv(el) {
                   $('.page_configuration_info').hide();
                   $('#page_' + el.getAttribute('child-of') + '_configuration_options_' + el.getAttribute('value')).show();
                 }
+
+                function createDropdownOptions(op) {
+
+                  var graphPos = ['day', 'month', 'year'];
+                  var options = '';
+                  if ($.inArray(op, graphPos) >= 0) {
+
+                    $.each(graphPos, function(i, val) {
+                      if (val == op) {
+                        options = options + '<option selected=true value='+val+'>'+ val +'</option>';
+                      } else {
+                        options = options + '<option value='+val+'>'+ val +'</option>';
+                      }
+                    })
+                    return '<select>' + options + '</select>';
+                  } else if (isNaN(op) == false ) {
+                    options = createDropdownDevices(op);
+                    return '<select>' + options + '</select>';
+                  } else {
+                      options = '<input type="text" name="' + op + '" value="' + op + '">';
+                      return options
+                  }
+
+                }
+                function createDropdownDevices(idx) {
+                  devices = getDomoticzDevices().sort(sort_by('Name', false, function(a){return a.toUpperCase()}));;
+                  options = '';
+                  $.each(devices, function(i, obj) {
+                    if (idx != undefined) {
+                      if (obj.idx == idx) {
+                    options = options + '<option selected=true value="' + obj.idx + '">' + obj.Name + '</option>';
+                  } else {
+                    options = options + '<option value="' + obj.idx + '">' + obj.Name + '</option>';
+                  }
+                }
+                  });
+                  return options
+                }
         $(document).ready(function () {
+
+          //createDropdownDevices();
             // Get the element with id="defaultOpen" and click on it
             document.getElementById("defaultOpen").click();
             setInterval(automaticIndex(), 9000);
             checkVersionSettings(branch);
         });
+
         retrieveAvailableDevices();
         selected_page_settings();
         selected_component_settings();
