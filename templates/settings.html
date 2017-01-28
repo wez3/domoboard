@@ -46,15 +46,25 @@
     <div class="dropdown">
       <select id="dropdownMenuChoice" onChange="javascript:chgAction()">
           {% for k, v in configValues["navbar"].iteritems() %}
+              {% if v is iterable and v is not string %}
               <option>{{ v[0] }}</option>
+              {% else %}
+              <option>{{ v }}</option>
+              {% endif %}
           {% endfor %}
       </select>
-      (Select a page to add the domoticz device to)
     </div>
     {% for k, v in configValues["navbar"].iteritems() %}
-    <div id="page_{{v[0]}}" class="page_info page_info_hidden" style="display: none">
-      <ul id="dropDown_page_{{v[0]}}_dc" class="nav nav-tabs"></ul>
-    </div>
+      {% if v is iterable and v is not string %}
+      {% set v = v[0] %}
+      {% endif %}
+      <div id="page_{{v}}" class="page_info page_info_hidden" style="display: none">
+        <ul id="dropDown_page_{{v}}_dc" class="nav nav-tabs"></ul>
+        <div id="page_{{v}}_configuration_options">
+
+        </div>
+      </div>
+
     {% endfor %}
   </div>
 </div>
@@ -225,18 +235,40 @@
                   var strUser = e.options[e.selectedIndex].value;
                   var url = '/api?custom=indexWebConfig&page=' + strUser;
                   requestAPI(url, function(d) {
-                    console.log(d);
                     var res = JSON.parse(d);
-
                     $.each( res['display_components'], function( i, obj ) {
+                      var _ob = '';
+                      if (typeof(obj) == 'string') {
+                        _ob = obj;
+                        var newOption = $('<li><a child-of="' + strUser + '" value="' + obj + '" onclick="javascript:showDiv(this)">'+obj+'</a></li>');
+                        $('#dropDown_page_' + strUser + '_dc').append(newOption);
+                        $('#page_' + strUser + '_configuration_options').append('<div class="page_configuration_info" id="page_' + strUser + '_configuration_options_' + obj + '"></div>');
+                      } else {
                         $.each(obj, function(p, ddc) {
-                              var newOption = $('<li><a href="#">'+ddc+'</a></li>');
+                          _ob = ddc;
+                              var newOption = $('<li><a child-of="' + strUser + '" value="' + ddc + '" onclick="javascript:showDiv(this)">'+ddc+'</a></li>');
                               $('#dropDown_page_' + strUser + '_dc').append(newOption);
+                              $('#page_' + strUser + '_configuration_options').append('<div class="page_configuration_info" id="page_' + strUser + '_configuration_options_' + ddc + '"></div>');
                             });
+                          }
+                    });
+                    $.each(res, function(i, obj) {
+                      if (i != 'display_components') {
+                        $.each(obj, function(ind, _ob) {
+                          newEl = '<input type="text" name="' + ind + '" value="' + ind + '">';
+                          newEl = newEl + '<input type="text" name="' + _ob + '" value="' + _ob + '">';
+                          $('#page_' + strUser + '_configuration_options_' + i).append(newEl);
+                        });
+                      }
                     });
                     $('.page_info').hide();
+                    $('.page_configuration_info').hide();
                     $('#page_' + strUser).show();
                   });
+                }
+                function showDiv(el) {
+                  $('.page_configuration_info').hide();
+                  $('#page_' + el.getAttribute('child-of') + '_configuration_options_' + el.getAttribute('value')).show();
                 }
         $(document).ready(function () {
             // Get the element with id="defaultOpen" and click on it
