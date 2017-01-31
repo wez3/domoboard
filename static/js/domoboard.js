@@ -1,15 +1,16 @@
 // Function to request the Domoboard API
-function requestAPI(url, callback) {
-  $.ajax({
+function requestAPI(url, callback, sync) {
+  if (sync == undefined) { syncChoice = true; } else { syncChoice = false; }
+  return $.ajax({
     type: 'POST',
     url: url,
     data: { _csrf_token: csrf_token },
     success:  function (data) {
 			if (typeof callback === "function"){
 			callback(data);
-			}
+    } else { return data; }
     },
-    async:true
+    async:syncChoice
   });
 }
 
@@ -303,6 +304,12 @@ function RefreshLogData() {
   $('#showlog').html(text);
   });
   $.refreshTimerGraph = setInterval(RefreshLogData, 2000);
+}
+
+// getAllDomoticzDevices
+function getDomoticzDevices() {
+  var url = flask_server + "/api?type=devices&filter=all&used=true&order=Name";
+ return JSON.parse(requestAPI(url, undefined, true)['responseText']).result;
 }
 
 // Settings functions
