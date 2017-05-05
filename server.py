@@ -22,6 +22,10 @@ def init():
         addUser = AuthUser(username=k)
         addUser.set_and_encrypt_password(v)
         g.users[k] = addUser
+    if config["general_settings"]["domoboard"]["autologon"] == "True":
+        addUser = AuthUser(username='auto')
+        addUser.set_and_encrypt_password('auto')
+        g.users['auto'] = addUser
 
 @login_required()
 def generatePage():
@@ -86,14 +90,19 @@ def logout_view():
 
 @app.route('/login/', methods=['POST', 'GET'])
 def login_form():
-    if request.method == 'POST':
-        username = request.form['username']
-        if username in g.users:
-            if g.users[username].authenticate(request.form['password']):
-                security.generateCsrfToken()
-                return redirect(url_for('dashboard'))
-        return render_template('login.html', failed = "Login failed")
-    return render_template('login.html')
+    if config["general_settings"]["domoboard"]["autologon"] == "True":
+        if g.users['auto'].authenticate('auto'):
+            security.generateCsrfToken()
+            return redirect(url_for('dashboard'))
+    else:
+        if request.method == 'POST':
+            username = request.form['username']
+            if username in g.users:
+                if g.users[username].authenticate(request.form['password']):
+                    security.generateCsrfToken()
+                    return redirect(url_for('dashboard'))
+            return render_template('login.html', failed = "Login failed")
+        return render_template('login.html')
 
 @app.errorhandler(404)
 def page_not_found(e):
@@ -115,7 +124,7 @@ def configValueExists(value):
 
 def validateConfigFormat(config):
     requiredSettings = {"general_settings/server": ["url", "flask_url", "user", "password", "secret_key"],
-                        "general_settings/domoboard": ["time", "date"],
+                        "general_settings/domoboard": ["time", "date", "autologon"],
                         "navbar/menu": [None] }
     for sect, fields in requiredSettings.iteritems():
         section = sect.split('/')

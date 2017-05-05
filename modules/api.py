@@ -34,6 +34,8 @@ def gateway():
         webconfig.writeToConfig(idx, page, component, description, extra)
     elif custom == 'indexPlugins':
         result = json.dumps(plugins.indexPlugins(request.args))
+    elif custom == 'indexWebConfig':
+        result = json.dumps(webconfig.indexWebConfig(request.args))
     elif custom == "performUpgrade":
         result = json.dumps(webconfig.performUpgrade())
     elif custom in apiDict:
