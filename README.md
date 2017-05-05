@@ -4,16 +4,36 @@ Domoboard is a dashboard for Domoticz based on Python Flask. The decision was ma
 
 # Quick start
 
-Install dependencies:
-
-```
-sudo easy_install flask flask-auth configobj gitpython simplejson bleach requests
-```
-
 Clone the git:
 
 ```
+cd /home/pi
 git clone https://github.com/wez3/domoboard
+```
+
+Install virtualenv:
+
+```
+sudo apt-get install python-virtualenv
+```
+
+Create the virtualenv:
+
+```
+virtualenv /home/pi/domoboard/
+```
+
+Start the virtualenv:
+
+```
+cd /home/pi/domoboard/
+source bin/activate
+```
+
+Install Domoboard dependencies:
+
+```
+pip install -r requirements.txt
 ```
 
 Modify the config file to suit your needs. Start Domoboard by executing:
@@ -26,6 +46,8 @@ It is possible to run Domoboard in "debug" mode by running the command:
 ```
 python server.py -c <config_file> -d
 ```
+
+To reactivate the virtualenv later on repeat the "Start the virtualenv" step. 
 
 # Configuration
 

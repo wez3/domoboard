@@ -5,10 +5,13 @@
                         </li>
                         <li><a href="javascript:void(0)" id="defaultOpen" class="tablinks"
                                onclick="openCat(event, 'plugins')">Plugins</a>
-                        </li>
+ <!--                   </li>
                         <li><a href="javascript:void(0)" class="tablinks"
                                onclick="openCat(event, 'settings')">Settings</a>
                          </li>
+                         <li><a href="javascript:void(0)" class="tablinks"
+                            onclick="openCat(event, 'config')">Config</a></li>
+-->
                     </ul>
 <div id="updates" class="tabcontent">
     <div id="updateView_available" class="hide_update">
@@ -38,6 +41,23 @@
 <div id="plugins" class="tabcontent">
     <div id="pluginView">
     </div>
+</div>
+<div id="config" class="tabcontent">
+  <div id="configView">
+    <div class="dropdown">
+      <select id="dropdownMenuChoice" onChange="javascript:chgAction()">
+          {% for k, v in configValues["navbar"].iteritems() %}
+              <option>{{ v[0] }}</option>
+          {% endfor %}
+      </select>
+      (Select a page to add the domoticz device to)
+    </div>
+    {% for k, v in configValues["navbar"].iteritems() %}
+    <div id="page_{{v[0]}}" class="page_info page_info_hidden" style="display: none">
+      <ul id="dropDown_page_{{v[0]}}_dc" class="nav nav-tabs"></ul>
+    </div>
+    {% endfor %}
+  </div>
 </div>
 <div class="tabcontent" id="settings">
 <div class="modal fade tabcontent" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -201,7 +221,24 @@
             $('#plugin_body').removeClass("loading");
           });
         }
+        function chgAction() {
+                  var e = document.getElementById("dropdownMenuChoice");
+                  var strUser = e.options[e.selectedIndex].value;
+                  var url = '/api?custom=indexWebConfig&page=' + strUser;
+                  requestAPI(url, function(d) {
+                    console.log(d);
+                    var res = JSON.parse(d);
 
+                    $.each( res['display_components'], function( i, obj ) {
+                        $.each(obj, function(p, ddc) {
+                              var newOption = $('<li><a href="#">'+ddc+'</a></li>');
+                              $('#dropDown_page_' + strUser + '_dc').append(newOption);
+                            });
+                    });
+                    $('.page_info').hide();
+                    $('#page_' + strUser).show();
+                  });
+                }
         $(document).ready(function () {
             // Get the element with id="defaultOpen" and click on it
             document.getElementById("defaultOpen").click();
