@@ -9,7 +9,7 @@ indexes = {}
 
 def loadPlugins():
     plugin = {}
-    plugin_dir = os.getcwd() + '/plugins/'
+    plugin_dir = os.path.dirname(os.path.abspath(__file__)) + '/../plugins/'
     for i in os.listdir(plugin_dir):
         if not i == '__init__.py' and i.endswith('.py'):
             name =  i.replace('.py', '')
