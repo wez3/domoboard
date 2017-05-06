@@ -88,7 +88,7 @@ Now run the following command to start the service:
 sudo systemctl start domoboard.service 
 ```
 
-Please note that if you are running Domoboard on ports <= 1024 a user with permissions needs to be specified (User and Group under [Service]). Otherwise Domoboard cannot bind to the port due to a permission denied. 
+Please note that if you are running Domoboard on ports <= 1024 a user with permissions needs to be specified (User and Group under [Service]). Otherwise Domoboard cannot bind to the port due to a permission denied error. 
 
 # Configuration
 
