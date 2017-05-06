@@ -49,16 +49,23 @@ $(document).ready(function() {
 });
 </script>
 <script>
-$( document ).on(
-    "click",
-    "a",
-    function( event ){
-        event.preventDefault();
-	if (event.target.id != "menu_toggle_button" ) {
-        	location.href = $( event.target ).attr( "href" );
-	}
-    }
-);
+    (function(document,navigator,standalone) {
+        if ((standalone in navigator) && navigator[standalone]) {
+            var curnode, location=document.location, stop=/^(a|html)$/i;
+            document.addEventListener('click', function(e) {
+		if ((e.target.id != "menu_toggle") && (e.target.id != "menu_toggle_button")) {
+                curnode=e.target;
+                while (!(stop).test(curnode.nodeName)) {
+                    curnode=curnode.parentNode;
+                }
+                if('href' in curnode && ( curnode.href.indexOf('http') || ~curnode.href.indexOf(location.host) ) ) {
+                    e.preventDefault();
+                    location.href = curnode.href;
+                }
+	      }
+            },false);
+        }
+    })(document,window.navigator,'standalone');
 </script>
 </body>
 </html>
