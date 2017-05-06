@@ -2,7 +2,15 @@
 
 Domoboard is a dashboard for Domoticz based on Python Flask. The decision was made to use Domoticz as an backend because it is a powerful framework for home automation. Flask was choosen to get all the powerful features that Python offers.
 
-# Quick start
+# Quick install
+
+Run the following commando to install Domoboard and its dependencies in the current directory:
+
+```
+curl -L https://www.domoboard.nl/install | bash
+```
+
+# Manual installation
 
 Clone the git:
 
@@ -48,6 +56,37 @@ python server.py -c <config_file> -d
 ```
 
 To reactivate the virtualenv later on repeat the "Start the virtualenv" step. 
+
+# Install as a service
+
+To configure Domoboard as a service, create a new file /etc/systemd/system/domoboard.service with the following contents (modify paths if Domoboard is not located at /home/pi):
+
+```
+[Unit]
+Description=Domoboard dashboard
+
+[Service]
+ExecStart=/home/pi/domoboard/bin/python /home/pi/domoboard/server.py -d -c /home/pi/domoboard/config.conf
+WorkingDirectory=/home/pi/domoboard/
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+```
+
+Now run the following command to enable the service:
+
+```
+sudo systemctl enable domoboard.service 
+```
+
+Now run the following command to start the service:
+
+```
+sudo systemctl start domoboard.service 
+```
+
+Please note that if you are running Domoboard on ports <= 1024 a user with permissions needs to be specified (User and Group under [Service]). Otherwise Domoboard cannot bind to the port due to a permission denied. 
 
 # Configuration
 
