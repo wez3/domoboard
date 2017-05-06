@@ -49,15 +49,16 @@ $(document).ready(function() {
 });
 </script>
 <script>
-var a=document.querySelectorAll("a[href^='/']");
-for(var i=0;i<a.length;i++)
-{
-    a[i].onclick=function()
-    {
-        window.location=this.getAttribute("href");
-        return false
+$( document ).on(
+    "click",
+    "a",
+    function( event ){
+        event.preventDefault();
+	if (event.target.id != "menu_toggle_button" ) {
+        	location.href = $( event.target ).attr( "href" );
+	}
     }
-}
+);
 </script>
 </body>
 </html>
