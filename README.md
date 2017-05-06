@@ -12,6 +12,8 @@ curl -L https://www.domoboard.nl/install | bash
 
 # Manual installation
 
+To manually install Domoboard, take the steps below. 
+
 Clone the git:
 
 ```
