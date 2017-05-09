@@ -27,9 +27,15 @@ var line_chart_block_{{count}} = Morris.Line({
 
 $(document).ready(function() {
   {% for k, v in blockArray[count]["line_charts"].iteritems() %}
-  redrawLineChart("{{v[3]}}",{{v[1]}},"{{v[2]}}", line_chart_block_{{count}});
+   var sensor = "{{v[3]}}";
+   if ("{{v[3]}}" == 'lux') {
+     line_chart_block_{{count}}['options']['ykeys'][0] = 'lux_max';
+     sensor = 'counter';
+   }
+
+  redrawLineChart(sensor,{{v[1]}},"{{v[2]}}", line_chart_block_{{count}});
   $("div#title_block_{{count}} h2").html("{{k}}");
-  setInterval(redrawLineChart,9000,"{{v[3]}}",{{v[1]}},"{{v[2]}}",line_chart_block_{{count}});
+  setInterval(redrawLineChart,9000,sensor,{{v[1]}},"{{v[2]}}",line_chart_block_{{count}});
 });
 {% endfor %}
 </script>
