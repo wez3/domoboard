@@ -44,7 +44,7 @@
                          </div>
                      </div>
                 {% elif "setpoint_slider" in v[2] %}
-                <input id="setpoint_slider{{v[1]}}_block_{{count}}" data-slider-id='stpnt_{{v[1]}}_block_{{count}}' type="text" state="on" data-slider-min="{{v[3]}}" data-slider-max="{{v[4]}}" data-slider-step="0.5" />
+                <input id="setpoint_slider{{v[1]}}_block_{{count}}" data-slider-id='stpnt_{{v[1]}}_block_{{count}}' type="text" state="on" data-slider-min="16" data-slider-max="26" data-slider-step="0.5" />
               {% elif "selector" in v[2] %}
               <div class="btn-toolbar">
               <div id="selector_body_{{v[1]}}_block_{{count}}" class="btn-group pull-right" style="width: 100%;"> </div>
@@ -168,7 +168,7 @@ $(document).ready(function() {
     {% elif (v[2] == "setpoint") %}
       updateSetpoints_block_{{count}}.push("{{v[1]}}");
     {% elif (v[2] == "setpoint_slider") %}
-      updateSetpoint_sliders_block_{{count}}.push(["{{v[1]}}", "{{v[3]}}", "{{v[4]}}"]);
+      updateSetpoint_sliders_block_{{count}}.push(["{{v[1]}}", "16", "26"]);
   	{% elif (v[2] == "dimmer" or v[2] == "rgb") %}
       $('#Adim_{{v[1]}}_block_{{count}}').click(function(e) {
         e.preventDefault();
