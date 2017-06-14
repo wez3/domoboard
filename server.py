@@ -3,7 +3,7 @@
 from flask import Flask, g, redirect, url_for, render_template, abort, request, session
 from flaskext.auth import Auth, AuthUser, login_required, logout
 from collections import OrderedDict
-import argparse, socket, re
+import argparse, socket, re, logging
 import hashlib, configobj, json, sys, os
 import modules.api as api
 import modules.domoticz as domoticz
@@ -144,6 +144,7 @@ def appendDefaultPages(config):
     return config
 
 if __name__ == '__main__':
+    logging.basicConfig(filename='logs/domoboard.log',level=logging.INFO)
     parser = argparse.ArgumentParser()
     parser.add_argument("-c", "--config", dest="configfile",
                   help="Specify a config file", metavar="<CONFIG>")
