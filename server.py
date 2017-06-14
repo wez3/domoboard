@@ -144,7 +144,12 @@ def appendDefaultPages(config):
     return config
 
 if __name__ == '__main__':
-    logging.basicConfig(filename='logs/domoboard.log',level=logging.INFO)
+    logging.basicConfig(level=logging.INFO)
+    logFormatter = logging.Formatter('[%(asctime)s %(levelname)s]: %(message)s')
+    logger = logging.getLogger()
+    logfile = logging.FileHandler("logs/domoboard.log")
+    logfile.setFormatter(logFormatter)
+    logger.addHandler(logfile)
     parser = argparse.ArgumentParser()
     parser.add_argument("-c", "--config", dest="configfile",
                   help="Specify a config file", metavar="<CONFIG>")
