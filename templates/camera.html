@@ -1,12 +1,13 @@
-<div style="min-height: 480px;min-width:640px" class="modal fade" id="streamModal" tabindex="-1" role="dialog" aria-labelledby="pluginModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="dialog">
-    <div class="modal-content" style="min-height: 480px;min-width:640px" >
+<link href="static/css/camera.css" rel="stylesheet" type="text/css"/>
+  <div style="min-height: 100px;" class="modal fade" id="streamModal" tabindex="-1" role="document" aria-labelledby="streamModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
       <div class="modal-header">
         <h2 class="modal-title" id="streamModalLabel">Stream</h2>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
       </div>
       <div id="stream_body" class="modal-body">
-        <img id="stream_img" src="" width="90%" min-height="90%" onload='setTimeout(function() {src = src.substring(0, (src.lastIndexOf("t=")+2))+(new Date()).getTime()}, 100)' class='bigcamera' />
+        <img id="stream_img" src="" width="90%" min-height="90%" onload='setTimeout(function() {src = src.substring(0, (src.lastIndexOf("t=")+2))+(new Date()).getTime()}, 50)' class='bigcamera' />
       </div>
       <div id="streamModalFooter" class="modal-footer">
         <button type="button" data-dismiss="modal" class="btn">Close</button>
@@ -48,14 +49,20 @@
     $('#cam_body_{{ count }}').append('<object classid="clsid:9BE31822-FDAD-461B-AD51-BE1D1C159921" codebase="http://download.videolan.org/pub/videolan/vlc/last/win32/axvlc.cab" id="vlc" name="vlc" class="vlcPlayer" events="True">  <param name="Src" value="{{v[1]}}" /> <!-- ie -->  <param name="ShowDisplay" value="True" />  <param name="AutoLoop" value="True" />  <param name="AutoPlay" value="True" />  <!-- win chrome and firefox-->  <embed id="vlcEmb"  type="application/x-google-vlc-plugin" version="VideoLAN.VLCPlugin.2" autoplay="yes" loop="no" width="640" height="480" target="{{v[1]}}" ></embed></object>');
   } else {
     if (" {{v[1]}}".match(/\?t\=$/)) {
-     $('#cam_body_{{ count}}').append('<a  id="acam_{{ count}}" data-target="#streamModal" data-toggle="modal" href="#streamModal"><img id="cam_{{ count }}" style="-webkit-user-select: none; width: 100%; height: 100%; " src="{{v[1]|replace('&amp;', '&')}}" ></a>');
+     $('#cam_body_{{ count}}').append('<a style="cursor: pointer;" id="acam_{{ count}}" data-target="#streamModal" data-toggle="modal" href=""><img id="cam_{{ count }}" style="-webkit-user-select: none; width: 100%; height: 100%; " src="{{v[1]|replace('&amp;', '&')}}" ></a>');
    } else {
-     $('#cam_body_{{ count}}').append('<img id="cam_{{ count }}" style="-webkit-user-select: none; width: 100%; height: 100%; " src="{{v[1]|replace('&amp;', '&')}}" >');
+     $('#cam_body_{{ count}}').append('<img id="cam_{{ count }}" style="-webkit-user-select: none; width: 100%; height: 100%; cursor: pointer; " src="{{v[1]|replace('&amp;', '&')}}" >');
    }
    $('#acam_{{count}}').on('click', function() {
      $('#stream_img').attr('src', "{{v[1]|replace('&amp;', '&')}}");
      $('#streamModalLabel').html("{{v[0]}}");
+
    });
   }
 {% endfor %}
+
+$('#stream_img').on('click', function() {
+  $('#streamModal .close').click();
+})
+
 </script>
