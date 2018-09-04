@@ -140,7 +140,7 @@ $(document).ready(function() {
       url = '/api?type=devices&rid=' + {{v[1]}};
       requestAPI(flask_server + url, function(d) {
         r = JSON.parse(d);
-        btns = r['result'][0]['LevelNames'].split('|');
+        btns = decodeBase64(r['result'][0]['LevelNames']).split('|');
 
         $.each(btns, function (i, lvlname) {
           activebtn = r['result'][0]['Level']
