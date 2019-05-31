@@ -3,5 +3,5 @@ configobj==5.0.6
 Flask==0.11.1
 flask-auth==0.85
 GitPython==2.1.0
-Requests==2.12.3
+Requests==2.20.0
 simplejson==3.10.0
