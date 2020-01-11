@@ -1,14 +1,8 @@
 # Domoboard
 
+*Domoboard is deprecated and not maintained anymore*
+
 Domoboard is a dashboard for Domoticz based on Python Flask. The decision was made to use Domoticz as an backend because it is a powerful framework for home automation. Flask was choosen to get all the powerful features that Python offers.
-
-# Quick install
-
-Run the following commando to install Domoboard and its dependencies in the current directory:
-
-```
-curl -L https://www.domoboard.nl/install | bash
-```
 
 # Manual installation
 
@@ -143,33 +137,14 @@ Check out the page https://github.com/wez3/domoboard-plugins for all plugins.
 
 Here are some screenshots from Domoboard:
 
-![alt tag](https://domoboard.nl/domoboard_images/domoboard_1_1.png)
-
-Above screenshot shows the components top_tiles, line_charts, switches and weather.
-
-![alt tag](https://domoboard.nl/domoboard_images/domoboard_2_2_2_2.png)
-
-Above screenshot shows the mobile view of the Dashboard.
-
-![alt tag](https://domoboard.nl/domoboard_images/domoboard_6_6_6_6.png)
-
-Above screenshot shows the Raspberry Pi 7" Touch screen view of the Dashboard.
-
-![alt tag](https://domoboard.nl/domoboard_images/screen_domoticz.png)
-
-Above the components domoticz_smart_charts, domoticz_counter_charts and domoticz_temp_charts.
-
-![alt tag](https://domoboard.nl/domoboard_images/domoboard_3_3.png)
-
-Above screenshot shows the components bar_charts, donut_charts, switches and power_usage components.
-
-![alt tag](https://domoboard.nl/domoboard_images/domoboard_4_4.png)
-
-Above screenshots shows the server log component
-
-![alt tag](https://domoboard.nl/domoboard_images/domoboard_5_5.png)
-
-Above screenshots shows the settings page.
+<a href="https://ibb.co/HdtygFD"><img src="https://i.ibb.co/GTWDPxv/domoboard-1-1.png" alt="domoboard-1-1" border="0"></a>
+<a href="https://imgbb.com/"><img src="https://i.ibb.co/xCnbqFt/domoboard-2-2-2-2.png" alt="domoboard-2-2-2-2" border="0"></a>
+<a href="https://ibb.co/WvMgwjb"><img src="https://i.ibb.co/s9NyGz0/domoboard-3-3.png" alt="domoboard-3-3" border="0"></a>
+<a href="https://ibb.co/XC2xYnd"><img src="https://i.ibb.co/NyV2T0k/domoboard-4-4.png" alt="domoboard-4-4" border="0"></a>
+<a href="https://ibb.co/HKDc0cP"><img src="https://i.ibb.co/nwsXTX1/domoboard-5-5.png" alt="domoboard-5-5" border="0"></a>
+<a href="https://ibb.co/zSX48jD"><img src="https://i.ibb.co/9qbrwzS/domoboard-6-6-6-6.png" alt="domoboard-6-6-6-6" border="0"></a>
+<a href="https://ibb.co/jVWmG86"><img src="https://i.ibb.co/5Ynmv1M/domoboard-7.png" alt="domoboard-7" border="0"></a>
+<a href="https://ibb.co/MsZfQ3B"><img src="https://i.ibb.co/f2q9LPD/screen-domoticz.png" alt="screen-domoticz" border="0"></a>
 
 # Contributing
 
