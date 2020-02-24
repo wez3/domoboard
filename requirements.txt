@@ -1,4 +1,4 @@
-bleach==1.5.0
+bleach==3.1.1
 configobj==5.0.6
 Flask==0.11.1
 flask-auth==0.85
